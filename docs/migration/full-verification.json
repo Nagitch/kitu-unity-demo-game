@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "scope": "full",
+  "status": "passed",
+  "demoRevision": "61d675a3267e673c2cc0ff6197e681a79d5423fe",
+  "kituRevision": "ed72415f7d92070a06739a253e2a6ed73fa09e9e",
+  "sourceDirty": false,
+  "startedAtUtc": "2026-09-07T20:38:28.554853+00:00",
+  "finishedAtUtc": "2026-09-07T20:57:17.061883+00:00",
+  "unityVersion": "6000.6.0f1",
+  "rustVersion": "cargo 1.96.0 (30a34c682 2026-05-25)",
+  "execution": {
+    "package": "0.1.0",
+    "sourceHash": "fd3a778e75b78c1d0c0883f93a8a80baa02176a8768c8d1d0f58ae65b9f006a9",
+    "target": "aarch64-apple-darwin"
+  },
+  "steps": {
+    "preflight": "passed",
+    "source-package": "passed",
+    "native-tests": "passed",
+    "native-build": "passed",
+    "c-abi": "passed",
+    "default-player-build": "passed",
+    "server-provision": "passed",
+    "unity-edit": "passed",
+    "unity-msgpack": "passed",
+    "unity-json": "passed",
+    "codec-readback": "passed",
+    "inspection-identities": "passed",
+    "server-stop": "passed",
+    "default-player-traces": "passed",
+    "default-content-probes": "passed",
+    "edited-player-build": "passed",
+    "edited-player-trace": "passed",
+    "edited-content-probe": "passed"
+  },
+  "nativeTests": {
+    "arena_native": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "embedded_bridge": {
+      "total": 11,
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "package": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "packaged_player": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "wire_parity": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "doctests": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    }
+  },
+  "unityTests": {
+    "unity-edit": {
+      "total": 143,
+      "passed": 143,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "unity-msgpack": {
+      "total": 31,
+      "passed": 31,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "unity-json": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    }
+  },
+  "codecReadback": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0,
+    "fixturePairs": 11
+  },
+  "playerTraces": {
+    "preparation": {
+      "ticks": 28,
+      "inputs": 40
+    },
+    "stock-eleven-death-retry": {
+      "ticks": 5528,
+      "inputs": 5581
+    },
+    "rhai-boss": {
+      "ticks": 1800,
+      "inputs": 1817
+    },
+    "timeline-cues": {
+      "ticks": 1830,
+      "inputs": 1819
+    },
+    "bundled-edited": {
+      "ticks": 1800,
+      "inputs": 1816
+    }
+  },
+  "defaultContentProbes": [
+    "relocated",
+    "noOverwrite",
+    "missing-key",
+    "wrong-type",
+    "digest",
+    "schema",
+    "invalid-script",
+    "missing-bundle"
+  ],
+  "cleanup": {
+    "status": "passed",
+    "unexpectedChanges": [],
+    "restoredFiles": [
+      "Assets/AddressableAssetsData/AddressableAssetSettings.asset",
+      "Assets/AddressableAssetsData/link.xml",
+      "Assets/AddressableAssetsData/link.xml.meta",
+      "ProjectSettings/ProjectAuditorSettings.asset",
+      "ProjectSettings/ProjectSettings.asset",
+      "ProjectSettings/UnityConnectSettings.asset"
+    ]
+  },
+  "localReportSha256": "07b8ebd337dc2e999dd4287664c571cd93d0484c663e223e32848db68188ad12",
+  "evidencePolicy": "The complete report, logs, binaries, traces and screenshots are retained locally. This compact record excludes local paths and raw dependency metadata. Logical and asset checks do not establish pixel-identical rendering; see validation.md for visual observations."
+}
