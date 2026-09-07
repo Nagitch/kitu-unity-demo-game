@@ -1,53 +1,108 @@
-# Extraction validation
+# Extraction and split validation
 
-The extraction preserves the original Kitu history and records its path and
-commit mapping alongside this document. The application adaptation consumes
-Kitu `337620708c41929dfc8a365c2dc12591d506d44b` through the locked source-selection
-workflow. Later framework removal and workspace integration are separate steps.
+This record describes the repository-split candidates as of 2026-09-08. The
+candidate revisions are:
 
-## Completed checks
+| Repository role | Revision | Review |
+| --- | --- | --- |
+| Reusable Admin and external-application boundary | Kitu `337620708c41929dfc8a365c2dc12591d506d44b` | Draft [Kitu PR 170](https://github.com/Nagitch/kitu-logic-processor/pull/170) |
+| Framework-only Kitu tree | Kitu `ed72415f7d92070a06739a253e2a6ed73fa09e9e` | Draft [Kitu PR 171](https://github.com/Nagitch/kitu-logic-processor/pull/171) |
+| Standalone application | Demo `dff7baac444c00b2fa132ab4819ec8e3d16deede` | Draft [demo PR 1](https://github.com/Nagitch/kitu-unity-demo-game/pull/1) |
+| Coordinated pins | Workspace `d191d848537b0d9b4d89163ee2ad573b88e8e0cd` | Draft [workspace PR 44](https://github.com/Nagitch/kitu-workspace/pull/44) |
+
+All four pull requests remain unmerged. The results below validate these
+candidate revisions; they do not claim that the migration has been integrated
+into the default branches.
+
+## Extraction and retained-history checks
 
 - Compared all 599 files at the extraction boundary with their original Git
   blobs. Unity metadata, immutable oracle fixtures and historical evidence were
   also compared after the application overlay; their bytes remain unchanged.
-- Verified all 1,018 historical blobs in the filtered history were already
-  available from an anonymous clone of the public source repository. The sole
-  tracked LFS object was retrieved anonymously and its SHA-256 matched.
+- Verified all 1,018 historical blobs in the filtered history were available
+  from an anonymous clone of the public source repository. The sole tracked LFS
+  object was retrieved anonymously and its SHA-256 matched.
 - Reference verification passed for the 28-tick preparation trace and the
   5,528-tick stock death/retry trace.
-- The extracted Rust workspace executed 181 tests across 24 suites with no
-  failures or ignored cases. Formatting, Clippy, documentation and data/tool
-  verification passed.
-- The application Admin passed lint, Svelte check, all 19 inspection tests and
-  its production build, including WASM from the selected Kitu revision.
-- Native verification at the revision above passed all 28 declared native
-  tests, the native doctest, native build, and C ABI trace comparisons. An
-  initial verification failure exposed an old rustdoc path in the case
-  manifest; the path was corrected and its parser regression test added before
-  the successful rerun.
+- Before the final framework removal, the extracted Rust workspace executed 181
+  tests across 24 suites with no failures or ignored cases. Formatting, Clippy,
+  documentation and data/tool verification passed. The shared Admin package and
+  its starter also passed package-consumer, lifecycle, Svelte and production
+  base-path checks.
 - Both retained old recordings were rejected specifically for incompatible
   execution identity. The 697-file legacy archive was copied and verified
   byte-for-byte; neither the old recordings nor matching executables changed.
-- Independent consumers of the shared Admin package passed production browser
-  checks at `/` and `/review`, including navigation, WebSocket connection and
-  successful WASM JavaScript/binary requests.
 
-The source-identity relocation check also confirmed that equivalent source trees
-produce the same identity after relocation, a same-commit Rust source edit changes
-the identity, and stale prepared Cargo manifest/lock inputs are rejected.
-An additional real Cargo/Git regression reproduced a stale setup after repinning
-the demo. Setup now binds dependency manifests, locks and Cargo configuration;
+The source-identity relocation checks confirmed that equivalent source trees
+produce the same identity after relocation, a same-commit Rust source edit
+changes the identity, and stale prepared Cargo manifest/lock inputs are
+rejected. Setup now binds dependency manifests, locks and Cargo configuration;
 the command runner rejects stale bindings, and evidence capture checks that
 resolved Kitu roots and package origins match the active selection.
 
-## Remaining migration gates
+## Standalone and coordinated checkout checks
 
-Fresh remote checkout, the final framework-only checkout, the external-demo CI
-against that framework revision, final workspace pins, and licensed Unity/Player
-acceptance must be recorded separately. A native or portable pass does not imply
-that the full Unity scope ran.
+- A fresh remote checkout of demo `e4708adf6fac6a46d5251c4cde4ab5b5a31fe902`
+  hydrated the tracked LFS asset, selected the pinned Kitu
+  `337620708c41929dfc8a365c2dc12591d506d44b`, completed normal setup, passed
+  reference verification and the Admin lint/check/19-test gates, generated the
+  selected-source WASM, left manifests and lockfiles unchanged, and finished
+  clean.
+- The same fresh demo was prepared through `--kitu-path` against framework
+  `ed72415f7d92070a06739a253e2a6ed73fa09e9e`. Its frontend and data scopes
+  passed, every resolved Kitu package came from the requested source, the
+  effective override recorded its Cargo lock adaptation, and the original demo
+  manifests, locks and working tree stayed unchanged.
+- A final fresh clone of workspace `d191d848537b0d9b4d89163ee2ad573b88e8e0cd`
+  initialized framework `ed72415f7d92070a06739a253e2a6ed73fa09e9e` and demo
+  `dff7baac444c00b2fa132ab4819ec8e3d16deede`. Normal setup, WASM, all 10 shared
+  Admin package tests, its Svelte and production builds, the contract check for
+  all 12 Kitu dependency pins, reference verification and LFS hydration passed. The Cargo and Admin
+  locks were unchanged, all three repositories were clean, and unrelated
+  submodules remained uninitialized.
+- CI passed all six jobs for the framework-only candidate, all four external
+  demo compatibility jobs, all eight demo jobs and both workspace jobs at the
+  revisions listed above.
 
-An earlier isolated Docker build at `6b6f71b7afd67e176058091b3493716ca97eb3d8`
-passed health and WebTransport datagram smoke checks. The later rebuild was
-interrupted by host storage exhaustion and a read-only Docker filesystem. That
-earlier result is not a pass for the final image or full Docker application flow.
+## Runtime checks
+
+- A production browser run using demo `1c4defe0f2e4e7d84a8aa563bd49d63afe01bb91`
+  with framework `ed72415f7d92070a06739a253e2a6ed73fa09e9e` opened the root
+  WebSocket, loaded the Arena Inspector from the configured HTTP endpoint and
+  showed `obj-1` after the existing World HTTP spawn operation. There were no
+  browser console errors.
+- A separate explicit browser import initialized the public WASM module; its
+  JavaScript and `.wasm` requests both returned HTTP 200 and it generated a
+  typed `/admin/world/spawn` message. That message was deliberately not sent,
+  so this proves the public loader contract rather than claiming that the World
+  operation used WASM.
+- The full macOS attempt at demo
+  `dff7baac444c00b2fa132ab4819ec8e3d16deede` passed preflight, source-package,
+  native test/build, C ABI, default Unity Player build and owned server/replay
+  provisioning. It then failed during Unity EditMode because a test still used
+  the former in-tree fixture path; all later full-scope steps were recorded as
+  `notRun`, and cleanup restored generated settings and stopped the owned server.
+- The selected-source fixture resolver added after that failure passed all 64
+  focused codec EditMode cases, including 51 golden fixtures, with no failures
+  or skips. It also passed a manual Editor launch with no inherited
+  `KITU_SOURCE_PATH`; both runs left no unexpected project changes. These focused
+  results do not turn the interrupted full attempt into a full pass.
+
+## Remaining gates
+
+The complete licensed `full` scope must be rerun from a new evidence directory
+after the selected-source fixture fix. It must execute the remaining Unity wire,
+inspection, graphical Player and content-probe steps before final Unity/Player
+acceptance can be claimed.
+
+The final Docker application gate also remains pending. An earlier isolated
+Docker build at `6b6f71b7afd67e176058091b3493716ca97eb3d8` passed health and
+WebTransport datagram smoke checks, but the final rebuild could not run because
+OrbStack was stopped and Docker Desktop's filesystem was read-only. A decision
+to start OrbStack or hold that extra gate is still pending; the earlier result
+is not a pass for the final image.
+
+Merge and publication remain separate review actions for the four draft pull
+requests listed above. Historical Stage 18 evidence under `docs/verification/`
+retains its original source identities and is not evidence for a new run of the
+split candidates.

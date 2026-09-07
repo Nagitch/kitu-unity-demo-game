@@ -42,7 +42,19 @@ shell's PATH. On macOS the default executable is `~/.unity/bin/unity`. Restart
 the terminal after installation, or load `~/.unity/env` in an existing macOS
 shell. Non-interactive shells do not necessarily read `.zshrc`.
 
-Then run from this directory:
+Prepare the selected Kitu source from the demo repository root before opening
+the project:
+
+```sh
+python3 tools/setup.py
+```
+
+Setup prints the effective demo directory. With the normal pinned selection it
+is the current checkout. A `--kitu-path` override creates an isolated effective
+demo under `.kitu/overrides/`; open that effective demo's `unity/` directory so
+Unity, Rust, Admin and WASM all use the same selected Kitu source.
+
+Then run from the selected effective demo's `unity/` directory:
 
 ```sh
 unity --version
@@ -51,10 +63,10 @@ unity open .
 
 ### Select the intended checkout
 
-Use `../tools/unity/unity-cli.sh` when invoking the CLI from automation or elsewhere
-in the repository. It discovers the installed CLI from PATH, the default
-macOS location, or the default Linux location, and selects the Unity project
-in `unity/` at the repository root. From the repository root:
+Use `tools/unity/unity-cli.sh` from the selected effective demo root when
+invoking the CLI from automation or elsewhere in the repository. It discovers
+the installed CLI from PATH, the default macOS location, or the default Linux
+location, and selects that demo's `unity/` project:
 
 ```sh
 ./tools/unity/unity-cli.sh --version
@@ -65,7 +77,7 @@ in `unity/` at the repository root. From the repository root:
 installation. `KITU_UNITY_PROJECT` can select a different checkout explicitly:
 
 ```sh
-KITU_UNITY_PROJECT=/absolute/path/to/kitu-unity-demo-game \
+KITU_UNITY_PROJECT=/absolute/path/to/kitu-unity-demo-game/unity \
   ./tools/unity/unity-cli.sh command editor_status --json
 ```
 
@@ -96,14 +108,22 @@ unity command editor_stop
 
 The play/stop commands initiate transitions; wait until `editor_status` reports
 the requested state before the next scene operation. `unity command` lists the
-available commands. Pass `--project-path /absolute/path/to/kitu-unity-demo-game`
+available commands. Pass `--project-path /absolute/path/to/kitu-unity-demo-game/unity`
 before the command name when running outside the project directory.
-The same commands can be passed to `scripts/unity-cli.sh`. A successful
-connection reports the intended project, the expected Editor version, and no
+The same commands can be passed to `tools/unity/unity-cli.sh` from the effective
+demo root. A successful connection reports the intended project, the expected
+Editor version, and no
 compilation/domain reload in progress. A missing Pipeline instance during the
 first import is not a successful connection: wait for compilation to finish
 and check again. `get_console_logs --severity error` should return an empty log
 list after the demo smoke check.
+
+Selected-source codec tests invoke Python 3.11 or newer and `tools/run.py` to
+locate their fixture corpus. Launch a manual Editor or Hub process from a
+development shell whose `PATH` provides that Python, open the effective demo
+reported by setup, and do not inherit a conflicting `KITU_SOURCE_PATH`. The
+tests intentionally reject a mismatched project/source selection instead of
+falling back to a sibling checkout or copied fixture.
 
 The Pipeline dependency is already committed, so a fresh checkout does not
 need `unity pipeline install`. Its Editor connection metadata lives under the
@@ -206,8 +226,8 @@ frontend checks remain in the Dev Container; these commands use the Apple SDK.
 Close the Editor for this checkout, then run from the repository root:
 
 ```sh
-python3 tools/build-arena-native-macos.py --evidence .tmp/stage16/native
-python3 tools/build-arena-player-macos.py --evidence .tmp/stage16/player-build
+python3 tools/run.py python3 tools/build-arena-native-macos.py --evidence .tmp/stage16/native
+python3 tools/run.py python3 tools/build-arena-player-macos.py --evidence .tmp/stage16/player-build
 ```
 
 The first command runs a locked Cargo build for `aarch64-apple-darwin`, installs
@@ -233,7 +253,8 @@ override paths or limits. The commands above write reports under `.tmp/stage16/`
 a successful build alone does not claim gameplay verification.
 
 For a fresh checkout used only in Editor Play Mode, run the native build above
-and `python3 tools/package-arena-content.py`, open the Unity project, finish
+and `python3 tools/run.py python3 tools/package-arena-content.py`, open the
+selected Unity project, finish
 package import, then choose **Kitu > Prepare Arena Addressables**. The normal
 Player build already performs that preparation. Source assets, metadata and
 Addressables settings are tracked; packages, binaries and generated bundles are
@@ -245,7 +266,7 @@ server. Its development bridge defaults to `http://127.0.0.1:8789` and observes
 the same native-owned run. For example:
 
 ```sh
-python3 tools/run.py cargo run --locked -p kitu-cli -- --endpoint http://127.0.0.1:8789 inspect application
+python3 tools/run.py sh -c 'cargo run --locked --manifest-path "$KITU_SOURCE_PATH/Cargo.toml" -p kitu-cli -- --endpoint http://127.0.0.1:8789 inspect application'
 ```
 
 Use the Admin frontend against that HTTP endpoint and `ws://127.0.0.1:8789/ws`.
@@ -270,7 +291,7 @@ package or authoring edits. Both overrides are optional for ordinary play.
 Verify actual package startup and handle cleanup separately from gameplay:
 
 ```sh
-python3 tools/verify-arena-packaged-player.py \
+python3 tools/run.py python3 tools/verify-arena-packaged-player.py \
   --player unity/Builds/KituEndlessArena.app \
   --evidence .tmp/stage16/player-content
 ```
@@ -287,15 +308,15 @@ Generate expected output with the same native target and development profile:
 ```sh
 KITU_NATIVE_EVIDENCE_DIR="$PWD/.tmp/stage11/reference" \
   CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 \
-  cargo test --locked --target aarch64-apple-darwin -p kitu-demo-game-native
+  python3 tools/run.py cargo test --locked --target aarch64-apple-darwin -p kitu-demo-game-native
 
-python3 tools/run-arena-player-verification.py \
+python3 tools/run.py python3 tools/run-arena-player-verification.py \
   --player unity/Builds/KituEndlessArena.app \
   --trace .tmp/stage11/reference/preparation.trace \
   --expected .tmp/stage11/reference/preparation.expected.ndjson \
   --evidence .tmp/stage11/player-preparation
 
-python3 tools/run-arena-player-verification.py \
+python3 tools/run.py python3 tools/run-arena-player-verification.py \
   --player unity/Builds/KituEndlessArena.app \
   --trace .tmp/stage11/reference/stock-eleven-death-retry.trace \
   --expected .tmp/stage11/reference/stock-eleven-death-retry.expected.ndjson \
