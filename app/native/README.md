@@ -1,5 +1,10 @@
 # Endless Arena native library
 
+Prepare dependencies from the repository root with `python3 tools/setup.py`
+before running the commands below. Use `python3 tools/run.py` for commands that
+consume the selected Kitu configuration; default setup selects the original
+demo checkout, while `tools/setup.py --kitu-path` selects an isolated copy.
+
 This application-owned crate builds `kitu_demo_game_native` as a dynamic library,
 static library and Rust library. It creates the same complete Arena Runtime as
 the server. The generic ABI and C header live in `kitu-unity-ffi`; no Arena rules
@@ -19,7 +24,7 @@ to a previously reviewed manifest: Unity sends it automatically to reject
 replacement during asynchronous asset loading, before Runtime or storage
 creation. Native host inspection reports the captured `package` identity
 separately from game state. See the
-[packaged content contract](../../../doc/specs/arena-packaged-content.md) for
+[packaged content contract](../../docs/specs/arena-packaged-content.md) for
 schema, byte limits, hashing and reproducible Addressables/Player builds.
 
 The caller owns the one 60 Hz scheduler, submits typed input without advancing
@@ -43,13 +48,13 @@ Only literal loopback addresses are accepted. Port `0` allocates a free port;
 same `sessionId` used by the CLI catalog. Binding failure rejects creation with
 a diagnostic. Empty/default configuration starts no listener and writes no files.
 An optional absolute `contentPath` chooses the `.tmd`, `.sqlite` or `.arena.json`
-source plan evaluated by Admin through the [shared typed loader](../../../doc/specs/arena-content-sources.md).
+source plan evaluated by Admin through the [shared typed loader](../../docs/specs/arena-content-sources.md).
 The same configuration accepts an absolute `scriptPath` for editable boss Rhai
 source. Otherwise the storage directory receives `boss.rhai` only when absent.
 CLI/Admin validation and staging apply edits to the next run. Detached `script`
 may accompany detached `content` at creation; these saved versions remain
 authoritative even when authoring files differ. See the
-[boss script contract](../../../doc/specs/arena-boss-scripts.md).
+[boss script contract](../../docs/specs/arena-boss-scripts.md).
 
 `timeline` optionally supplies a detached validated presentation version;
 `timelineDirectory` selects an absolute authoring directory containing fixed
@@ -57,7 +62,7 @@ authoritative even when authoring files differ. See the
 default editable copies in `timelines/` only if absent. External directories and
 detached factory clips are not replaced. CLI/Admin validation and staging adopt
 edits only on the next run; saved bytes reproduce presentation after deletion.
-See the [TSQ1 presentation contract](../../../doc/specs/arena-presentation-timelines.md).
+See the [TSQ1 presentation contract](../../docs/specs/arena-presentation-timelines.md).
 Otherwise the storage directory receives an editable `arena.tmd` on first use;
 existing documents are preserved. Validation and staging keep next-run semantics.
 
@@ -76,12 +81,12 @@ controller. Host metadata is separate from deterministic game state and output.
 Destruction stops admission and observers, cancels replay workers between ticks,
 and joins I/O work before returning, including when called inside a Tokio context.
 
-See [`arena-native-abi.md`](../../../doc/specs/arena-native-abi.md) for the complete
+See [`arena-native-abi.md`](../../docs/specs/arena-native-abi.md) for the complete
 contract, reproducible builds and full-scenario C verification. The
 [`embedded_bridge`](tests/embedded_bridge.rs) integration tests use actual HTTP
 and WebSocket clients to verify clock ownership, content/replay sharing and teardown.
 
-The [Stage 11 verification record](../../../doc/verification/arena-embedded/README.md)
+The [Stage 11 verification record](../../docs/verification/arena-embedded/README.md)
 includes the actual ARM64 library, C caller and graphical Unity standalone runs.
 Both preparation and the complete 11F/death/retry input traces reproduce every
 state and output through the bundled library with the external server stopped.

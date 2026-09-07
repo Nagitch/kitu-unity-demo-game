@@ -13,7 +13,7 @@ from unittest.mock import patch
 
 TOOLS = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(TOOLS))
-from arena_macos import OwnedProcess, clone_tree
+from arena_macos import OwnedProcess, clone_tree, kitu_root
 from arena_verification import (cargo_test_binaries, completed_scope, libtest_result,
                                 nunit_result, report_environment, trace_counts, whitespace_only)
 spec = importlib.util.spec_from_file_location("arena_coordinator", TOOLS / "verify-arena-macos.py")
@@ -28,6 +28,20 @@ class VerificationContracts(unittest.TestCase):
 
     def tearDown(self):
         self.temporary.cleanup()
+
+    def test_kitu_root_uses_the_effective_setup_selection(self):
+        selected = self.directory / "effective-kitu"
+        selected.mkdir()
+        (selected / "Cargo.toml").write_text("[workspace]\n")
+        metadata = self.directory / "source.json"
+        metadata.write_text(json.dumps({"path": str(selected.resolve()), "revision": "abc123", "mode": "override"}))
+        with patch("arena_macos.SOURCE_METADATA", metadata):
+            self.assertEqual(kitu_root(), selected.resolve())
+            metadata.write_text(json.dumps({"path": str(selected), "revision": "abc123", "mode": "pinned"}))
+            self.assertEqual(kitu_root(), selected.resolve())
+            metadata.write_text(json.dumps({"path": str(selected), "revision": "abc123", "mode": "other"}))
+            with self.assertRaisesRegex(RuntimeError, "mode"):
+                kitu_root()
 
     def xml(self, cases, **attributes):
         from xml.etree.ElementTree import Element, SubElement, ElementTree
@@ -112,6 +126,22 @@ class VerificationContracts(unittest.TestCase):
         self.assertEqual([len(cases[key]) for key in ("unityEdit", "unityPlayMsgpack", "unityPlayJson")], [143, 31, 7])
         self.assertTrue(any(name.startswith("ArenaInventoryTests.") for name in cases["unityEdit"]))
         self.assertTrue(any("NetworkInspectionMatchesRenderedReplay" in name for name in cases["unityPlayJson"]))
+
+    def test_relocated_native_doctest_matches_cargo_output_and_existing_source(self):
+        cases = json.loads((TOOLS / "arena-verification-cases.json").read_text())
+        # Actual rustdoc output from the extracted repository; line numbers
+        # remain incidental, while the source path and ABI function are exact.
+        output = ("running 1 test\n"
+                  "test app/native/src/lib.rs - kitu_application_abi_version (line 141) ... ok\n"
+                  "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out;\n")
+        result = libtest_result(output, cases["nativeDoctests"], "native doctests")
+        self.assertEqual((result["total"], result["passed"]), (1, 1))
+        self.assertEqual(len(cases["nativeDoctests"]), 1)
+        location, symbol = cases["nativeDoctests"][0].split(" - ")
+        self.assertTrue((TOOLS.parent / location).is_file())
+        self.assertEqual(symbol, "kitu_application_abi_version")
+        with self.assertRaises(ValueError):
+            libtest_result(output.replace(symbol, "other_abi_function"), cases["nativeDoctests"], "native doctests")
 
     def test_guard_restores_owned_original_bytes_including_dirty_or_absent_files(self):
         project = self.directory / "project"

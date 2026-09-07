@@ -22,14 +22,16 @@ import time
 import urllib.request
 
 from arena_content import FILES, inspect_package, stage_package
-from arena_macos import (LIBRARY, PLUGIN, PROJECT, ROOT, OwnedProcess, artifact, clone_tree,
-                         require_closed_editor, require_macos, run, sha256,
+from arena_macos import (APP, LIBRARY, PLUGIN, PROJECT, ROOT, OwnedProcess, artifact, clone_tree,
+                         kitu_root, require_closed_editor, require_macos, run, sha256,
                          termination_guard, verify_plugin, write_json)
 from arena_verification import (cargo_test_binaries, completed_scope, libtest_result,
                                 nunit_result, report_environment, trace_counts, utc, whitespace_only)
+from source_evidence import capture_graph, capture_source
 
 TARGET = "aarch64-apple-darwin"
 TOOLS = ROOT / "tools"
+CORE_PACKAGES = frozenset(("kitu-cli", "kitu-transport"))
 CASES = TOOLS / "arena-verification-cases.json"
 STOCK_TEST = "real_tsq1_replays_every_stock_tick_state_and_event_through_eleven_death_retry"
 READBACK_TEST = "application::tests::csharp_reencoded_frames_decode_to_identical_typed_values_and_float_bits"
@@ -207,15 +209,32 @@ class Verification:
         return value
 
     def cargo(self, verb, *arguments, timeout=1800, env=None):
-        self.command([sys.executable, TOOLS / "prepare-kitu-build.py", "--manifest-path",
-                      ROOT / "apps/demo-game/Cargo.toml", "--cargo", self.args.cargo,
-                      "--target", TARGET], env=env)
+        package = None
+        if "-p" in arguments:
+            package = arguments[arguments.index("-p") + 1]
+        if package is None:
+            raise ValueError("Arena Cargo command must name its package")
+        core = package in CORE_PACKAGES
+        cwd = kitu_root() if core else ROOT
+        selected = dict(env or self.env)
+        selected.setdefault("CARGO_TARGET_DIR", str(self.target.parent.parent))
+        if not core:
+            self.command([sys.executable, TOOLS / "prepare-kitu-build.py", "--manifest-path",
+                          APP / "Cargo.toml", "--cargo", self.args.cargo,
+                          "--target", TARGET], env=selected, cwd=ROOT)
+            label = f"command-{self.command_id:03d}"
+            self.report["dependencySource"]["graphs"][label] = capture_graph(ROOT, self.evidence, label)
+            self.write()
         return self.command([self.args.cargo, verb, "--locked", "--target", TARGET,
-                             "--profile", self.args.profile, *arguments], timeout=timeout, env=env)
+                             "--profile", self.args.profile, *arguments],
+                            timeout=timeout, env=selected, cwd=cwd)
 
     def preflight(self):
+        self.report["dependencySource"] = capture_source(ROOT, self.evidence)
+        self.write()
         require_macos()
         require_closed_editor()
+        selected_kitu = kitu_root()
         rustc = self.env.get("RUSTC", "rustc")
         toolchain = self.report["toolchain"]
         for key, command in (("cargo", [self.args.cargo, "--version"]),
@@ -228,18 +247,22 @@ class Verification:
             raise RuntimeError(f"Rust must match rust-toolchain.toml {expected}")
         if not any(line.startswith("cargo " + expected + " ") for line in toolchain["cargo"]):
             raise RuntimeError(f"Cargo must match rust-toolchain.toml {expected}")
-        metadata = json_output(self.command([self.args.cargo, "metadata", "--locked", "--no-deps", "--format-version", "1"]))
+        metadata = json_output(self.command([self.args.cargo, "metadata", "--locked", "--no-deps",
+                                             "--format-version", "1", "--manifest-path", APP / "Cargo.toml"],
+                                            cwd=ROOT))
+        self.env["CARGO_TARGET_DIR"] = metadata["target_directory"]
         profile = "debug" if self.args.profile == "dev" else "release"
         self.target = Path(metadata["target_directory"]) / TARGET / profile
         dirty_paths = set(run(["git", "diff", "--name-only", "-z", "HEAD"], cwd=ROOT).split("\0"))
         dirty_paths.update(run(["git", "ls-files", "--others", "--exclude-standard", "-z"], cwd=ROOT).split("\0"))
         self.report["source"] = {"commit": run(["git", "rev-parse", "HEAD"], cwd=ROOT),
+                                 "kituRoot": str(selected_kitu),
                                  "dirty": bool(run(["git", "status", "--porcelain"], cwd=ROOT)),
                                  "dirtyFiles": [{"path": name, "artifact": artifact(ROOT / name) if (ROOT / name).is_file() else None}
                                                 for name in sorted(dirty_paths - {""})],
                                  "inputs": [artifact(ROOT / path) for path in ("Cargo.lock", "rust-toolchain.toml", "tools/arena-verification-cases.json",
-                                    "tools/kitu-web-admin/frontend/pnpm-lock.yaml",
-                                    "tools/kitu-web-admin/frontend/package.json",
+                                    "admin/pnpm-lock.yaml",
+                                    "admin/package.json",
                                     str(PROJECT.relative_to(ROOT) / "Packages/manifest.json"),
                                     str(PROJECT.relative_to(ROOT) / "Packages/packages-lock.json"),
                                     str(PROJECT.relative_to(ROOT) / "ProjectSettings/ProjectVersion.txt"))]}
@@ -263,7 +286,7 @@ class Verification:
 
     def package(self):
         result = self.evidence / "package.json"
-        self.tool("package-arena-content.py", "--source", ROOT / "apps/demo-game/content",
+        self.tool("package-arena-content.py", "--source", APP / "content",
                   "--destination", self.evidence / "default-package", "--evidence", result)
         self.retain(result)
         return inspect_package(self.evidence / "default-package")
@@ -320,8 +343,8 @@ class Verification:
     def c_abi(self):
         binary = self.evidence / "c-abi-caller"
         self.command(["xcrun", "clang", "-std=c11", "-Wall", "-Wextra", "-Werror",
-                      "-I", ROOT / "crates/kitu-unity-ffi/include",
-                      ROOT / "apps/demo-game/native/tests/c_abi.c", "-L", self.evidence / "native-build",
+                      "-I", kitu_root() / "crates/kitu-unity-ffi/include",
+                      APP / "native/tests/c_abi.c", "-L", self.evidence / "native-build",
                       "-lkitu_demo_game_native", "-Wl,-rpath," + str(self.evidence / "native-build"), "-o", binary])
         self.retain(binary)
         summaries = {}
@@ -459,7 +482,7 @@ class Verification:
         return result
 
     def codec_readback(self):
-        corpus = json.loads((ROOT / "crates/kitu-transport/tests/fixtures/application-wire/manifest.json").read_text())
+        corpus = json.loads((kitu_root() / "crates/kitu-transport/tests/fixtures/application-wire/manifest.json").read_text())
         directory = self.evidence / "unity/wire"
         valid = [case for case in corpus["cases"] if case["valid"]]
         for case in valid:

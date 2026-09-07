@@ -1,8 +1,8 @@
 # Embedded Arena host
 
 Stage 11 extends the [native ABI](arena-native-abi.md) with a shared development
-host. Application rules still live in `apps/demo-game/src/arena`; native and
-standalone server hosting use `apps/demo-game/src/host`. The native factory and
+host. Application rules still live in `app/src/arena`; native and
+standalone server hosting use `app/src/host`. The native factory and
 optional listener are application-owned. Generic C buffer/lifetime behavior
 remains in `kitu-unity-ffi`.
 

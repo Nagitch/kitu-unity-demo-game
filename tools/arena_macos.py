@@ -95,7 +95,10 @@ class OwnedProcess:
         self.stop()
 
 ROOT = Path(__file__).resolve().parents[1]
-PROJECT = ROOT / "kitu-integration-runner/unity-demo-game/kitu-unity-demo-game"
+APP = ROOT / "app"
+PROJECT = ROOT / "unity"
+REFERENCE = ROOT / "tests/scenarios/arena/reference"
+SOURCE_METADATA = ROOT / ".kitu/source.json"
 LIBRARY = "libkitu_demo_game_native.dylib"
 PLUGIN = PROJECT / "Assets/Plugins/macOS" / LIBRARY
 INSTALL_NAME = "@rpath/" + LIBRARY
@@ -106,6 +109,31 @@ SYMBOLS = {
     "kitu_application_inspect_json", "kitu_application_inspect_host_json",
     "kitu_application_last_error",
 }
+
+
+def kitu_root():
+    """Return the effective Kitu checkout selected by the demo setup."""
+    try:
+        metadata = json.loads(SOURCE_METADATA.read_text(encoding="utf-8"))
+    except FileNotFoundError as error:
+        raise RuntimeError(f"Kitu source selection is missing: {SOURCE_METADATA}") from error
+    except json.JSONDecodeError as error:
+        raise RuntimeError(f"Kitu source selection is invalid: {SOURCE_METADATA}") from error
+    if not isinstance(metadata, dict):
+        raise RuntimeError(f"Kitu source selection must be an object: {SOURCE_METADATA}")
+    path = metadata.get("path")
+    revision = metadata.get("revision")
+    mode = metadata.get("mode")
+    if not isinstance(path, str) or not Path(path).is_absolute():
+        raise RuntimeError("Kitu source selection path must be absolute")
+    if not isinstance(revision, str) or not revision:
+        raise RuntimeError("Kitu source selection revision is missing")
+    if mode not in ("pinned", "override"):
+        raise RuntimeError("Kitu source selection mode must be 'pinned' or 'override'")
+    selected = Path(path).resolve()
+    if not selected.is_dir() or not (selected / "Cargo.toml").is_file():
+        raise RuntimeError(f"Selected Kitu checkout is unavailable: {selected}")
+    return selected
 
 
 def run(arguments, *, log=None, env=None, timeout=None, cwd=ROOT):

@@ -1,0 +1,36 @@
+FROM rust:1.96.0-bookworm
+
+ARG DEBIAN_FRONTEND=noninteractive
+ARG KITU_REPOSITORY
+ARG KITU_REV
+ENV KITU_REPOSITORY_PIN=${KITU_REPOSITORY} \
+    KITU_REV_PIN=${KITU_REV}
+
+RUN apt-get update \
+    && apt-get install --yes --no-install-recommends \
+        ca-certificates \
+        git \
+        openssl \
+        python3 \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse \
+    CARGO_TARGET_DIR=/opt/kitu/target \
+    RUSTUP_TOOLCHAIN=1.96.0
+
+COPY Cargo.toml /tmp/demo-Cargo.toml
+
+RUN test -n "${KITU_REPOSITORY}" \
+    && test -n "${KITU_REV}" \
+    && python3 -c 'import os, tomllib; d=tomllib.load(open("/tmp/demo-Cargo.toml", "rb"))["workspace"]["dependencies"]; p=[v for n,v in d.items() if n.startswith("kitu-")]; r={v.get("rev") for v in p}; g={v.get("git", "").removesuffix(".git") for v in p}; assert r == {os.environ["KITU_REV_PIN"]} and g == {os.environ["KITU_REPOSITORY_PIN"].removesuffix(".git")}, "Docker Kitu build args do not match Cargo.toml"'
+
+# The gateway source stays in Kitu. The image fetches the complete pinned
+# checkout, instead of carrying a second copy in the demo repository.
+RUN git clone --quiet "${KITU_REPOSITORY}" /opt/kitu \
+    && git -C /opt/kitu checkout --quiet "${KITU_REV}"
+
+WORKDIR /opt/kitu/tools/kitu-webtransport-gateway
+RUN cargo build --locked --release --bin kitu-webtransport-gateway
+
+EXPOSE 9443/udp
+CMD ["/opt/kitu/target/release/kitu-webtransport-gateway"]

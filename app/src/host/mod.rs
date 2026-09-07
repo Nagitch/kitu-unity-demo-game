@@ -74,11 +74,11 @@ impl Default for HostOptions {
     fn default() -> Self {
         Self {
             external_controller: false,
-            content_path: "apps/demo-game/content/arena.tmd".into(),
+            content_path: "app/content/arena.tmd".into(),
             script_path: None,
             timeline_directory: None,
-            run_directory: "apps/demo-game/.arena/runs".into(),
-            recording_directory: "apps/demo-game/.arena/recordings".into(),
+            run_directory: "app/.arena/runs".into(),
+            recording_directory: "app/.arena/recordings".into(),
             persist_runs: false,
             io_runtime: None,
             bridge_endpoint: None,

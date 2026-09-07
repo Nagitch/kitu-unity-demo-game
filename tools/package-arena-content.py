@@ -11,7 +11,7 @@ from arena_macos import PROJECT, ROOT, write_json
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--source", type=Path, default=ROOT / "apps/demo-game/content")
+    parser.add_argument("--source", type=Path, default=ROOT / "app/content")
     parser.add_argument("--destination", type=Path,
                         default=PROJECT / "Assets/StreamingAssets/KituArena")
     parser.add_argument("--inspect", action="store_true", help="Validate the destination without writing it")

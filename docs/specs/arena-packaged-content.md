@@ -8,7 +8,7 @@ timing use the application's existing public APIs and Runtime clock.
 
 ## Source package
 
-The source directory is `apps/demo-game/content/`. The packager stages these five
+The source directory is `app/content/`. The packager stages these five
 files under Unity's `Assets/StreamingAssets/KituArena/`, alongside a generated
 `package.json`. The Player retains that directory under
 `Contents/Resources/Data/StreamingAssets/`.
@@ -154,7 +154,7 @@ with this checkout's Editor closed:
 
 ```sh
 ARENA_UNITY_EDITOR="/Applications/Unity/Hub/Editor/6000.6.0f1/Unity.app/Contents/MacOS/Unity"
-ARENA_UNITY_PROJECT="$PWD/kitu-integration-runner/unity-demo-game/kitu-unity-demo-game"
+ARENA_UNITY_PROJECT="$PWD/unity"
 "$ARENA_UNITY_EDITOR" -batchmode -quit -projectPath "$ARENA_UNITY_PROJECT" \
   -buildTarget osxuniversal -executeMethod UnityOnlyArena.Editor.KituArenaContentBuilder.Prepare \
   -logFile "$PWD/.tmp/stage16/addressables-prepare.log"
@@ -186,7 +186,7 @@ Run the graphical startup/cleanup probe separately after building:
 
 ```sh
 python3 tools/verify-arena-packaged-player.py \
-  --player kitu-integration-runner/unity-demo-game/kitu-unity-demo-game/Builds/KituEndlessArena.app \
+  --player unity/Builds/KituEndlessArena.app \
   --evidence .tmp/stage16/player-content
 ```
 
@@ -197,7 +197,7 @@ launches outside the checkout. `--package` selects a test package;
 `--expected-package-hash` and `--expected-native-sha256` bind comparison runs.
 `--expect-failure` requires a specific diagnostic from the actual Player and
 zero native/view ownership. Use the separate
-[frozen gameplay verifier](../../kitu-integration-runner/unity-demo-game/README.md#verify-the-built-player-with-the-frozen-scenarios)
+[frozen gameplay verifier](../../unity/README.md#verify-the-built-player-with-the-frozen-scenarios)
 for complete state/output comparisons. Retain reports from both kinds of proof.
 
 This stage targets local macOS ARM64 development Players. CDN distribution,

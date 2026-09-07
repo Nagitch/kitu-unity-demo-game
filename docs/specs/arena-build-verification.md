@@ -33,7 +33,7 @@ setup and fetch the files before treating either condition as an asset change.
 
 ## Repository checks in the Dev Container
 
-Open this repository in its [Dev Container](../../.devcontainer/devcontainer.json).
+Open this repository in its [Dev Container](https://github.com/Nagitch/kitu-workspace/blob/develop/.devcontainer/devcontainer.json).
 The pinned inputs are Rust in `rust-toolchain.toml`, Cargo dependencies in
 `Cargo.lock`, Node 24, and `pnpm@11.9.0` with the frontend lockfile. The full
 frontend build also needs the `wasm32-unknown-unknown` Rust target. Use the
@@ -111,7 +111,7 @@ python3 tools/verify-arena-macos.py \
 ```
 
 The `full` scope additionally requires the licensed Editor version recorded in
-[`ProjectVersion.txt`](../../kitu-integration-runner/unity-demo-game/kitu-unity-demo-game/ProjectSettings/ProjectVersion.txt)
+[`ProjectVersion.txt`](../../unity/ProjectSettings/ProjectVersion.txt)
 and a usable graphical login session. The current project uses Unity
 `6000.6.0f1` and local Addressables `2.11.2`. Close competing project Editors
 before running:
@@ -179,7 +179,7 @@ rendered checkpoints; they do not imply bit-identical pixels across builds.
 
 ## CI and environment boundaries
 
-The [repository CI workflow](../../.github/workflows/rust-ci.yml) uses the shared
+The [repository CI workflow](../../.github/workflows/ci.yml) uses the shared
 Linux scopes for reference, Rust, frontend/WASM
 and portable data checks. The macOS native CI job uses the standard `macos-15`
 runner and the native coordinator. It does not claim licensed Unity execution.
@@ -206,7 +206,7 @@ hash or Unity source revision. Server and native executions can have different
 fingerprints and must verify their own recordings without rewriting IDs.
 
 Retain the exact runtime binaries needed by older recordings under the ignored
-`apps/demo-game/.arena/runtime-versions/` archive before overwriting build output.
+`app/.arena/runtime-versions/` archive before overwriting build output.
 Use a new variant directory and inventory hashes; never replace an older archive
 under the same label. Full traces, large snapshots, binaries and local screenshots
 stay outside Git. The [delivery record](../verification/arena-delivery/README.md)
@@ -214,7 +214,7 @@ links compact public evidence and distinguishes local passes, CI, review, child
 merge and parent workspace reference publication.
 
 For a live Admin check after building, follow the
-[selected server/embedded Inspector workflow](../../tools/kitu-web-admin/README.md#inspect-endless-arena):
+[selected server/embedded Inspector workflow](https://github.com/Nagitch/kitu-logic-processor/blob/develop/tools/kitu-web-admin/README.md#inspect-endless-arena):
 configure both API and Admin WebSocket endpoints to the same host, compare the
 displayed session/run/tick, inspect a cue/entity, step or seek a saved replay,
 and check stale/reconnect behavior and browser errors. Compilation alone does

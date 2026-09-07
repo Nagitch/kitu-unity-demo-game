@@ -78,7 +78,7 @@ All live ticks are captured before committed inputs are drained. Snapshot clonin
 holds the state lock briefly; TSQ1 encoding, file I/O and replay verification run
 outside the simulation lock. Recording files use SHA-256 content IDs and atomic
 local rename. `KITU_ARENA_RECORDING_DIRECTORY` overrides the default
-`apps/demo-game/.arena/recordings` directory.
+`app/.arena/recordings` directory.
 
 | Endpoint | Result |
 | --- | --- |

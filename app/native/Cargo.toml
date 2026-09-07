@@ -5,7 +5,7 @@ edition = "2021"
 publish = false
 description = "Native C ABI factory for the complete Endless Arena reference application."
 license = "MIT"
-repository = "https://github.com/Nagitch/kitu-logic-processor"
+repository = "https://github.com/Nagitch/kitu-unity-demo-game"
 readme = "README.md"
 keywords = ["kitu", "arena", "ffi", "unity"]
 categories = ["api-bindings", "game-development"]
@@ -16,17 +16,17 @@ crate-type = ["rlib", "cdylib", "staticlib"]
 
 [dependencies]
 kitu-demo-game = { path = ".." }
-kitu-unity-ffi = { path = "../../../crates/kitu-unity-ffi" }
-kitu-osc-ir = { path = "../../../crates/kitu-osc-ir" }
-kitu-runtime = { path = "../../../crates/kitu-runtime" }
+kitu-unity-ffi = { workspace = true }
+kitu-osc-ir = { workspace = true }
+kitu-runtime = { workspace = true }
 axum = { version = "0.8", features = ["ws"] }
 tokio = { version = "1", features = ["full"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 
 [dev-dependencies]
-kitu-tsq1 = { path = "../../../crates/kitu-tsq1" }
-kitu-transport = { path = "../../../crates/kitu-transport" }
+kitu-tsq1 = { workspace = true }
+kitu-transport = { workspace = true }
 ureq = { version = "3", default-features = false, features = ["json"] }
 tungstenite = "0.29"
 sha2 = "0.11"

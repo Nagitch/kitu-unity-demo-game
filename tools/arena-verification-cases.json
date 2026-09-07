@@ -41,7 +41,7 @@
     ]
   },
   "nativeDoctests": [
-    "apps/demo-game/native/src/lib.rs - kitu_application_abi_version"
+    "app/native/src/lib.rs - kitu_application_abi_version"
   ],
   "unityEdit": [
     "AddressableAssets.DocExampleCode.TestStub.RequiredTest",

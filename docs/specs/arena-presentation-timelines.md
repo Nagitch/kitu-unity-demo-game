@@ -10,7 +10,7 @@ comparison oracle.
 The fixed authoring files are `boss-telegraph.tsq` and `floor-transition.tsq`.
 The server accepts their directory through `KITU_ARENA_TIMELINE_DIRECTORY`.
 Without that option, validation uses the two bundled files in
-`apps/demo-game/content/timelines/`.
+`app/content/timelines/`.
 
 Create or edit a sample using the application's public-codec authoring tool in
 the Dev Container:

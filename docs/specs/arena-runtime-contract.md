@@ -10,7 +10,7 @@ The reference is PR #128, commit `38f2b4be4b7b2b604f1b21dfe9ce407846e0fc43`.
 `ArenaSimulation` and `ArenaInventory` retain their original rules, f32 arithmetic,
 iteration order and 1/60-second timestep. Serializable attributes and partial-class
 diagnostic methods do not alter those rules. Source hashes are pinned in
-`kitu-integration-runner/scenarios/arena/reference/baseline.json`.
+`tests/scenarios/arena/reference/baseline.json`.
 
 Unity owns device input, camera-relative movement conversion, screen-to-ground
 aim conversion, presentation, audio and display settings. Kitu owns movement,
@@ -178,7 +178,7 @@ repository root to verify pinned source provenance and fixture structure.
 
 ## Stage 2 concrete connection
 
-`apps/demo-game` installs the persistent Arena application; the admin host clocks
+`app` installs the persistent Arena application; the admin host clocks
 it independently at 60 Hz. `KituEndlessArena.unity` is the separate migration
 scene. This slice supports start/menu, movement/aim, pause/resume and host-originated
 disconnect. Inventory, combat and progression are later slices. Structurally

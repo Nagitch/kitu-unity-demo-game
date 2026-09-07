@@ -1,7 +1,7 @@
 # Full application native ABI
 
 Stage 10 of the Endless Arena migration exposes the complete application through
-an application-owned `cdylib`/`staticlib`. `apps/demo-game/native` selects the same
+an application-owned `cdylib`/`staticlib`. `app/native` selects the same
 `build_arena_runtime` factory used by the server; `kitu-unity-ffi::application`
 owns handles, diagnostics, buffering and a replaceable `ApplicationDriver`.
 `kitu-transport::wire` owns the typed OSC representation. The common crates do not
@@ -97,7 +97,7 @@ cargo test --locked -p kitu-demo-game-native
 cargo build --locked -p kitu-demo-game-native
 clang -std=c11 -Wall -Wextra -Werror \
   -I crates/kitu-unity-ffi/include \
-  apps/demo-game/native/tests/c_abi.c \
+  app/native/tests/c_abi.c \
   -L "$CARGO_TARGET_DIR/debug" -lkitu_demo_game_native \
   -Wl,-rpath,"$CARGO_TARGET_DIR/debug" \
   -o "$KITU_NATIVE_EVIDENCE_DIR/c-abi"

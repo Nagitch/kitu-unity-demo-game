@@ -7,7 +7,7 @@ The frozen Unity-only source and expected gameplay remain unchanged.
 
 ## Authoring and activation
 
-The reference source is `apps/demo-game/content/boss.rhai`. Set
+The reference source is `app/content/boss.rhai`. Set
 `KITU_ARENA_SCRIPT=/absolute/path/boss.rhai` for the server's editable source.
 Without that option, validation uses the bundled reference source. The native
 bridge seeds `boss.rhai` in its storage directory only when absent; an explicit
@@ -72,7 +72,7 @@ ECS object, host handle, I/O capability or direct mutation callback.
 The shared host starts from Rhai's raw engine with selected pure packages and no
 module resolver. It excludes imports, eval, time, random, print/debug
 and host effects. Numeric Cargo features are not changed, preserving Tanu's unified
-Rhai semantics. See the [crate policy and exact limits](../../crates/kitu-scripting-rhai/README.md).
+Rhai semantics. See the [crate policy and exact limits](https://github.com/Nagitch/kitu-logic-processor/blob/develop/crates/kitu-scripting-rhai/README.md).
 The existing Tanu `no_module`/`no_closure` feature combination is supported without
 changing Tanu's engine settings.
 Source, JSON data, expressions, calls and executed operations have explicit bounds;

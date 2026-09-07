@@ -188,9 +188,8 @@ fn edited_packaged_sources_drive_the_first_run_and_export_a_player_oracle() {
     let mut damage_in_inventory = false;
     let mut inputs = 0;
     let mut staging_inputs = 0;
-    let reference = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(
-        "../../../kitu-integration-runner/scenarios/arena/reference/stock-eleven-death-retry",
-    );
+    let reference = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("../../tests/scenarios/arena/reference/stock-eleven-death-retry");
     support::replay_reference_from_directory(
         &reference,
         "stock-eleven-death-retry",

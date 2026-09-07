@@ -453,7 +453,7 @@
 
 ## 15. 実装に進む際の方針案
 
-実装に進む場合は、[Unity-onlyデモのプロジェクト](../../kitu-integration-runner/unity-demo-game/README.md)で、以下の順に小さく分ける。
+実装に進む場合は、[Unity-onlyデモのプロジェクト](../../unity/README.md)で、以下の順に小さく分ける。
 
 1. オープニング・設定・ラン開始。
 2. 移動・マウスエイム・2武器・HP。

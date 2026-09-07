@@ -6,7 +6,7 @@ tracked by [Issue 152](https://github.com/Nagitch/kitu-logic-processor/issues/15
 ## Ownership and execution
 
 `kitu-data-sqlite` owns read-only SQLite snapshot access, schema checks, native
-scalar decoding, ordering and resource limits. `apps/demo-game` owns Arena table
+scalar decoding, ordering and resource limits. `app` owns Arena table
 names, identities, game constraints, sparse patches and detached content versions.
 `kitu-data-tmd` uses the pinned public Tanu API for document and Formula evaluation.
 Neither the host nor SQLite adapter interprets Formula expressions independently.
@@ -88,7 +88,7 @@ The SQLite adapter limits table/column/row counts, cell/value bytes, total bytes
 VM work and lock waits. It checks cancellation between reads and in SQLite's
 progress callback, including work before the first output row. Host teardown can
 cancel evaluation without admitting a partially loaded candidate. See the
-[adapter documentation](../../crates/kitu-data-sqlite/README.md) for exact defaults.
+[adapter documentation](https://github.com/Nagitch/kitu-logic-processor/blob/develop/crates/kitu-data-sqlite/README.md) for exact defaults.
 Tanu cancellation is checked around public document/table calls and between
 tables. A single public Tanu read/evaluation call is indivisible, including its
 eager document validation; cancellation does not interrupt it internally.
