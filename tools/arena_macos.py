@@ -62,6 +62,35 @@ class OwnedProcess:
                 self.stop()
                 raise
 
+    def _group_finished(self):
+        """Confirm completion after a denied signal; an exited leader alone is insufficient."""
+        if self.process.poll() is None:
+            return False
+        try:
+            snapshot = subprocess.run(["ps", "-axo", "pgid=,stat="], check=True,
+                                      capture_output=True, text=True, timeout=2)
+            rows = [line.split() for line in snapshot.stdout.splitlines() if line.strip()]
+            if not rows or any(len(row) != 2 or not row[0].isdigit() for row in rows):
+                return False
+            # A zombie has already exited and cannot execute or receive a
+            # signal. Its eventual reaping belongs to its surviving parent.
+            return not any(int(group) == self.process.pid and not state.startswith(("Z", "X"))
+                           for group, state in rows)
+        except (OSError, subprocess.SubprocessError):
+            return False  # An unavailable process table cannot prove cleanup.
+
+    def _signal_group(self, sig):
+        try:
+            os.killpg(self.process.pid, sig)
+        except ProcessLookupError:
+            pass
+        except PermissionError as error:
+            # A denied late signal is harmless only after confirmed completion.
+            # Never hide a refusal while the leader or an orphan is still live.
+            if not self._group_finished():
+                error.add_note(f"Could not confirm completion of owned process group {self.process.pid}")
+                raise
+
     def stop(self, grace=None):
         """TERM then reap/KILL this group, including children after leader exit."""
         if self.closed:
@@ -69,19 +98,13 @@ class OwnedProcess:
         if grace is None:
             grace = self.shutdown_grace
         try:
-            try:
-                os.killpg(self.process.pid, signal.SIGTERM)
-            except ProcessLookupError:
-                pass
+            self._signal_group(signal.SIGTERM)
             try:
                 self.process.wait(timeout=grace)
             except subprocess.TimeoutExpired:
                 pass
             finally:
-                try:
-                    os.killpg(self.process.pid, signal.SIGKILL)
-                except ProcessLookupError:
-                    pass
+                self._signal_group(signal.SIGKILL)
                 self.process.wait()
         finally:
             self.output.close()
