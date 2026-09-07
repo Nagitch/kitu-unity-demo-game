@@ -1,0 +1,55 @@
+{
+  "scope": "hud-repaint-follow-up",
+  "status": "passed",
+  "demoRevision": "4b0c6245a997a824c4ac862e5b8b648b4a019144",
+  "kituRevision": "ed72415f7d92070a06739a253e2a6ed73fa09e9e",
+  "sourceDirty": false,
+  "nativePluginBefore": "8f34e2adf8390996d56889c290e97f0dd1f8f00ae86b14b10126963c7d3a105c",
+  "scenarios": {
+    "preparation": {
+      "status": "passed",
+      "reportSha256": "d7b2df317907f99c4cea3e98acd37aa01182c7ec2222d2bcc324953604bede6c"
+    },
+    "stock-eleven-death-retry": {
+      "status": "passed",
+      "reportSha256": "7dedf963fa837ad6b862b6e42f87276f17ce39dbd6476c33311ad816bd71a999"
+    }
+  },
+  "cleanup": {
+    "restoredFiles": [
+      "Assets/AddressableAssetsData/AddressableAssetSettings.asset",
+      "Assets/AddressableAssetsData/link.xml",
+      "Assets/AddressableAssetsData/link.xml.meta",
+      "ProjectSettings/ProjectAuditorSettings.asset",
+      "ProjectSettings/ProjectSettings.asset",
+      "ProjectSettings/UnityConnectSettings.asset"
+    ],
+    "unexpectedChanges": []
+  },
+  "schemaVersion": 1,
+  "nativePluginUnchanged": true,
+  "localReportSha256": "88ae42ee322b7e2c8fe441253396f891a288e00c7711486eff64609bddb2d7bb",
+  "visualInspection": {
+    "result": "passed",
+    "observation": "HUD text is legible without the earlier accumulated labels at combat, death and retry checkpoints.",
+    "screenshots": {
+      "combat": {
+        "bytes": 114122,
+        "sha256": "8121633762b07b8658430afc918c74fdf39d1d853a6b9c12c7330f667caa5698"
+      },
+      "death-11f": {
+        "bytes": 158596,
+        "sha256": "395a537fad3e31643ecb5079bdc8b4c8bed1ddab232616e86498c68622cb7262"
+      },
+      "retry": {
+        "bytes": 109918,
+        "sha256": "04b7b6d3e92fc7f185a77cfb60ce91d4cce84b882046ec66217aeb4eac578d19"
+      }
+    }
+  },
+  "traceTicks": {
+    "preparation": 28,
+    "stock-eleven-death-retry": 5528
+  },
+  "scopeNote": "Focused validation after the drawing-only HUD change; full-verification.json records the preceding complete migration gate. Existing oracle data and the frozen Unity-only implementation were unchanged."
+}

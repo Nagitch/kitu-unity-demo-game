@@ -120,6 +120,14 @@ predates this drawing-only follow-up; its focused Player validation is separate.
 The historical trigger is unproven, so this does not claim that earlier captures
 had the same visual defect.
 
+That follow-up at clean demo `4b0c6245a997a824c4ac862e5b8b648b4a019144`
+passed an actual Player rebuild, the 28-tick preparation scenario and the
+5,528-tick stock death/retry scenario against the unchanged full-run oracles.
+The native plugin stayed byte-identical and cleanup left no unexpected changes.
+Visual inspection confirmed legible HUD text without accumulated labels at
+combat, death and retry checkpoints. The [focused record](hud-verification.json)
+retains source, report and screenshot hashes; full captures remain local.
+
 The additional final Docker application check remains unexecuted. An earlier isolated
 Docker build at `6b6f71b7afd67e176058091b3493716ca97eb3d8` passed health and
 WebTransport datagram smoke checks, but the final rebuild could not run because
