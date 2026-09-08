@@ -871,7 +871,7 @@ dependencies = [
 [[package]]
 name = "kitu-app-actions"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed72415f7d92070a06739a253e2a6ed73fa09e9e#ed72415f7d92070a06739a253e2a6ed73fa09e9e"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
 dependencies = [
  "kitu-osc-ir",
  "serde",
@@ -881,7 +881,7 @@ dependencies = [
 [[package]]
 name = "kitu-core"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed72415f7d92070a06739a253e2a6ed73fa09e9e#ed72415f7d92070a06739a253e2a6ed73fa09e9e"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
 dependencies = [
  "thiserror",
 ]
@@ -889,7 +889,7 @@ dependencies = [
 [[package]]
 name = "kitu-data-sqlite"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed72415f7d92070a06739a253e2a6ed73fa09e9e#ed72415f7d92070a06739a253e2a6ed73fa09e9e"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
 dependencies = [
  "rusqlite",
  "serde",
@@ -899,7 +899,7 @@ dependencies = [
 [[package]]
 name = "kitu-data-tmd"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed72415f7d92070a06739a253e2a6ed73fa09e9e#ed72415f7d92070a06739a253e2a6ed73fa09e9e"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
 dependencies = [
  "kitu-core",
  "serde_json",
@@ -959,7 +959,7 @@ dependencies = [
 [[package]]
 name = "kitu-ecs"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed72415f7d92070a06739a253e2a6ed73fa09e9e#ed72415f7d92070a06739a253e2a6ed73fa09e9e"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
 dependencies = [
  "kitu-core",
 ]
@@ -967,7 +967,7 @@ dependencies = [
 [[package]]
 name = "kitu-osc-ir"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed72415f7d92070a06739a253e2a6ed73fa09e9e#ed72415f7d92070a06739a253e2a6ed73fa09e9e"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
 dependencies = [
  "kitu-core",
 ]
@@ -975,7 +975,7 @@ dependencies = [
 [[package]]
 name = "kitu-runtime"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed72415f7d92070a06739a253e2a6ed73fa09e9e#ed72415f7d92070a06739a253e2a6ed73fa09e9e"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
 dependencies = [
  "kitu-app-actions",
  "kitu-core",
@@ -988,7 +988,7 @@ dependencies = [
 [[package]]
 name = "kitu-scripting-rhai"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed72415f7d92070a06739a253e2a6ed73fa09e9e#ed72415f7d92070a06739a253e2a6ed73fa09e9e"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
 dependencies = [
  "rhai",
  "serde",
@@ -998,7 +998,7 @@ dependencies = [
 [[package]]
 name = "kitu-shell"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed72415f7d92070a06739a253e2a6ed73fa09e9e#ed72415f7d92070a06739a253e2a6ed73fa09e9e"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
 dependencies = [
  "kitu-core",
  "kitu-osc-ir",
@@ -1010,7 +1010,7 @@ dependencies = [
 [[package]]
 name = "kitu-transport"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed72415f7d92070a06739a253e2a6ed73fa09e9e#ed72415f7d92070a06739a253e2a6ed73fa09e9e"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
 dependencies = [
  "kitu-core",
  "kitu-osc-ir",
@@ -1025,7 +1025,7 @@ dependencies = [
 [[package]]
 name = "kitu-tsq1"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed72415f7d92070a06739a253e2a6ed73fa09e9e#ed72415f7d92070a06739a253e2a6ed73fa09e9e"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
 dependencies = [
  "anyhow",
  "kitu-core",
@@ -1040,7 +1040,7 @@ dependencies = [
 [[package]]
 name = "kitu-unity-ffi"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed72415f7d92070a06739a253e2a6ed73fa09e9e#ed72415f7d92070a06739a253e2a6ed73fa09e9e"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
 dependencies = [
  "kitu-core",
  "kitu-osc-ir",
