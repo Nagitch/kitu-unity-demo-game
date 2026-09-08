@@ -16,7 +16,7 @@ fn admin_world_basic_scenario() {
 
 fn fixture_path(relative: &str) -> std::path::PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("scenarios")
+        .join("../tests/scenarios")
         .join(relative)
 }
 

@@ -126,7 +126,7 @@ fn resetting_legacy_world_objects_preserves_application_state_and_control_queue(
 #[test]
 fn stock_reference_approach_matches_frozen_csharp_checkpoints() {
     let reference = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../kitu-integration-runner/scenarios/arena/reference/stock-eleven-death-retry");
+        .join("../tests/scenarios/arena/reference/stock-eleven-death-retry");
     let scenario: serde_json::Value =
         serde_json::from_str(&std::fs::read_to_string(reference.join("scenario.json")).unwrap())
             .unwrap();

@@ -521,8 +521,22 @@ namespace UnityOnlyArena
             GUI.color = previous;
         }
 
+        private void ClearOutsideCamera()
+        {
+            // The world camera clears only its viewport. Clear the HUD bands as
+            // well so changing text cannot accumulate outside that viewport.
+            if (GameCamera == null) return;
+            Rect viewport = GameCamera.rect;
+            Color previous = GUI.color;
+            GUI.color = Color.black;
+            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height * (1f - viewport.yMax)), Texture2D.whiteTexture);
+            GUI.DrawTexture(new Rect(0, Screen.height * (1f - viewport.y), Screen.width, Screen.height * viewport.y), Texture2D.whiteTexture);
+            GUI.color = previous;
+        }
+
         private void OnGUI()
         {
+            ClearOutsideCamera();
             DrawFloorPresentation();
             GUILayout.BeginArea(new Rect(20, 12, Screen.width - 40, 150));
             GUILayout.Label($"ENDLESS ARENA · {State.floor}F · {(ArenaPhase)State.phase} · Enemies {State.enemies?.Length ?? 0}");

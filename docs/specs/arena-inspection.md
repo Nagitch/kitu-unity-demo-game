@@ -105,9 +105,9 @@ diagnostic limits still apply.
 
 ### Existing state and presentation types
 
-`InspectionArenaState` preserves [ArenaState](../../apps/demo-game/src/arena/state.rs),
+`InspectionArenaState` preserves [ArenaState](../../app/src/arena/state.rs),
 and `InspectionPresentation` preserves
-[PresentationSnapshot](../../apps/demo-game/src/arena/presentation.rs), with only
+[PresentationSnapshot](../../app/src/arena/presentation.rs), with only
 these display-specific integer conversions:
 
 | Object | Decimal string fields |

@@ -3,11 +3,11 @@
 This Unity project contains the Kitu-backed endless arena, its Unity-only
 comparison baseline, and the separate Kitu integration verification scene.
 
-It pairs with `apps/demo-game` while staying focused on the Unity presentation/input boundary.
+It pairs with `app` while staying focused on the Unity presentation/input boundary.
 
 ## Project
 
-- Unity project path: `kitu-unity-demo-game/`
+- Unity project path: `unity/` (this directory)
 - Unity version: `6000.6.0f1` (Unity 6.6)
 - Version control mode: Visible Meta Files
 - Asset serialization mode: Force Text
@@ -27,7 +27,7 @@ The project includes the official `com.unity.pipeline` package, pinned to
 `0.6.0-exp.1`. The commands below use Unity CLI `1.0.0-beta.8`. Both are
 prerelease tooling; update them deliberately and verify this workflow when
 changing versions. The Editor version is pinned in
-`kitu-unity-demo-game/ProjectSettings/ProjectVersion.txt`.
+`ProjectSettings/ProjectVersion.txt`.
 
 Install the CLI using the [official installation instructions](https://docs.unity.com/en-us/unity-cli/use-unity-cli).
 For the verified macOS/Linux CLI version:
@@ -42,32 +42,43 @@ shell's PATH. On macOS the default executable is `~/.unity/bin/unity`. Restart
 the terminal after installation, or load `~/.unity/env` in an existing macOS
 shell. Non-interactive shells do not necessarily read `.zshrc`.
 
-Then run from this directory:
+Prepare the selected Kitu source from the demo repository root before opening
+the project:
 
 ```sh
-cd kitu-unity-demo-game
+python3 tools/setup.py
+```
+
+Setup prints the effective demo directory. With the normal pinned selection it
+is the current checkout. A `--kitu-path` override creates an isolated effective
+demo under `.kitu/overrides/`; open that effective demo's `unity/` directory so
+Unity, Rust, Admin and WASM all use the same selected Kitu source.
+
+Then run from the selected effective demo's `unity/` directory:
+
+```sh
 unity --version
 unity open .
 ```
 
 ### Select the intended checkout
 
-Use `scripts/unity-cli.sh` when invoking the CLI from automation or elsewhere
-in the repository. It discovers the installed CLI from PATH, the default
-macOS location, or the default Linux location, and selects the Unity project
-next to the script. From the repository root:
+Use `tools/unity/unity-cli.sh` from the selected effective demo root when
+invoking the CLI from automation or elsewhere in the repository. It discovers
+the installed CLI from PATH, the default macOS location, or the default Linux
+location, and selects that demo's `unity/` project:
 
 ```sh
-./kitu-integration-runner/unity-demo-game/scripts/unity-cli.sh --version
-./kitu-integration-runner/unity-demo-game/scripts/unity-cli.sh command editor_status --json
+./tools/unity/unity-cli.sh --version
+./tools/unity/unity-cli.sh command editor_status --json
 ```
 
 `KITU_UNITY_CLI` can specify an absolute executable path for a custom CLI
 installation. `KITU_UNITY_PROJECT` can select a different checkout explicitly:
 
 ```sh
-KITU_UNITY_PROJECT=/absolute/path/to/kitu-unity-demo-game \
-  ./kitu-integration-runner/unity-demo-game/scripts/unity-cli.sh command editor_status --json
+KITU_UNITY_PROJECT=/absolute/path/to/kitu-unity-demo-game/unity \
+  ./tools/unity/unity-cli.sh command editor_status --json
 ```
 
 Check the returned `projectPath` and `unityVersion` (`6000.6.0f1`) before
@@ -97,14 +108,22 @@ unity command editor_stop
 
 The play/stop commands initiate transitions; wait until `editor_status` reports
 the requested state before the next scene operation. `unity command` lists the
-available commands. Pass `--project-path /absolute/path/to/kitu-unity-demo-game`
+available commands. Pass `--project-path /absolute/path/to/kitu-unity-demo-game/unity`
 before the command name when running outside the project directory.
-The same commands can be passed to `scripts/unity-cli.sh`. A successful
-connection reports the intended project, the expected Editor version, and no
+The same commands can be passed to `tools/unity/unity-cli.sh` from the effective
+demo root. A successful connection reports the intended project, the expected
+Editor version, and no
 compilation/domain reload in progress. A missing Pipeline instance during the
 first import is not a successful connection: wait for compilation to finish
 and check again. `get_console_logs --severity error` should return an empty log
 list after the demo smoke check.
+
+Selected-source codec tests invoke Python 3.11 or newer and `tools/run.py` to
+locate their fixture corpus. Launch a manual Editor or Hub process from a
+development shell whose `PATH` provides that Python, open the effective demo
+reported by setup, and do not inherit a conflicting `KITU_SOURCE_PATH`. The
+tests intentionally reject a mismatched project/source selection instead of
+falling back to a sibling checkout or copied fixture.
 
 The Pipeline dependency is already committed, so a fresh checkout does not
 need `unity pipeline install`. Its Editor connection metadata lives under the
@@ -157,12 +176,12 @@ results and retry all run through the same Kitu application as the server.
 
 Set `Backend = Server`, supply `--arena-server ws://127.0.0.1:8787/ws/arena`,
 or set `KITU_ARENA_WS_URL` to that address to select the external server explicitly.
-Run `cargo run -p kitu-demo-game --bin kitu-demo-game-admin-host` in the Dev Container
+Run `python3 tools/run.py cargo run --locked -p kitu-demo-game --bin kitu-demo-game-admin-host` in the Dev Container
 and forward its port. The inspector `Endpoint` defaults to `/ws/arena`; the server
 backend uses MessagePack. Select `--arena-encoding json` / `msgpack`, the inspector
 `ServerEncoding`, or `KITU_ARENA_ENCODING` to exercise either encoding. Both require
 the same compatible Hello, typed inputs and complete output batches. See the
-[wire contract](../../doc/specs/arena-application-wire.md). The older Network Runtime
+[wire contract](../docs/specs/arena-application-wire.md). The older Network Runtime
 Demo below continues to use `/ws/runtime`.
 
 WASD moves, the mouse aims, mouse buttons fire weapons A/B, Z/X use consumables,
@@ -188,7 +207,7 @@ consumable press gating and first-floor combat, then plays a live stock run to
 11F, natural death and retry. These external-host tests are explicitly skipped
 when that variable is absent; the offline reference suite remains available.
 The Rust frozen-input comparison covers all 5,528 stock ticks, 550 complete state
-checkpoints and 53 receipts. See [evidence](../../doc/verification/arena-progression/results.json).
+checkpoints and 53 receipts. See [evidence](../docs/verification/arena-progression/results.json).
 
 **Kitu > Prepare Endless Arena (Kitu)** restores the default build entry without
 replacing an existing scene. **Kitu > Build Endless Arena (Kitu, macOS)** builds
@@ -207,8 +226,8 @@ frontend checks remain in the Dev Container; these commands use the Apple SDK.
 Close the Editor for this checkout, then run from the repository root:
 
 ```sh
-python3 tools/build-arena-native-macos.py --evidence .tmp/stage16/native
-python3 tools/build-arena-player-macos.py --evidence .tmp/stage16/player-build
+python3 tools/run.py python3 tools/build-arena-native-macos.py --evidence .tmp/stage16/native
+python3 tools/run.py python3 tools/build-arena-player-macos.py --evidence .tmp/stage16/player-build
 ```
 
 The first command runs a locked Cargo build for `aarch64-apple-darwin`, installs
@@ -221,7 +240,7 @@ selects an optimized native build. Cargo/toolchain settings supplied in the
 invoking environment are preserved; the default development build disables
 incremental compilation and debug information to limit disk use.
 
-The second command stages `apps/demo-game/content/`, selects the pinned Editor,
+The second command stages `app/content/`, selects the pinned Editor,
 builds real local Addressables content and the graphical Player, then checks
 architecture, embedded plugin/signatures, source package, catalog and bundle
 hashes. Addressables `2.11.2` supplies the stable material/cube/capsule/sphere
@@ -234,11 +253,12 @@ override paths or limits. The commands above write reports under `.tmp/stage16/`
 a successful build alone does not claim gameplay verification.
 
 For a fresh checkout used only in Editor Play Mode, run the native build above
-and `python3 tools/package-arena-content.py`, open the Unity project, finish
+and `python3 tools/run.py python3 tools/package-arena-content.py`, open the
+selected Unity project, finish
 package import, then choose **Kitu > Prepare Arena Addressables**. The normal
 Player build already performs that preparation. Source assets, metadata and
 Addressables settings are tracked; packages, binaries and generated bundles are
-rebuilt locally. See the [packaged content contract](../../doc/specs/arena-packaged-content.md)
+rebuilt locally. See the [packaged content contract](../docs/specs/arena-packaged-content.md)
 for the fixed source files, limits, batch preparation and lifetime rules.
 
 Launch `Builds/KituEndlessArena.app` normally to play without an external Kitu
@@ -246,7 +266,7 @@ server. Its development bridge defaults to `http://127.0.0.1:8789` and observes
 the same native-owned run. For example:
 
 ```sh
-cargo run -p kitu-cli -- --endpoint http://127.0.0.1:8789 inspect application
+python3 tools/run.py sh -c 'cargo run --locked --manifest-path "$KITU_SOURCE_PATH/Cargo.toml" -p kitu-cli -- --endpoint http://127.0.0.1:8789 inspect application'
 ```
 
 Use the Admin frontend against that HTTP endpoint and `ws://127.0.0.1:8789/ws`.
@@ -271,8 +291,8 @@ package or authoring edits. Both overrides are optional for ordinary play.
 Verify actual package startup and handle cleanup separately from gameplay:
 
 ```sh
-python3 tools/verify-arena-packaged-player.py \
-  --player kitu-integration-runner/unity-demo-game/kitu-unity-demo-game/Builds/KituEndlessArena.app \
+python3 tools/run.py python3 tools/verify-arena-packaged-player.py \
+  --player unity/Builds/KituEndlessArena.app \
   --evidence .tmp/stage16/player-content
 ```
 
@@ -288,16 +308,16 @@ Generate expected output with the same native target and development profile:
 ```sh
 KITU_NATIVE_EVIDENCE_DIR="$PWD/.tmp/stage11/reference" \
   CARGO_INCREMENTAL=0 CARGO_PROFILE_DEV_DEBUG=0 CARGO_PROFILE_TEST_DEBUG=0 \
-  cargo test --locked --target aarch64-apple-darwin -p kitu-demo-game-native
+  python3 tools/run.py cargo test --locked --target aarch64-apple-darwin -p kitu-demo-game-native
 
-python3 tools/run-arena-player-verification.py \
-  --player kitu-integration-runner/unity-demo-game/kitu-unity-demo-game/Builds/KituEndlessArena.app \
+python3 tools/run.py python3 tools/run-arena-player-verification.py \
+  --player unity/Builds/KituEndlessArena.app \
   --trace .tmp/stage11/reference/preparation.trace \
   --expected .tmp/stage11/reference/preparation.expected.ndjson \
   --evidence .tmp/stage11/player-preparation
 
-python3 tools/run-arena-player-verification.py \
-  --player kitu-integration-runner/unity-demo-game/kitu-unity-demo-game/Builds/KituEndlessArena.app \
+python3 tools/run.py python3 tools/run-arena-player-verification.py \
+  --player unity/Builds/KituEndlessArena.app \
   --trace .tmp/stage11/reference/stock-eleven-death-retry.trace \
   --expected .tmp/stage11/reference/stock-eleven-death-retry.expected.ndjson \
   --evidence .tmp/stage11/player-stock
@@ -324,22 +344,22 @@ Screenshots are created by the graphical Player; do not pass `-nographics` when
 collecting rendering evidence. A timeout terminates the owned Player process
 group, including children that outlive the group leader.
 
-The [Stage 11 verification record](../../doc/verification/arena-embedded/README.md)
+The [Stage 11 verification record](../docs/verification/arena-embedded/README.md)
 retains the actual macOS build reports, both successful standalone comparisons,
 six rendered checkpoints and the full Unity results (50 EditMode / 21 PlayMode).
 Both graphical standalone fixtures passed with the external server stopped.
 
 ## Unity-only endless arena
 
-The [Arena runtime contract](../../doc/specs/arena-runtime-contract.md) defines
+The [Arena runtime contract](../docs/specs/arena-runtime-contract.md) defines
 the staged Kitu migration and its executable reference traces. The opt-in
 `ArenaReferenceSession` records normalized tick commands against the original
 C# rules; it does not replace this scene's input or gameplay path. Frozen
 preparation and stock-run fixtures live in
-`kitu-integration-runner/scenarios/arena/reference/`. Run the
+`tests/scenarios/arena/reference/`. Run the
 `UnityOnlyArena.Tests.ArenaReferenceTests` EditMode tests to replay them.
 
-Open `kitu-unity-demo-game/` with Unity `6000.6.0f1`, then open
+Open the `unity/` project with Unity `6000.6.0f1`, then open
 `Assets/KituDemoApp/EndlessArena/EndlessArena.unity` and enter Play Mode.
 Choose **Start game** in the opening menu. No Kitu, Rust runtime, network
 connection, or backend process is required for gameplay.
@@ -376,21 +396,21 @@ There are no enemy item drops, XP, victory endpoint, or run saves. Normal
 floors preserve HP; boss clears restore HP once. Shields keep their own charge
 between floors, and settings persist independently of runs.
 
-[Game specification](../../doc/specs/unity-only-arena-game.md) and
-[verification evidence](../../doc/specs/unity-only-arena-verification.md)
+[Game specification](../docs/specs/unity-only-arena-game.md) and
+[verification evidence](../docs/specs/unity-only-arena-verification.md)
 describe the rules and validation scope. Placeholder geometry is generated
 by `EndlessArena/Runtime/ArenaWorldView.cs`; meshes and colors can be replaced
 without changing the simulation or inventory rules. The original smoke
 scene below remains available as comparison evidence.
 
-[Implementation pain log](../../doc/unity-only-arena-pain-log.md) records
+[Implementation pain log](../docs/unity-only-arena-pain-log.md) records
 observed work around damage/death ordering, item and shield state lifetimes,
 and Input System test timing. Kitu improvements are hypotheses to compare
 against this working Unity-only baseline.
 
 ### Tests and standalone build
 
-From `kitu-unity-demo-game/`, with this checkout's Editor closed:
+From `unity/`, with this checkout's Editor closed:
 
 ```sh
 arena_editor='/Applications/Unity/Hub/Editor/6000.6.0f1/Unity.app/Contents/MacOS/Unity'
@@ -456,10 +476,10 @@ loading a native plugin into Unity.
 1. Start the demo backend from the repository root:
 
    ```sh
-   cargo run -p kitu-demo-game --bin kitu-demo-game-admin-host
+   python3 tools/run.py cargo run --locked -p kitu-demo-game --bin kitu-demo-game-admin-host
    ```
 
-2. Open `kitu-unity-demo-game/` in Unity `6000.6.0f1`.
+2. Open `unity/` in Unity `6000.6.0f1`.
 3. Use `Kitu > Build Network Runtime Demo Scene` to create `Assets/Scenes/KituNetworkDemo.unity`.
 4. Enter Play Mode and move with the horizontal/vertical input axes.
 

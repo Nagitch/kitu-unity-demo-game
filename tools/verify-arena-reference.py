@@ -7,7 +7,8 @@ import math
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-FIXTURES = ROOT / "kitu-integration-runner/scenarios/arena/reference"
+FIXTURES = ROOT / "tests/scenarios/arena/reference"
+SOURCE_MAP = ROOT / "docs/migration/source-map.json"
 
 
 def require(condition, message):
@@ -32,10 +33,20 @@ def read_json(path):
     return value
 
 
+def mapped_source(relative):
+    mapping = read_json(SOURCE_MAP).get("paths", {})
+    mapped = mapping.get(relative)
+    require(isinstance(mapped, str) and mapped, f"source map has no entry for {relative}")
+    source = (ROOT / mapped).resolve()
+    require(source.is_relative_to(ROOT.resolve()), f"source map escapes demo root: {relative}")
+    require(source.is_file(), f"mapped source is missing: {mapped}")
+    return source
+
+
 def main():
     baseline = read_json(FIXTURES / "baseline.json")
     for relative, expected in baseline["sourceSha256"].items():
-        source = (ROOT / relative).read_text()
+        source = mapped_source(relative).read_text()
         # The only allowed changes to the two oracle rule files are serializable
         # attributes and partial declarations for detached diagnostic projections.
         source = source.replace("    [Serializable]\n", "").replace("sealed partial class", "sealed class")

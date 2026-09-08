@@ -51,11 +51,11 @@ ownership, main-thread constraint, request shape, nine exports and byte limits.
 ## Inputs and complete outputs
 
 Public Rust definitions and bounded codecs live in
-[`kitu_transport::application`](../../crates/kitu-transport/src/application/mod.rs).
+[`kitu_transport::application`](https://github.com/Nagitch/kitu-logic-processor/blob/develop/crates/kitu-transport/src/application/mod.rs).
 `kitu_runtime::InputMetadata` and the existing FFI `InputRequest` path reexport
 the shared types. Unity's `ArenaWireCodec` implements the same strict named-map
 profile; the cross-language corpus is in
-[`application-wire`](../../crates/kitu-transport/tests/fixtures/application-wire/manifest.json).
+[`application-wire`](https://github.com/Nagitch/kitu-logic-processor/blob/develop/crates/kitu-transport/tests/fixtures/application-wire/manifest.json).
 
 ```json
 {"type":"input","payload":{"metadata":{"source":"unity-example","messageId":42,"schemaVersion":1},"bundle":{"messages":[{"address":"/input/arena/start","args":[]}]}}}

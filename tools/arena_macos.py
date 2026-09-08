@@ -62,6 +62,35 @@ class OwnedProcess:
                 self.stop()
                 raise
 
+    def _group_finished(self):
+        """Confirm completion after a denied signal; an exited leader alone is insufficient."""
+        if self.process.poll() is None:
+            return False
+        try:
+            snapshot = subprocess.run(["ps", "-axo", "pgid=,stat="], check=True,
+                                      capture_output=True, text=True, timeout=2)
+            rows = [line.split() for line in snapshot.stdout.splitlines() if line.strip()]
+            if not rows or any(len(row) != 2 or not row[0].isdigit() for row in rows):
+                return False
+            # A zombie has already exited and cannot execute or receive a
+            # signal. Its eventual reaping belongs to its surviving parent.
+            return not any(int(group) == self.process.pid and not state.startswith(("Z", "X"))
+                           for group, state in rows)
+        except (OSError, subprocess.SubprocessError):
+            return False  # An unavailable process table cannot prove cleanup.
+
+    def _signal_group(self, sig):
+        try:
+            os.killpg(self.process.pid, sig)
+        except ProcessLookupError:
+            pass
+        except PermissionError as error:
+            # A denied late signal is harmless only after confirmed completion.
+            # Never hide a refusal while the leader or an orphan is still live.
+            if not self._group_finished():
+                error.add_note(f"Could not confirm completion of owned process group {self.process.pid}")
+                raise
+
     def stop(self, grace=None):
         """TERM then reap/KILL this group, including children after leader exit."""
         if self.closed:
@@ -69,19 +98,13 @@ class OwnedProcess:
         if grace is None:
             grace = self.shutdown_grace
         try:
-            try:
-                os.killpg(self.process.pid, signal.SIGTERM)
-            except ProcessLookupError:
-                pass
+            self._signal_group(signal.SIGTERM)
             try:
                 self.process.wait(timeout=grace)
             except subprocess.TimeoutExpired:
                 pass
             finally:
-                try:
-                    os.killpg(self.process.pid, signal.SIGKILL)
-                except ProcessLookupError:
-                    pass
+                self._signal_group(signal.SIGKILL)
                 self.process.wait()
         finally:
             self.output.close()
@@ -95,7 +118,10 @@ class OwnedProcess:
         self.stop()
 
 ROOT = Path(__file__).resolve().parents[1]
-PROJECT = ROOT / "kitu-integration-runner/unity-demo-game/kitu-unity-demo-game"
+APP = ROOT / "app"
+PROJECT = ROOT / "unity"
+REFERENCE = ROOT / "tests/scenarios/arena/reference"
+SOURCE_METADATA = ROOT / ".kitu/source.json"
 LIBRARY = "libkitu_demo_game_native.dylib"
 PLUGIN = PROJECT / "Assets/Plugins/macOS" / LIBRARY
 INSTALL_NAME = "@rpath/" + LIBRARY
@@ -106,6 +132,31 @@ SYMBOLS = {
     "kitu_application_inspect_json", "kitu_application_inspect_host_json",
     "kitu_application_last_error",
 }
+
+
+def kitu_root():
+    """Return the effective Kitu checkout selected by the demo setup."""
+    try:
+        metadata = json.loads(SOURCE_METADATA.read_text(encoding="utf-8"))
+    except FileNotFoundError as error:
+        raise RuntimeError(f"Kitu source selection is missing: {SOURCE_METADATA}") from error
+    except json.JSONDecodeError as error:
+        raise RuntimeError(f"Kitu source selection is invalid: {SOURCE_METADATA}") from error
+    if not isinstance(metadata, dict):
+        raise RuntimeError(f"Kitu source selection must be an object: {SOURCE_METADATA}")
+    path = metadata.get("path")
+    revision = metadata.get("revision")
+    mode = metadata.get("mode")
+    if not isinstance(path, str) or not Path(path).is_absolute():
+        raise RuntimeError("Kitu source selection path must be absolute")
+    if not isinstance(revision, str) or not revision:
+        raise RuntimeError("Kitu source selection revision is missing")
+    if mode not in ("pinned", "override"):
+        raise RuntimeError("Kitu source selection mode must be 'pinned' or 'override'")
+    selected = Path(path).resolve()
+    if not selected.is_dir() or not (selected / "Cargo.toml").is_file():
+        raise RuntimeError(f"Selected Kitu checkout is unavailable: {selected}")
+    return selected
 
 
 def run(arguments, *, log=None, env=None, timeout=None, cwd=ROOT):

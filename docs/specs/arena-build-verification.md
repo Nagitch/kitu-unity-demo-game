@@ -1,22 +1,31 @@
 # Arena build and verification recipe
 
-This is the shared reproduction entry point for Stage 18 of
+This recipe originated as the shared reproduction entry point for Stage 18 of
 [roadmap #129](https://github.com/Nagitch/kitu-logic-processor/issues/129).
-The [delivery matrix](../verification/arena-delivery/README.md) records actual
-completion separately from this recipe. All required Stage 18 local checks
-passed. [PR 165](https://github.com/Nagitch/kitu-logic-processor/pull/165) is the
-live source for CI, review and merge status. Those gates and the parent
-reference update were pending at this capture. Earlier stage records remain
-historical evidence.
+The [delivery matrix](../verification/arena-delivery/README.md) records that
+completed historical run. At its original capture, all required Stage 18 local
+checks had passed while [PR 165](https://github.com/Nagitch/kitu-logic-processor/pull/165),
+its CI and the parent reference update were still pending. Those records retain
+their original revisions and do not claim a new pass for the extracted demo.
 
-Run commands from the `kitu-logic-processor` repository root. A meta-workspace
-checkout must initialize its pinned child repositories before development; keep
-their commits and the parent pointer update separate. These checks do not edit
-sibling repositories or deploy a service.
+Run current commands from the `kitu-unity-demo-game` repository root. First
+select and prepare the Kitu dependency pinned by the demo:
+
+```sh
+python3 tools/setup.py
+```
+
+For coordinated local framework work, use
+`python3 tools/setup.py --kitu-path /absolute/path/to/kitu-logic-processor`.
+Setup prints the effective demo directory. Every later repository, native and
+server command must go through `tools/run.py`, which validates the selection and
+runs in that effective directory. A meta-workspace checkout must initialize its
+pinned child repositories before development; keep child commits and the parent
+pointer update separate.
 
 Fresh checkouts require Git LFS for the Unity project's tracked binary assets.
 Install Git LFS in the environment that reads the checkout, then run these
-commands inside `kitu-logic-processor` before opening or building Unity:
+commands inside `kitu-unity-demo-game` before setup, opening or building Unity:
 
 ```sh
 git lfs install --local
@@ -33,7 +42,8 @@ setup and fetch the files before treating either condition as an asset change.
 
 ## Repository checks in the Dev Container
 
-Open this repository in its [Dev Container](../../.devcontainer/devcontainer.json).
+Use the parent workspace's [Dev Container](https://github.com/Nagitch/kitu-workspace/blob/main/.devcontainer/devcontainer.json)
+and open a terminal in its `kitu-unity-demo-game` directory.
 The pinned inputs are Rust in `rust-toolchain.toml`, Cargo dependencies in
 `Cargo.lock`, Node 24, and `pnpm@11.9.0` with the frontend lockfile. The full
 frontend build also needs the `wasm32-unknown-unknown` Rust target. Use the
@@ -42,16 +52,16 @@ container setup for these tools rather than relying on unrelated host installs.
 Choose a new output directory for every attempt:
 
 ```sh
-python3 tools/verify-repository.py \
+python3 tools/run.py python3 tools/verify-repository.py \
   --scope all --evidence "$PWD/.tmp/verification/repository-01"
 ```
 
-With the Dev Container CLI, the equivalent invocation from the repository root
-is:
+With the Dev Container CLI, invoke the parent workspace's container from the
+demo repository root:
 
 ```sh
-devcontainer exec --workspace-folder . \
-  python3 tools/verify-repository.py \
+devcontainer exec --workspace-folder .. \
+  python3 kitu-unity-demo-game/tools/run.py python3 tools/verify-repository.py \
   --scope all --evidence .tmp/verification/repository-01
 ```
 
@@ -75,14 +85,15 @@ is a failed/incomplete check; retain that report before trying a fresh directory
 Use a single scope for a relevant follow-up, preserving its name in evidence:
 
 ```sh
-python3 tools/verify-repository.py \
+python3 tools/run.py python3 tools/verify-repository.py \
   --scope frontend --evidence "$PWD/.tmp/verification/frontend-02"
 ```
 
-The [just recipes](../../justfile) delegate to the same entry point:
-`just check-all` runs `all`, while `just verify frontend`, `just fmt-check`,
-`just lint`, `just test`, `just doc` and `just data` select a scope and create a
-fresh evidence path. `just fmt` is the separate command that changes formatting.
+The repository `justfile` delegates to the same selected-source flow. Use
+`just setup` for the pinned revision, `just setup-local /absolute/kitu/path` for
+an isolated override, and `just verify frontend .tmp/verification/frontend-03`
+for a scoped check. The `verify` recipe defaults to scope `all`; `native`,
+`full`, `host` and `admin` provide the corresponding current entry points.
 
 `pnpm exec vite build` alone omits the Rust/WASM prebuild and is not the full
 frontend gate. The workspace test scope uses default features; Clippy and this
@@ -106,18 +117,18 @@ both must be recorded.
 The `native` scope does not require Unity:
 
 ```sh
-python3 tools/verify-arena-macos.py \
+python3 tools/run.py python3 tools/verify-arena-macos.py \
   --scope native --evidence "$PWD/.tmp/verification/macos-native-01"
 ```
 
 The `full` scope additionally requires the licensed Editor version recorded in
-[`ProjectVersion.txt`](../../kitu-integration-runner/unity-demo-game/kitu-unity-demo-game/ProjectSettings/ProjectVersion.txt)
+[`ProjectVersion.txt`](../../unity/ProjectSettings/ProjectVersion.txt)
 and a usable graphical login session. The current project uses Unity
 `6000.6.0f1` and local Addressables `2.11.2`. Close competing project Editors
 before running:
 
 ```sh
-python3 tools/verify-arena-macos.py \
+python3 tools/run.py python3 tools/verify-arena-macos.py \
   --scope full --evidence "$PWD/.tmp/verification/macos-full-01"
 ```
 
@@ -179,7 +190,7 @@ rendered checkpoints; they do not imply bit-identical pixels across builds.
 
 ## CI and environment boundaries
 
-The [repository CI workflow](../../.github/workflows/rust-ci.yml) uses the shared
+The [repository CI workflow](../../.github/workflows/ci.yml) uses the shared
 Linux scopes for reference, Rust, frontend/WASM
 and portable data checks. The macOS native CI job uses the standard `macos-15`
 runner and the native coordinator. It does not claim licensed Unity execution.
@@ -206,16 +217,17 @@ hash or Unity source revision. Server and native executions can have different
 fingerprints and must verify their own recordings without rewriting IDs.
 
 Retain the exact runtime binaries needed by older recordings under the ignored
-`apps/demo-game/.arena/runtime-versions/` archive before overwriting build output.
+`app/.arena/runtime-versions/` archive before overwriting build output.
 Use a new variant directory and inventory hashes; never replace an older archive
 under the same label. Full traces, large snapshots, binaries and local screenshots
 stay outside Git. The [delivery record](../verification/arena-delivery/README.md)
 links compact public evidence and distinguishes local passes, CI, review, child
 merge and parent workspace reference publication.
 
-For a live Admin check after building, follow the
-[selected server/embedded Inspector workflow](../../tools/kitu-web-admin/README.md#inspect-endless-arena):
-configure both API and Admin WebSocket endpoints to the same host, compare the
+For a live Admin check after building, start the selected host and Admin with
+the repository-root `just host` and `just admin` recipes (or their
+`tools/run.py` commands from the root README). Configure both API and Admin
+WebSocket endpoints to the same host, compare the
 displayed session/run/tick, inspect a cue/entity, step or seek a saved replay,
 and check stale/reconnect behavior and browser errors. Compilation alone does
 not prove that the browser observes the intended Runtime. Stage 17's

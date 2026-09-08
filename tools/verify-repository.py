@@ -18,10 +18,9 @@ import time
 
 from arena_content import stage_package
 from arena_macos import ROOT, artifact, run, write_json
+from source_evidence import capture_graph, capture_source
 
-FRONTEND = ROOT / "tools/kitu-web-admin/frontend"
-SHARED_ADMIN = ROOT / "tools/kitu-web-admin/package"
-ADMIN_STARTER = ROOT / "tools/kitu-web-admin/starter"
+FRONTEND = ROOT / "admin"
 SCOPES = ("reference", "fmt", "test", "clippy", "docs", "data", "frontend")
 
 
@@ -44,8 +43,8 @@ def source_identity():
             "dirtyFiles": dirty,
             "locks": [artifact(ROOT / path) for path in
                       ("Cargo.lock", "rust-toolchain.toml",
-                       "tools/kitu-web-admin/frontend/pnpm-lock.yaml",
-                       "tools/kitu-web-admin/frontend/package.json")]}
+                       "admin/pnpm-lock.yaml",
+                       "admin/package.json")]}
 
 
 def main():
@@ -92,6 +91,8 @@ def main():
 
     try:
         report["source"] = source_identity()
+        report["dependencySource"] = capture_source(ROOT, evidence)
+        write_json(destination, report)
         scopes = SCOPES if args.scope == "all" else (args.scope,)
         if set(scopes) - {"reference"}:
             _, version = command("rust-version", ["rustc", "--version"], timeout=60)
@@ -103,8 +104,10 @@ def main():
             if scope in ("test", "clippy", "docs", "data"):
                 features = ["--all-features"] if scope in ("clippy", "docs") else []
                 command("prepare-" + scope, [sys.executable, ROOT / "tools/prepare-kitu-build.py",
-                                            "--manifest-path", ROOT / "apps/demo-game/Cargo.toml",
+                                            "--manifest-path", ROOT / "app/Cargo.toml",
                                             *features])
+                report["dependencySource"]["graphs"][scope] = capture_graph(ROOT, evidence, scope)
+                write_json(destination, report)
             if scope == "reference":
                 command(scope, [sys.executable, ROOT / "tools/verify-arena-reference.py"])
             elif scope == "fmt":
@@ -125,12 +128,13 @@ def main():
                                 "--all-features"], extra={"RUSTDOCFLAGS": "-D warnings"})
             elif scope == "data":
                 _, output = command("python-tests", [sys.executable, "-m", "unittest", "discover",
-                                                       "-s", "tools/tests", "-p", "test_*.py", "-v"])
+                                                       "-s", "tools/tests", "-p", "test_*.py", "-v"],
+                                    extra={"KITU_SETUP_CARGO_INTEGRATION": "1"})
                 count = re.search(r"Ran (\d+) tests? in", output)
                 if not count or int(count[1]) == 0:
                     raise RuntimeError("Portable tool tests did not execute")
                 report["pythonTests"] = int(count[1])
-                package = stage_package(ROOT / "apps/demo-game/content", evidence / "package")
+                package = stage_package(ROOT / "app/content", evidence / "package")
                 write_json(evidence / "package.json", package)
                 _, output = command("package-interop", ["cargo", "test", "--locked", "-p",
                     "kitu-demo-game-native", "--test", "package", "--", "--nocapture"],
@@ -146,14 +150,6 @@ def main():
                 pinned = json.loads((FRONTEND / "package.json").read_text())["packageManager"].split("@", 1)[1]
                 if pinned not in pnpm.splitlines():
                     raise RuntimeError(f"Frontend verification requires pnpm {pinned}")
-                command("shared-admin-install", ["pnpm", "install", "--frozen-lockfile"],
-                        cwd=SHARED_ADMIN, extra={"CI": "true"})
-                for task in ("build", "check", "test"):
-                    command("shared-admin-" + task, ["pnpm", "run", task], cwd=SHARED_ADMIN)
-                command("starter-install", ["pnpm", "install", "--frozen-lockfile"],
-                        cwd=ADMIN_STARTER, extra={"CI": "true"})
-                for task in ("check", "build"):
-                    command("starter-" + task, ["pnpm", "run", task], cwd=ADMIN_STARTER)
                 command("frontend-install", ["pnpm", "install", "--frozen-lockfile"], cwd=FRONTEND,
                         extra={"CI": "true"})
                 for task in ("check", "lint", "test:inspection", "build"):

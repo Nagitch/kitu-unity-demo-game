@@ -21,7 +21,7 @@ def main():
     parser.add_argument("--player", type=Path, default=PROJECT / "Builds/KituEndlessArena.app")
     parser.add_argument("--evidence", type=Path, default=ROOT / ".tmp/stage11/player-build")
     parser.add_argument("--timeout", type=float, default=1800)
-    parser.add_argument("--content-source", type=Path, default=ROOT / "apps/demo-game/content",
+    parser.add_argument("--content-source", type=Path, default=ROOT / "app/content",
                         help="Directory containing the five Arena package sources")
     args = parser.parse_args()
     require_macos()

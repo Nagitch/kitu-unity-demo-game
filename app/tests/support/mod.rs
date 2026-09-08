@@ -81,7 +81,7 @@ pub fn replay_reference_observing_ticks(
     on_tick: impl FnMut(&DemoRuntime, &[OscBundle]),
 ) -> (usize, usize) {
     let directory = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../kitu-integration-runner/scenarios/arena/reference")
+        .join("../tests/scenarios/arena/reference")
         .join(name);
     replay_reference_from_directory(&directory, name, limit, observe, on_tick)
 }

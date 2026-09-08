@@ -10,7 +10,8 @@ import shutil
 import sys
 import tempfile
 
-from arena_macos import (INSTALL_NAME, LIBRARY, PLUGIN, ROOT, artifact,
+from arena_macos import (APP, INSTALL_NAME, LIBRARY, PLUGIN, ROOT, artifact,
+                         kitu_root,
                          require_closed_editor, require_macos, run,
                          verify_plugin, write_json)
 
@@ -23,6 +24,7 @@ def main():
     args = parser.parse_args()
     require_macos()
     require_closed_editor()
+    kitu_root()
     evidence = args.evidence.resolve()
     evidence.mkdir(parents=True, exist_ok=True)
     env = os.environ.copy()
@@ -30,10 +32,12 @@ def main():
     env.setdefault("CARGO_PROFILE_DEV_DEBUG", "0")
     env.setdefault("CARGO_PROFILE_TEST_DEBUG", "0")
     run([sys.executable, ROOT / "tools/prepare-kitu-build.py", "--manifest-path",
-         ROOT / "apps/demo-game/Cargo.toml", "--cargo", args.cargo,
+         APP / "Cargo.toml", "--cargo", args.cargo,
          "--target", "aarch64-apple-darwin"], env=env)
     metadata = json.loads(run([args.cargo, "metadata", "--locked", "--no-deps",
-                               "--format-version", "1"], env=env))
+                               "--format-version", "1", "--manifest-path", APP / "Cargo.toml"],
+                              env=env))
+    env.setdefault("CARGO_TARGET_DIR", metadata["target_directory"])
     command = [args.cargo, "build", "--locked", "-p", "kitu-demo-game-native",
                "--target", "aarch64-apple-darwin", "--profile", args.profile]
     run(command, log=evidence / "cargo-build.log", env=env)

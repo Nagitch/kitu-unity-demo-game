@@ -687,7 +687,7 @@ fn io_runtime() -> Runtime {
 }
 fn reference_directory(name: &str) -> std::path::PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../kitu-integration-runner/scenarios/arena/reference")
+        .join("../../tests/scenarios/arena/reference")
         .join(name)
 }
 fn reference_receipts(outputs: &[OscBundle]) -> Vec<Value> {

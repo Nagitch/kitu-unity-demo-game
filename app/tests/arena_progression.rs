@@ -18,7 +18,8 @@ fn complete_stock_run_matches_csharp_through_eleven_natural_death_and_retry() {
         }),
         (550, 53)
     );
-    let directory = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../kitu-integration-runner/scenarios/arena/reference/stock-eleven-death-retry/expected.ndjson");
+    let directory = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../tests/scenarios/arena/reference/stock-eleven-death-retry/expected.ndjson");
     let checkpoints: Vec<serde_json::Value> = std::fs::read_to_string(directory)
         .unwrap()
         .lines()

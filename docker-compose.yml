@@ -1,0 +1,149 @@
+name: kitu-unity-demo-game
+
+services:
+  demo-game:
+    image: kitu-unity-demo-game:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        KITU_REPOSITORY: ${KITU_REPOSITORY:?run python3 tools/compose.py}
+        KITU_REV: ${KITU_REV:?run python3 tools/compose.py}
+    working_dir: /workspace
+    command: ["cargo", "run", "--locked", "-p", "kitu-demo-game", "--bin", "kitu-demo-game-admin-host"]
+    environment:
+      RUST_LOG: info
+      KITU_DEMO_GAME_BIND: 0.0.0.0:8787
+      KITU_ARENA_CONTENT: app/content/arena.tmd
+    ports:
+      - "8787:8787"
+    volumes:
+      - arena-content:/workspace/app/content
+      - arena-runs:/workspace/app/.arena/runs
+      - arena-recordings:/workspace/app/.arena/recordings
+
+  cert-init:
+    image: kitu-unity-demo-game:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        KITU_REPOSITORY: ${KITU_REPOSITORY:?run python3 tools/compose.py}
+        KITU_REV: ${KITU_REV:?run python3 tools/compose.py}
+    working_dir: /workspace
+    command:
+      - sh
+      - -ec
+      - |
+        if [ ! -s /certs/webtransport-cert.pem ] || [ ! -s /certs/webtransport-key.pem ] || ! openssl x509 -in /certs/webtransport-cert.pem -checkend 86400 -noout; then
+          openssl ecparam -name prime256v1 -genkey -noout -out /certs/webtransport-key.pem
+          openssl req -new -x509 -key /certs/webtransport-key.pem -sha256 -days 13 \
+            -out /certs/webtransport-cert.pem -subj /CN=localhost \
+            -addext subjectAltName=DNS:localhost,IP:127.0.0.1
+          chmod 600 /certs/webtransport-key.pem
+        fi
+        cert_hash="$$(openssl x509 -in /certs/webtransport-cert.pem -outform der | openssl dgst -sha256 -r | awk '{print $$1}')"
+        {
+          printf '%s\n' 'KITU_WT_GATEWAY_CERT=/certs/webtransport-cert.pem'
+          printf '%s\n' 'KITU_WT_GATEWAY_KEY=/certs/webtransport-key.pem'
+          printf 'PUBLIC_KITU_ADMIN_WT_CERT_SHA256=%s\n' "$$cert_hash"
+          printf 'KITU_WT_SMOKE_CERT_SHA256=%s\n' "$$cert_hash"
+        } > /certs/webtransport.env
+        printf '%s\n' "$$cert_hash" > /certs/webtransport-cert.sha256
+    volumes:
+      - gateway-certs:/certs
+
+  web-admin:
+    image: kitu-unity-demo-game:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        KITU_REPOSITORY: ${KITU_REPOSITORY:?run python3 tools/compose.py}
+        KITU_REV: ${KITU_REV:?run python3 tools/compose.py}
+    working_dir: /workspace
+    command:
+      - sh
+      - -ec
+      - |
+        set -a
+        . /certs/webtransport.env
+        set +a
+        python3 tools/setup.py
+        exec pnpm --dir admin dev --host 0.0.0.0
+    environment:
+      PUBLIC_KITU_ADMIN_WS_URL: ws://localhost:8787/ws
+      PUBLIC_KITU_ADMIN_WT_URL: ${PUBLIC_KITU_ADMIN_WT_URL:-}
+      PUBLIC_KITU_ADMIN_KEP_ROUTE: /room/main
+      PUBLIC_KITU_ADMIN_API_URL: http://localhost:8787
+    ports:
+      - "5173:5173"
+    volumes:
+      - admin-node-modules:/workspace/admin/node_modules
+      - gateway-certs:/certs
+    depends_on:
+      demo-game:
+        condition: service_started
+      cert-init:
+        condition: service_completed_successfully
+
+  webtransport-gateway:
+    profiles: [webtransport]
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway
+      args:
+        KITU_REPOSITORY: ${KITU_REPOSITORY:?run python3 tools/compose.py}
+        KITU_REV: ${KITU_REV:?run python3 tools/compose.py}
+    environment:
+      KITU_WT_GATEWAY_PORT: 9443
+      KITU_GATEWAY_INTERNAL_WS_URL: ws://demo-game:8787/ws
+    command:
+      - sh
+      - -ec
+      - |
+        set -a
+        . /certs/webtransport.env
+        set +a
+        exec /opt/kitu/target/release/kitu-webtransport-gateway
+    ports:
+      - "9443:9443/udp"
+    volumes:
+      - gateway-certs:/certs
+    depends_on:
+      demo-game:
+        condition: service_started
+      cert-init:
+        condition: service_completed_successfully
+
+  gateway-smoke:
+    profiles: [webtransport]
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway
+      args:
+        KITU_REPOSITORY: ${KITU_REPOSITORY:?run python3 tools/compose.py}
+        KITU_REV: ${KITU_REV:?run python3 tools/compose.py}
+    working_dir: /opt/kitu/tools/kitu-webtransport-gateway
+    command:
+      - sh
+      - -ec
+      - |
+        set -a
+        . /certs/webtransport.env
+        set +a
+        exec cargo run --locked --bin kitu-webtransport-gateway-smoke-client
+    environment:
+      KITU_WT_SMOKE_URL: https://webtransport-gateway:9443
+    volumes:
+      - gateway-certs:/certs:ro
+    depends_on:
+      webtransport-gateway:
+        condition: service_started
+
+volumes:
+  admin-node-modules:
+  arena-content:
+  arena-recordings:
+  arena-runs:
+  gateway-certs:

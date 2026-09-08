@@ -9,8 +9,8 @@ namespace UnityOnlyArena.Tests
 {
     public sealed class ArenaReferenceTests
     {
-        internal static readonly string FixtureRoot = Path.GetFullPath(Path.Combine(Application.dataPath,
-            "../../../../kitu-integration-runner/scenarios/arena/reference"));
+        internal static readonly string FixtureRoot = Environment.GetEnvironmentVariable("KITU_ARENA_REFERENCE_ROOT")
+            ?? Path.GetFullPath(Path.Combine(Application.dataPath, "../../tests/scenarios/arena/reference"));
 
         [Test]
         public void CaptureDetachesEntitiesItemsAndRecordedCommands()

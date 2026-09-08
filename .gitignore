@@ -1,0 +1,20 @@
+/.kitu/
+/.tmp/
+/target/
+/app/kitu-build-inputs.json
+/app/kitu-build-inputs.json.tmp
+/app/.arena/
+**/__pycache__/
+**/*.pyc
+.DS_Store
+/.pnpm-store/
+**/*.rs.bk
+# Native binaries are rebuilt; Unity import metadata remains tracked.
+/unity/Assets/Plugins/macOS/*.dylib
+# Generated source packages and local Addressables Player build artifacts.
+/unity/Assets/StreamingAssets/KituArena/
+/unity/Assets/StreamingAssets/KituArena.meta
+/unity/Assets/StreamingAssets/aa/
+/unity/Assets/StreamingAssets/aa.meta
+/unity/Assets/AddressableAssetsData/OSX/
+/unity/Assets/AddressableAssetsData/OSX.meta

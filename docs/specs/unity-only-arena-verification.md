@@ -113,7 +113,7 @@ A01〜A26は仕様書のチェックボックスの順番。以下は自動実�
 
 ## 再実行
 
-Unityプロジェクト `kitu-integration-runner/unity-demo-game/kitu-unity-demo-game/` を作業ディレクトリにし、そのパスを開いたEditorを終了して順に実行する。通常チェックアウトを開いている別Editorとは作業パスを混同しない。
+Unityプロジェクト `unity/` を作業ディレクトリにし、そのパスを開いたEditorを終了して順に実行する。通常チェックアウトを開いている別Editorとは作業パスを混同しない。
 
 ```sh
 arena_editor='/Applications/Unity/Hub/Editor/6000.6.0f1/Unity.app/Contents/MacOS/Unity'

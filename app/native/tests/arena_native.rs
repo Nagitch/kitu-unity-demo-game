@@ -145,7 +145,7 @@ fn full_scenario(name: &str, expected_counts: (usize, usize)) {
         wire(&build_arena_runtime().unwrap().inspect_application())
     );
     let directory = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../kitu-integration-runner/scenarios/arena/reference")
+        .join("../../tests/scenarios/arena/reference")
         .join(name);
     let mut evidence = std::env::var_os("KITU_NATIVE_EVIDENCE_DIR").map(|directory| {
         std::fs::create_dir_all(&directory).unwrap();
@@ -220,9 +220,8 @@ fn edited_boss_duration_matches_server_and_native_for_graphical_verification() {
         )
     });
     let mut telegraph_ticks = 0;
-    let directory = Path::new(env!("CARGO_MANIFEST_DIR")).join(
-        "../../../kitu-integration-runner/scenarios/arena/reference/stock-eleven-death-retry",
-    );
+    let directory = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../../tests/scenarios/arena/reference/stock-eleven-death-retry");
     support::replay_reference_from_directory(
         &directory,
         "stock-eleven-death-retry",
@@ -348,9 +347,8 @@ fn authored_timeline_cues_match_native_and_pause_without_a_second_clock() {
             )
             .unwrap();
     }
-    let directory = Path::new(env!("CARGO_MANIFEST_DIR")).join(
-        "../../../kitu-integration-runner/scenarios/arena/reference/stock-eleven-death-retry",
-    );
+    let directory = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../../tests/scenarios/arena/reference/stock-eleven-death-retry");
     let mut paused = false;
     let mut floor_observed = false;
     support::replay_reference_from_directory(

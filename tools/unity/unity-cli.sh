@@ -3,7 +3,7 @@
 set -eu
 
 script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
-project_dir=${KITU_UNITY_PROJECT:-"$script_dir/../kitu-unity-demo-game"}
+project_dir=${KITU_UNITY_PROJECT:-"$script_dir/../../unity"}
 if [ ! -f "$project_dir/ProjectSettings/ProjectVersion.txt" ]; then
     printf 'Unity project not found: %s\n' "$project_dir" >&2
     exit 1
@@ -23,7 +23,7 @@ elif [ -n "${HOME:-}" ] && [ -x "$HOME/.unity/bin/unity" ]; then
 elif [ -n "${HOME:-}" ] && [ -x "$HOME/.local/bin/unity" ]; then
     cli=$HOME/.local/bin/unity
 else
-    printf 'Unity CLI is not installed. See unity-demo-game/README.md#unity-cli.\n' >&2
+    printf 'Unity CLI is not installed. See unity/README.md#unity-cli.\n' >&2
     exit 127
 fi
 
