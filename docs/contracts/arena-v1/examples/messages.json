@@ -1,0 +1,616 @@
+[
+  {
+    "name": "ui-arena-state-example",
+    "message": {
+      "address": "/ui/arena/state",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"tick\":-1,\"simulationSteps\":0,\"phase\":0,\"overlay\":\"none\",\"floor\":0,\"elapsed\":0.0,\"playerPosition\":{\"x\":0.0,\"y\":0.0},\"aimDirection\":{\"x\":0.0,\"y\":1.0},\"inventory\":{\"health\":100,\"maxHealth\":100,\"nextItemId\":1,\"attackUpgrades\":0,\"attackMultiplier\":1.0,\"shieldDelayRemaining\":0.0,\"damagedThisUpdate\":false,\"backpack\":[{\"id\":0,\"kind\":0,\"damage\":0,\"shield\":0,\"name\":\"\",\"interval\":0.0,\"shieldFraction\":0.0},{\"id\":0,\"kind\":0,\"damage\":0,\"shield\":0,\"name\":\"\",\"interval\":0.0,\"shieldFraction\":0.0},{\"id\":0,\"kind\":0,\"damage\":0,\"shield\":0,\"name\":\"\",\"interval\":0.0,\"shieldFraction\":0.0}],\"equipment\":[{\"id\":1,\"kind\":0,\"damage\":20,\"shield\":0,\"name\":\"Blade\",\"interval\":0.5,\"shieldFraction\":0.0},{\"id\":0,\"kind\":0,\"damage\":0,\"shield\":0,\"name\":\"\",\"interval\":0.0,\"shieldFraction\":0.0},{\"id\":0,\"kind\":0,\"damage\":0,\"shield\":0,\"name\":\"\",\"interval\":0.0,\"shieldFraction\":0.0},{\"id\":0,\"kind\":0,\"damage\":0,\"shield\":0,\"name\":\"\",\"interval\":0.0,\"shieldFraction\":0.0}],\"chest\":[]},\"chestAvailable\":false,\"portalAvailable\":false,\"enemiesDefeated\":0,\"bossesDefeated\":0,\"floorsCleared\":0,\"nextEntityId\":1,\"transitionRemaining\":0.0,\"portalArmed\":false,\"weaponCooldowns\":[0.0,0.0],\"enemies\":[],\"projectiles\":[],\"grenades\":[],\"effects\":[],\"result\":{\"present\":false,\"floor\":0,\"enemiesDefeated\":0,\"bossesDefeated\":0,\"floorsCleared\":0,\"maxHealth\":0,\"elapsed\":0.0,\"attackMultiplier\":0.0,\"equipmentNames\":[]}}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "ui-arena-content-example",
+    "message": {
+      "address": "/ui/arena/content",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"run\":0,\"active\":null,\"pending\":{\"hash\":\"c4bf2d4829913798f26e888a2cdb3db8217f66f0cc5f6e9d035b158775d8e770\",\"sourceSha256\":\"d0039136addf946d21408ebae6517ddad7648e2edde1a2a1d868a2e24da3befa\",\"tanuRevision\":\"194358e8791f1391492abcb60d8cfcc37bbb383a\",\"values\":{\"schemaVersion\":1,\"items\":[{\"id\":\"starter\",\"name\":\"Blade\",\"kind\":0,\"damage\":20,\"bossDamage\":20,\"interval\":0.5},{\"id\":\"quick-blade\",\"name\":\"Quick Blade\",\"kind\":0,\"damage\":20,\"bossDamage\":24,\"interval\":0.5},{\"id\":\"power-blade\",\"name\":\"Power Blade\",\"kind\":0,\"damage\":30,\"bossDamage\":36,\"interval\":0.8},{\"id\":\"quick-shooter\",\"name\":\"Quick Shooter\",\"kind\":1,\"damage\":12,\"bossDamage\":15,\"interval\":0.25},{\"id\":\"power-shooter\",\"name\":\"Power Shooter\",\"kind\":1,\"damage\":20,\"bossDamage\":24,\"interval\":0.45},{\"id\":\"quick-heavy\",\"name\":\"Quick Heavy Shooter\",\"kind\":2,\"damage\":50,\"bossDamage\":60,\"interval\":1.0},{\"id\":\"power-heavy\",\"name\":\"Power Heavy Shooter\",\"kind\":2,\"damage\":75,\"bossDamage\":90,\"interval\":1.5},{\"id\":\"medkit\",\"name\":\"Medkit\",\"kind\":3,\"damage\":0,\"bossDamage\":0,\"interval\":0.0},{\"id\":\"grenade\",\"name\":\"Grenade\",\"kind\":4,\"damage\":100,\"bossDamage\":100,\"interval\":0.0},{\"id\":\"shield\",\"name\":\"Shield\",\"kind\":5,\"damage\":0,\"bossDamage\":0,\"interval\":0.0},{\"id\":\"health-upgrade\",\"name\":\"Health Upgrade (+10 HP)\",\"kind\":6,\"damage\":0,\"bossDamage\":0,\"interval\":0.0},{\"id\":\"attack-upgrade\",\"name\":\"Attack Upgrade (+5%)\",\"kind\":7,\"damage\":0,\"bossDamage\":0,\"interval\":0.0}],\"enemies\":[{\"kind\":0,\"health\":40,\"damage\":10,\"speed\":2.5,\"range\":1.5,\"interval\":1.0,\"radius\":0.5},{\"kind\":1,\"health\":30,\"damage\":8,\"speed\":2.0,\"range\":6.0,\"interval\":1.5,\"radius\":0.5},{\"kind\":2,\"health\":100,\"damage\":20,\"speed\":1.2,\"range\":1.8,\"interval\":1.5,\"radius\":0.7},{\"kind\":3,\"health\":300,\"damage\":20,\"speed\":1.5,\"range\":2.0,\"interval\":1.5,\"radius\":1.0}],\"difficulty\":{\"healthGrowth\":0.12,\"damageGrowth\":0.08},\"chests\":[{\"phase\":\"preparing\",\"itemId\":\"quick-blade\"},{\"phase\":\"preparing\",\"itemId\":\"power-blade\"},{\"phase\":\"preparing\",\"itemId\":\"quick-shooter\"},{\"phase\":\"preparing\",\"itemId\":\"power-shooter\"},{\"phase\":\"preparing\",\"itemId\":\"quick-heavy\"},{\"phase\":\"preparing\",\"itemId\":\"power-heavy\"},{\"phase\":\"preparing\",\"itemId\":\"medkit\"},{\"phase\":\"preparing\",\"itemId\":\"grenade\"},{\"phase\":\"preparing\",\"itemId\":\"shield\"},{\"phase\":\"preparing\",\"itemId\":\"health-upgrade\"},{\"phase\":\"preparing\",\"itemId\":\"attack-upgrade\"},{\"phase\":\"boss\",\"itemId\":\"quick-blade\"},{\"phase\":\"boss\",\"itemId\":\"power-blade\"},{\"phase\":\"boss\",\"itemId\":\"quick-shooter\"},{\"phase\":\"boss\",\"itemId\":\"power-shooter\"},{\"phase\":\"boss\",\"itemId\":\"quick-heavy\"},{\"phase\":\"boss\",\"itemId\":\"power-heavy\"},{\"phase\":\"boss\",\"itemId\":\"medkit\"},{\"phase\":\"boss\",\"itemId\":\"grenade\"},{\"phase\":\"boss\",\"itemId\":\"shield\"},{\"phase\":\"boss\",\"itemId\":\"health-upgrade\"},{\"phase\":\"boss\",\"itemId\":\"attack-upgrade\"}]}}}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "ui-arena-script-example",
+    "message": {
+      "address": "/ui/arena/script",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"run\":0,\"active\":null,\"pending\":{\"hash\":\"1972fdeaaed2d2e6ff349409087a20440683b1aa90f0199c2f7e0c7a22564025\",\"sourceSha256\":\"cc75bd728a7fcddaf067e13bf330e650b57c26530bc805ed4683e5f8bb711af1\",\"source\":\"// Arena boss contract 1. Context is a copied JSON value; actions have no side effects.\\n// Rust advances the f32 phase timer and applies radial shots in the reference order.\\nfn boss(input) {\\n    if input.phase == 0 {\\n        if input.timerExpired {\\n            return #{action: \\\"telegraph\\\", duration: 0.8};\\n        }\\n        return #{action: \\\"pursue\\\", duration: 0.0};\\n    }\\n    if input.phase == 1 {\\n        if input.timerExpired {\\n            return #{action: \\\"burst\\\", duration: 1.0};\\n        }\\n        return #{action: \\\"wait\\\", duration: 0.0};\\n    }\\n    if input.timerExpired {\\n        return #{action: \\\"recover\\\", duration: 3.0};\\n    }\\n    #{action: \\\"wait\\\", duration: 0.0}\\n}\\n\",\"contractVersion\":1,\"policyVersion\":\"kitu-rhai-json-v1\",\"rhaiVersion\":\"1.26.0\"},\"fault\":null}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "ui-arena-timeline-example",
+    "message": {
+      "address": "/ui/arena/timeline",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"run\":0,\"active\":null,\"pending\":{\"hash\":\"c996c00e557e46b60010fed41908e71f96edcc8f0f3c458b8e3472ce4fbbae82\",\"contractVersion\":1,\"tickRate\":60,\"clips\":[{\"id\":\"boss-telegraph\",\"sourceSha256\":\"b9e2db730eb66191f609c5c67e8df91e07f34be2c471e78ed3e34824dd80b94f\",\"bytes\":[84,83,81,49,1,0,60,0,0,0,1,0,2,0,84,82,75,32,183,2,0,0,0,0,1,129,6,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,182,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,98,111,115,115,129,166,83,116,114,105,110,103,162,102,102,129,165,65,114,114,97,121,146,129,165,70,108,111,97,116,203,64,8,0,0,0,0,0,0,129,165,70,108,111,97,116,203,63,220,204,204,192,0,0,0,0,12,1,129,6,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,182,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,98,111,115,115,129,166,83,116,114,105,110,103,162,102,102,129,165,65,114,114,97,121,146,129,165,70,108,111,97,116,203,64,8,0,0,0,0,0,0,129,165,70,108,111,97,116,203,63,230,102,102,96,0,0,0,0,12,1,129,6,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,182,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,98,111,115,115,129,166,83,116,114,105,110,103,162,102,102,129,165,65,114,114,97,121,146,129,165,70,108,111,97,116,203,64,8,0,0,0,0,0,0,129,165,70,108,111,97,116,203,63,240,0,0,0,0,0,0,0,12,1,129,6,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,182,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,98,111,115,115,129,166,83,116,114,105,110,103,162,102,102,129,165,65,114,114,97,121,146,129,165,70,108,111,97,116,203,64,8,0,0,0,0,0,0,129,165,70,108,111,97,116,203,63,228,204,204,192,0,0,0,0,11,1,129,6,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,182,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,98,111,115,115,129,166,83,116,114,105,110,103,162,102,102,129,165,65,114,114,97,121,146,129,165,70,108,111,97,116,203,64,8,0,0,0,0,0,0,129,165,70,108,111,97,116,203,63,240,0,0,0,0,0,0,84,77,65,80,12,0,0,0,0,0,0,0,0,0,0,0,64,66,15,0]},{\"id\":\"floor-transition\",\"sourceSha256\":\"e77a2671eb36095881c8071e2fad499d57f673c687396b0ae196cfefa6e028b5\",\"bytes\":[84,83,81,49,1,0,60,0,0,0,1,0,2,0,84,82,75,32,98,2,0,0,0,0,1,118,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,183,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,102,108,111,111,114,129,166,83,116,114,105,110,103,161,102,129,165,65,114,114,97,121,145,129,165,70,108,111,97,116,203,0,0,0,0,0,0,0,0,0,12,1,118,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,183,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,102,108,111,111,114,129,166,83,116,114,105,110,103,161,102,129,165,65,114,114,97,121,145,129,165,70,108,111,97,116,203,63,201,153,153,160,0,0,0,0,12,1,118,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,183,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,102,108,111,111,114,129,166,83,116,114,105,110,103,161,102,129,165,65,114,114,97,121,145,129,165,70,108,111,97,116,203,63,214,102,102,96,0,0,0,0,12,1,118,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,183,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,102,108,111,111,114,129,166,83,116,114,105,110,103,161,102,129,165,65,114,114,97,121,145,129,165,70,108,111,97,116,203,63,201,153,153,160,0,0,0,0,23,1,118,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,183,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,102,108,111,111,114,129,166,83,116,114,105,110,103,161,102,129,165,65,114,114,97,121,145,129,165,70,108,111,97,116,203,0,0,0,0,0,0,0,0,84,77,65,80,12,0,0,0,0,0,0,0,0,0,0,0,64,66,15,0]}]},\"presentation\":{\"contractVersion\":1,\"run\":0,\"tick\":-1,\"simulationStep\":0,\"bosses\":[],\"floor\":null}}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "render-arena-presentation-example",
+    "message": {
+      "address": "/render/arena/presentation",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"contractVersion\":1,\"run\":0,\"tick\":-1,\"simulationStep\":0,\"bosses\":[],\"floor\":null}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "input-arena-config-example",
+    "message": {
+      "address": "/input/arena/config",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"hash\":\"c4bf2d4829913798f26e888a2cdb3db8217f66f0cc5f6e9d035b158775d8e770\",\"sourceSha256\":\"d0039136addf946d21408ebae6517ddad7648e2edde1a2a1d868a2e24da3befa\",\"tanuRevision\":\"194358e8791f1391492abcb60d8cfcc37bbb383a\",\"values\":{\"schemaVersion\":1,\"items\":[{\"id\":\"starter\",\"name\":\"Blade\",\"kind\":0,\"damage\":20,\"bossDamage\":20,\"interval\":0.5},{\"id\":\"quick-blade\",\"name\":\"Quick Blade\",\"kind\":0,\"damage\":20,\"bossDamage\":24,\"interval\":0.5},{\"id\":\"power-blade\",\"name\":\"Power Blade\",\"kind\":0,\"damage\":30,\"bossDamage\":36,\"interval\":0.8},{\"id\":\"quick-shooter\",\"name\":\"Quick Shooter\",\"kind\":1,\"damage\":12,\"bossDamage\":15,\"interval\":0.25},{\"id\":\"power-shooter\",\"name\":\"Power Shooter\",\"kind\":1,\"damage\":20,\"bossDamage\":24,\"interval\":0.45},{\"id\":\"quick-heavy\",\"name\":\"Quick Heavy Shooter\",\"kind\":2,\"damage\":50,\"bossDamage\":60,\"interval\":1.0},{\"id\":\"power-heavy\",\"name\":\"Power Heavy Shooter\",\"kind\":2,\"damage\":75,\"bossDamage\":90,\"interval\":1.5},{\"id\":\"medkit\",\"name\":\"Medkit\",\"kind\":3,\"damage\":0,\"bossDamage\":0,\"interval\":0.0},{\"id\":\"grenade\",\"name\":\"Grenade\",\"kind\":4,\"damage\":100,\"bossDamage\":100,\"interval\":0.0},{\"id\":\"shield\",\"name\":\"Shield\",\"kind\":5,\"damage\":0,\"bossDamage\":0,\"interval\":0.0},{\"id\":\"health-upgrade\",\"name\":\"Health Upgrade (+10 HP)\",\"kind\":6,\"damage\":0,\"bossDamage\":0,\"interval\":0.0},{\"id\":\"attack-upgrade\",\"name\":\"Attack Upgrade (+5%)\",\"kind\":7,\"damage\":0,\"bossDamage\":0,\"interval\":0.0}],\"enemies\":[{\"kind\":0,\"health\":40,\"damage\":10,\"speed\":2.5,\"range\":1.5,\"interval\":1.0,\"radius\":0.5},{\"kind\":1,\"health\":30,\"damage\":8,\"speed\":2.0,\"range\":6.0,\"interval\":1.5,\"radius\":0.5},{\"kind\":2,\"health\":100,\"damage\":20,\"speed\":1.2,\"range\":1.8,\"interval\":1.5,\"radius\":0.7},{\"kind\":3,\"health\":300,\"damage\":20,\"speed\":1.5,\"range\":2.0,\"interval\":1.5,\"radius\":1.0}],\"difficulty\":{\"healthGrowth\":0.12,\"damageGrowth\":0.08},\"chests\":[{\"phase\":\"preparing\",\"itemId\":\"quick-blade\"},{\"phase\":\"preparing\",\"itemId\":\"power-blade\"},{\"phase\":\"preparing\",\"itemId\":\"quick-shooter\"},{\"phase\":\"preparing\",\"itemId\":\"power-shooter\"},{\"phase\":\"preparing\",\"itemId\":\"quick-heavy\"},{\"phase\":\"preparing\",\"itemId\":\"power-heavy\"},{\"phase\":\"preparing\",\"itemId\":\"medkit\"},{\"phase\":\"preparing\",\"itemId\":\"grenade\"},{\"phase\":\"preparing\",\"itemId\":\"shield\"},{\"phase\":\"preparing\",\"itemId\":\"health-upgrade\"},{\"phase\":\"preparing\",\"itemId\":\"attack-upgrade\"},{\"phase\":\"boss\",\"itemId\":\"quick-blade\"},{\"phase\":\"boss\",\"itemId\":\"power-blade\"},{\"phase\":\"boss\",\"itemId\":\"quick-shooter\"},{\"phase\":\"boss\",\"itemId\":\"power-shooter\"},{\"phase\":\"boss\",\"itemId\":\"quick-heavy\"},{\"phase\":\"boss\",\"itemId\":\"power-heavy\"},{\"phase\":\"boss\",\"itemId\":\"medkit\"},{\"phase\":\"boss\",\"itemId\":\"grenade\"},{\"phase\":\"boss\",\"itemId\":\"shield\"},{\"phase\":\"boss\",\"itemId\":\"health-upgrade\"},{\"phase\":\"boss\",\"itemId\":\"attack-upgrade\"}]}}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "input-arena-script-example",
+    "message": {
+      "address": "/input/arena/script",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"hash\":\"1972fdeaaed2d2e6ff349409087a20440683b1aa90f0199c2f7e0c7a22564025\",\"sourceSha256\":\"cc75bd728a7fcddaf067e13bf330e650b57c26530bc805ed4683e5f8bb711af1\",\"source\":\"// Arena boss contract 1. Context is a copied JSON value; actions have no side effects.\\n// Rust advances the f32 phase timer and applies radial shots in the reference order.\\nfn boss(input) {\\n    if input.phase == 0 {\\n        if input.timerExpired {\\n            return #{action: \\\"telegraph\\\", duration: 0.8};\\n        }\\n        return #{action: \\\"pursue\\\", duration: 0.0};\\n    }\\n    if input.phase == 1 {\\n        if input.timerExpired {\\n            return #{action: \\\"burst\\\", duration: 1.0};\\n        }\\n        return #{action: \\\"wait\\\", duration: 0.0};\\n    }\\n    if input.timerExpired {\\n        return #{action: \\\"recover\\\", duration: 3.0};\\n    }\\n    #{action: \\\"wait\\\", duration: 0.0}\\n}\\n\",\"contractVersion\":1,\"policyVersion\":\"kitu-rhai-json-v1\",\"rhaiVersion\":\"1.26.0\"}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "input-arena-timeline-example",
+    "message": {
+      "address": "/input/arena/timeline",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"hash\":\"c996c00e557e46b60010fed41908e71f96edcc8f0f3c458b8e3472ce4fbbae82\",\"contractVersion\":1,\"tickRate\":60,\"clips\":[{\"id\":\"boss-telegraph\",\"sourceSha256\":\"b9e2db730eb66191f609c5c67e8df91e07f34be2c471e78ed3e34824dd80b94f\",\"bytes\":[84,83,81,49,1,0,60,0,0,0,1,0,2,0,84,82,75,32,183,2,0,0,0,0,1,129,6,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,182,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,98,111,115,115,129,166,83,116,114,105,110,103,162,102,102,129,165,65,114,114,97,121,146,129,165,70,108,111,97,116,203,64,8,0,0,0,0,0,0,129,165,70,108,111,97,116,203,63,220,204,204,192,0,0,0,0,12,1,129,6,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,182,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,98,111,115,115,129,166,83,116,114,105,110,103,162,102,102,129,165,65,114,114,97,121,146,129,165,70,108,111,97,116,203,64,8,0,0,0,0,0,0,129,165,70,108,111,97,116,203,63,230,102,102,96,0,0,0,0,12,1,129,6,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,182,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,98,111,115,115,129,166,83,116,114,105,110,103,162,102,102,129,165,65,114,114,97,121,146,129,165,70,108,111,97,116,203,64,8,0,0,0,0,0,0,129,165,70,108,111,97,116,203,63,240,0,0,0,0,0,0,0,12,1,129,6,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,182,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,98,111,115,115,129,166,83,116,114,105,110,103,162,102,102,129,165,65,114,114,97,121,146,129,165,70,108,111,97,116,203,64,8,0,0,0,0,0,0,129,165,70,108,111,97,116,203,63,228,204,204,192,0,0,0,0,11,1,129,6,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,182,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,98,111,115,115,129,166,83,116,114,105,110,103,162,102,102,129,165,65,114,114,97,121,146,129,165,70,108,111,97,116,203,64,8,0,0,0,0,0,0,129,165,70,108,111,97,116,203,63,240,0,0,0,0,0,0,84,77,65,80,12,0,0,0,0,0,0,0,0,0,0,0,64,66,15,0]},{\"id\":\"floor-transition\",\"sourceSha256\":\"e77a2671eb36095881c8071e2fad499d57f673c687396b0ae196cfefa6e028b5\",\"bytes\":[84,83,81,49,1,0,60,0,0,0,1,0,2,0,84,82,75,32,98,2,0,0,0,0,1,118,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,183,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,102,108,111,111,114,129,166,83,116,114,105,110,103,161,102,129,165,65,114,114,97,121,145,129,165,70,108,111,97,116,203,0,0,0,0,0,0,0,0,0,12,1,118,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,183,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,102,108,111,111,114,129,166,83,116,114,105,110,103,161,102,129,165,65,114,114,97,121,145,129,165,70,108,111,97,116,203,63,201,153,153,160,0,0,0,0,12,1,118,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,183,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,102,108,111,111,114,129,166,83,116,114,105,110,103,161,102,129,165,65,114,114,97,121,145,129,165,70,108,111,97,116,203,63,214,102,102,96,0,0,0,0,12,1,118,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,183,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,102,108,111,111,114,129,166,83,116,114,105,110,103,161,102,129,165,65,114,114,97,121,145,129,165,70,108,111,97,116,203,63,201,153,153,160,0,0,0,0,23,1,118,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,183,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,102,108,111,111,114,129,166,83,116,114,105,110,103,161,102,129,165,65,114,114,97,121,145,129,165,70,108,111,97,116,203,0,0,0,0,0,0,0,0,84,77,65,80,12,0,0,0,0,0,0,0,0,0,0,0,64,66,15,0]}]}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "input-arena-start-example",
+    "message": {
+      "address": "/input/arena/start",
+      "args": []
+    }
+  },
+  {
+    "name": "ui-arena-command-example",
+    "message": {
+      "address": "/ui/arena/command",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"sequence\":0,\"source\":\"host:arena-content\",\"id\":1,\"tick\":0,\"appliedTick\":0,\"accepted\":true,\"duplicate\":false,\"code\":\"ok\"}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "game-arena-run-example",
+    "message": {
+      "address": "/game/arena/run",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"content\":{\"hash\":\"c4bf2d4829913798f26e888a2cdb3db8217f66f0cc5f6e9d035b158775d8e770\",\"sourceSha256\":\"d0039136addf946d21408ebae6517ddad7648e2edde1a2a1d868a2e24da3befa\",\"tanuRevision\":\"194358e8791f1391492abcb60d8cfcc37bbb383a\",\"values\":{\"chests\":[{\"itemId\":\"quick-blade\",\"phase\":\"preparing\"},{\"itemId\":\"power-blade\",\"phase\":\"preparing\"},{\"itemId\":\"quick-shooter\",\"phase\":\"preparing\"},{\"itemId\":\"power-shooter\",\"phase\":\"preparing\"},{\"itemId\":\"quick-heavy\",\"phase\":\"preparing\"},{\"itemId\":\"power-heavy\",\"phase\":\"preparing\"},{\"itemId\":\"medkit\",\"phase\":\"preparing\"},{\"itemId\":\"grenade\",\"phase\":\"preparing\"},{\"itemId\":\"shield\",\"phase\":\"preparing\"},{\"itemId\":\"health-upgrade\",\"phase\":\"preparing\"},{\"itemId\":\"attack-upgrade\",\"phase\":\"preparing\"},{\"itemId\":\"quick-blade\",\"phase\":\"boss\"},{\"itemId\":\"power-blade\",\"phase\":\"boss\"},{\"itemId\":\"quick-shooter\",\"phase\":\"boss\"},{\"itemId\":\"power-shooter\",\"phase\":\"boss\"},{\"itemId\":\"quick-heavy\",\"phase\":\"boss\"},{\"itemId\":\"power-heavy\",\"phase\":\"boss\"},{\"itemId\":\"medkit\",\"phase\":\"boss\"},{\"itemId\":\"grenade\",\"phase\":\"boss\"},{\"itemId\":\"shield\",\"phase\":\"boss\"},{\"itemId\":\"health-upgrade\",\"phase\":\"boss\"},{\"itemId\":\"attack-upgrade\",\"phase\":\"boss\"}],\"difficulty\":{\"damageGrowth\":0.07999999821186066,\"healthGrowth\":0.11999999731779099},\"enemies\":[{\"damage\":10,\"health\":40,\"interval\":1.0,\"kind\":0,\"radius\":0.5,\"range\":1.5,\"speed\":2.5},{\"damage\":8,\"health\":30,\"interval\":1.5,\"kind\":1,\"radius\":0.5,\"range\":6.0,\"speed\":2.0},{\"damage\":20,\"health\":100,\"interval\":1.5,\"kind\":2,\"radius\":0.699999988079071,\"range\":1.7999999523162842,\"speed\":1.2000000476837158},{\"damage\":20,\"health\":300,\"interval\":1.5,\"kind\":3,\"radius\":1.0,\"range\":2.0,\"speed\":1.5}],\"items\":[{\"bossDamage\":20,\"damage\":20,\"id\":\"starter\",\"interval\":0.5,\"kind\":0,\"name\":\"Blade\"},{\"bossDamage\":24,\"damage\":20,\"id\":\"quick-blade\",\"interval\":0.5,\"kind\":0,\"name\":\"Quick Blade\"},{\"bossDamage\":36,\"damage\":30,\"id\":\"power-blade\",\"interval\":0.800000011920929,\"kind\":0,\"name\":\"Power Blade\"},{\"bossDamage\":15,\"damage\":12,\"id\":\"quick-shooter\",\"interval\":0.25,\"kind\":1,\"name\":\"Quick Shooter\"},{\"bossDamage\":24,\"damage\":20,\"id\":\"power-shooter\",\"interval\":0.44999998807907104,\"kind\":1,\"name\":\"Power Shooter\"},{\"bossDamage\":60,\"damage\":50,\"id\":\"quick-heavy\",\"interval\":1.0,\"kind\":2,\"name\":\"Quick Heavy Shooter\"},{\"bossDamage\":90,\"damage\":75,\"id\":\"power-heavy\",\"interval\":1.5,\"kind\":2,\"name\":\"Power Heavy Shooter\"},{\"bossDamage\":0,\"damage\":0,\"id\":\"medkit\",\"interval\":0.0,\"kind\":3,\"name\":\"Medkit\"},{\"bossDamage\":100,\"damage\":100,\"id\":\"grenade\",\"interval\":0.0,\"kind\":4,\"name\":\"Grenade\"},{\"bossDamage\":0,\"damage\":0,\"id\":\"shield\",\"interval\":0.0,\"kind\":5,\"name\":\"Shield\"},{\"bossDamage\":0,\"damage\":0,\"id\":\"health-upgrade\",\"interval\":0.0,\"kind\":6,\"name\":\"Health Upgrade (+10 HP)\"},{\"bossDamage\":0,\"damage\":0,\"id\":\"attack-upgrade\",\"interval\":0.0,\"kind\":7,\"name\":\"Attack Upgrade (+5%)\"}],\"schemaVersion\":1}},\"order\":5,\"run\":1,\"script\":{\"contractVersion\":1,\"hash\":\"1972fdeaaed2d2e6ff349409087a20440683b1aa90f0199c2f7e0c7a22564025\",\"policyVersion\":\"kitu-rhai-json-v1\",\"rhaiVersion\":\"1.26.0\",\"source\":\"// Arena boss contract 1. Context is a copied JSON value; actions have no side effects.\\n// Rust advances the f32 phase timer and applies radial shots in the reference order.\\nfn boss(input) {\\n    if input.phase == 0 {\\n        if input.timerExpired {\\n            return #{action: \\\"telegraph\\\", duration: 0.8};\\n        }\\n        return #{action: \\\"pursue\\\", duration: 0.0};\\n    }\\n    if input.phase == 1 {\\n        if input.timerExpired {\\n            return #{action: \\\"burst\\\", duration: 1.0};\\n        }\\n        return #{action: \\\"wait\\\", duration: 0.0};\\n    }\\n    if input.timerExpired {\\n        return #{action: \\\"recover\\\", duration: 3.0};\\n    }\\n    #{action: \\\"wait\\\", duration: 0.0}\\n}\\n\",\"sourceSha256\":\"cc75bd728a7fcddaf067e13bf330e650b57c26530bc805ed4683e5f8bb711af1\"},\"tick\":0,\"timeline\":{\"clips\":[{\"bytes\":[84,83,81,49,1,0,60,0,0,0,1,0,2,0,84,82,75,32,183,2,0,0,0,0,1,129,6,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,182,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,98,111,115,115,129,166,83,116,114,105,110,103,162,102,102,129,165,65,114,114,97,121,146,129,165,70,108,111,97,116,203,64,8,0,0,0,0,0,0,129,165,70,108,111,97,116,203,63,220,204,204,192,0,0,0,0,12,1,129,6,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,182,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,98,111,115,115,129,166,83,116,114,105,110,103,162,102,102,129,165,65,114,114,97,121,146,129,165,70,108,111,97,116,203,64,8,0,0,0,0,0,0,129,165,70,108,111,97,116,203,63,230,102,102,96,0,0,0,0,12,1,129,6,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,182,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,98,111,115,115,129,166,83,116,114,105,110,103,162,102,102,129,165,65,114,114,97,121,146,129,165,70,108,111,97,116,203,64,8,0,0,0,0,0,0,129,165,70,108,111,97,116,203,63,240,0,0,0,0,0,0,0,12,1,129,6,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,182,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,98,111,115,115,129,166,83,116,114,105,110,103,162,102,102,129,165,65,114,114,97,121,146,129,165,70,108,111,97,116,203,64,8,0,0,0,0,0,0,129,165,70,108,111,97,116,203,63,228,204,204,192,0,0,0,0,11,1,129,6,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,182,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,98,111,115,115,129,166,83,116,114,105,110,103,162,102,102,129,165,65,114,114,97,121,146,129,165,70,108,111,97,116,203,64,8,0,0,0,0,0,0,129,165,70,108,111,97,116,203,63,240,0,0,0,0,0,0,84,77,65,80,12,0,0,0,0,0,0,0,0,0,0,0,64,66,15,0],\"id\":\"boss-telegraph\",\"sourceSha256\":\"b9e2db730eb66191f609c5c67e8df91e07f34be2c471e78ed3e34824dd80b94f\"},{\"bytes\":[84,83,81,49,1,0,60,0,0,0,1,0,2,0,84,82,75,32,98,2,0,0,0,0,1,118,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,183,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,102,108,111,111,114,129,166,83,116,114,105,110,103,161,102,129,165,65,114,114,97,121,145,129,165,70,108,111,97,116,203,0,0,0,0,0,0,0,0,0,12,1,118,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,183,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,102,108,111,111,114,129,166,83,116,114,105,110,103,161,102,129,165,65,114,114,97,121,145,129,165,70,108,111,97,116,203,63,201,153,153,160,0,0,0,0,12,1,118,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,183,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,102,108,111,111,114,129,166,83,116,114,105,110,103,161,102,129,165,65,114,114,97,121,145,129,165,70,108,111,97,116,203,63,214,102,102,96,0,0,0,0,12,1,118,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,183,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,102,108,111,111,114,129,166,83,116,114,105,110,103,161,102,129,165,65,114,114,97,121,145,129,165,70,108,111,97,116,203,63,201,153,153,160,0,0,0,0,23,1,118,129,166,66,117,110,100,108,101,130,167,116,105,109,101,116,97,103,129,165,118,97,108,117,101,1,168,101,108,101,109,101,110,116,115,145,129,167,77,101,115,115,97,103,101,129,165,65,114,114,97,121,147,129,166,83,116,114,105,110,103,183,47,114,101,110,100,101,114,47,97,114,101,110,97,47,99,117,101,47,102,108,111,111,114,129,166,83,116,114,105,110,103,161,102,129,165,65,114,114,97,121,145,129,165,70,108,111,97,116,203,0,0,0,0,0,0,0,0,84,77,65,80,12,0,0,0,0,0,0,0,0,0,0,0,64,66,15,0],\"id\":\"floor-transition\",\"sourceSha256\":\"e77a2671eb36095881c8071e2fad499d57f673c687396b0ae196cfefa6e028b5\"}],\"contractVersion\":1,\"hash\":\"c996c00e557e46b60010fed41908e71f96edcc8f0f3c458b8e3472ce4fbbae82\",\"tickRate\":60}}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "game-arena-phase-example",
+    "message": {
+      "address": "/game/arena/phase",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"bossesDefeated\":0,\"enemiesDefeated\":0,\"floor\":0,\"floorsCleared\":0,\"order\":8,\"phase\":1,\"previous\":0,\"tick\":0}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "input-arena-inventory-example",
+    "message": {
+      "address": "/input/arena/inventory",
+      "args": []
+    }
+  },
+  {
+    "name": "input-arena-unequip-example",
+    "message": {
+      "address": "/input/arena/unequip",
+      "args": [
+        {
+          "type": "int",
+          "value": 1
+        },
+        {
+          "type": "int",
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "name": "game-arena-inventory-transfer-or-upgrade",
+    "message": {
+      "address": "/game/arena/inventory",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"index\":0,\"inventory\":{\"attackMultiplier\":1.0,\"attackUpgrades\":0,\"backpack\":[{\"damage\":20,\"id\":1,\"interval\":0.5,\"kind\":0,\"name\":\"Blade\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":0,\"interval\":0.0,\"kind\":0,\"name\":\"\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":0,\"interval\":0.0,\"kind\":0,\"name\":\"\",\"shield\":0,\"shieldFraction\":0.0}],\"chest\":[{\"damage\":20,\"id\":2,\"interval\":0.5,\"kind\":0,\"name\":\"Quick Blade\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":30,\"id\":3,\"interval\":0.800000011920929,\"kind\":0,\"name\":\"Power Blade\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":12,\"id\":4,\"interval\":0.25,\"kind\":1,\"name\":\"Quick Shooter\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":20,\"id\":5,\"interval\":0.44999998807907104,\"kind\":1,\"name\":\"Power Shooter\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":50,\"id\":6,\"interval\":1.0,\"kind\":2,\"name\":\"Quick Heavy Shooter\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":75,\"id\":7,\"interval\":1.5,\"kind\":2,\"name\":\"Power Heavy Shooter\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":8,\"interval\":0.0,\"kind\":3,\"name\":\"Medkit\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":100,\"id\":9,\"interval\":0.0,\"kind\":4,\"name\":\"Grenade\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":10,\"interval\":0.0,\"kind\":5,\"name\":\"Shield\",\"shield\":100,\"shieldFraction\":0.0},{\"damage\":0,\"id\":11,\"interval\":0.0,\"kind\":6,\"name\":\"Health Upgrade (+10 HP)\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":12,\"interval\":0.0,\"kind\":7,\"name\":\"Attack Upgrade (+5%)\",\"shield\":0,\"shieldFraction\":0.0}],\"damagedThisUpdate\":false,\"equipment\":[{\"damage\":0,\"id\":0,\"interval\":0.0,\"kind\":0,\"name\":\"\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":0,\"interval\":0.0,\"kind\":0,\"name\":\"\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":0,\"interval\":0.0,\"kind\":0,\"name\":\"\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":0,\"interval\":0.0,\"kind\":0,\"name\":\"\",\"shield\":0,\"shieldFraction\":0.0}],\"health\":100,\"maxHealth\":100,\"nextItemId\":12,\"shieldDelayRemaining\":0.0},\"itemId\":1,\"messageId\":3,\"operation\":\"/input/arena/unequip\",\"sequence\":5,\"slot\":0,\"source\":\"contract:commands\",\"tick\":2}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "input-arena-discard-example",
+    "message": {
+      "address": "/input/arena/discard",
+      "args": [
+        {
+          "type": "int",
+          "value": 1
+        },
+        {
+          "type": "int",
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "name": "input-arena-close-example",
+    "message": {
+      "address": "/input/arena/close",
+      "args": []
+    }
+  },
+  {
+    "name": "input-arena-disconnect-example",
+    "message": {
+      "address": "/input/arena/disconnect",
+      "args": []
+    }
+  },
+  {
+    "name": "input-arena-resume-example",
+    "message": {
+      "address": "/input/arena/resume",
+      "args": []
+    }
+  },
+  {
+    "name": "input-arena-use-example",
+    "message": {
+      "address": "/input/arena/use",
+      "args": [
+        {
+          "type": "int",
+          "value": 2
+        }
+      ]
+    }
+  },
+  {
+    "name": "ui-arena-use-example",
+    "message": {
+      "address": "/ui/arena/use",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"code\":\"empty_slot\",\"consumed\":false,\"itemId\":0,\"order\":1,\"slot\":2,\"tick\":7}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "input-arena-frame-example",
+    "message": {
+      "address": "/input/arena/frame",
+      "args": [
+        {
+          "type": "float",
+          "value": -0.39391928911209106
+        },
+        {
+          "type": "float",
+          "value": 0.9191450476646423
+        },
+        {
+          "type": "bool",
+          "value": true
+        },
+        {
+          "type": "float",
+          "value": 0.0
+        },
+        {
+          "type": "float",
+          "value": 5.0
+        },
+        {
+          "type": "bool",
+          "value": false
+        },
+        {
+          "type": "bool",
+          "value": false
+        }
+      ]
+    }
+  },
+  {
+    "name": "input-arena-chest-example",
+    "message": {
+      "address": "/input/arena/chest",
+      "args": []
+    }
+  },
+  {
+    "name": "input-arena-take-example",
+    "message": {
+      "address": "/input/arena/take",
+      "args": [
+        {
+          "type": "int",
+          "value": 9
+        },
+        {
+          "type": "int",
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "name": "input-arena-equip-example",
+    "message": {
+      "address": "/input/arena/equip",
+      "args": [
+        {
+          "type": "int",
+          "value": 9
+        },
+        {
+          "type": "int",
+          "value": 0
+        },
+        {
+          "type": "int",
+          "value": 2
+        }
+      ]
+    }
+  },
+  {
+    "name": "game-arena-inventory-consumed-item",
+    "message": {
+      "address": "/game/arena/inventory",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"inventory\":{\"attackMultiplier\":1.0,\"attackUpgrades\":0,\"backpack\":[{\"damage\":0,\"id\":0,\"interval\":0.0,\"kind\":0,\"name\":\"\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":0,\"interval\":0.0,\"kind\":0,\"name\":\"\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":0,\"interval\":0.0,\"kind\":0,\"name\":\"\",\"shield\":0,\"shieldFraction\":0.0}],\"chest\":[{\"damage\":20,\"id\":2,\"interval\":0.5,\"kind\":0,\"name\":\"Quick Blade\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":30,\"id\":3,\"interval\":0.800000011920929,\"kind\":0,\"name\":\"Power Blade\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":12,\"id\":4,\"interval\":0.25,\"kind\":1,\"name\":\"Quick Shooter\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":20,\"id\":5,\"interval\":0.44999998807907104,\"kind\":1,\"name\":\"Power Shooter\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":50,\"id\":6,\"interval\":1.0,\"kind\":2,\"name\":\"Quick Heavy Shooter\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":75,\"id\":7,\"interval\":1.5,\"kind\":2,\"name\":\"Power Heavy Shooter\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":8,\"interval\":0.0,\"kind\":3,\"name\":\"Medkit\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":10,\"interval\":0.0,\"kind\":5,\"name\":\"Shield\",\"shield\":100,\"shieldFraction\":0.0},{\"damage\":0,\"id\":11,\"interval\":0.0,\"kind\":6,\"name\":\"Health Upgrade (+10 HP)\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":12,\"interval\":0.0,\"kind\":7,\"name\":\"Attack Upgrade (+5%)\",\"shield\":0,\"shieldFraction\":0.0}],\"damagedThisUpdate\":false,\"equipment\":[{\"damage\":20,\"id\":1,\"interval\":0.5,\"kind\":0,\"name\":\"Blade\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":0,\"interval\":0.0,\"kind\":0,\"name\":\"\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":0,\"interval\":0.0,\"kind\":0,\"name\":\"\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":0,\"interval\":0.0,\"kind\":0,\"name\":\"\",\"shield\":0,\"shieldFraction\":0.0}],\"health\":100,\"maxHealth\":100,\"nextItemId\":12,\"shieldDelayRemaining\":0.0},\"itemId\":9,\"operation\":\"/input/arena/use\",\"order\":7,\"slot\":2,\"tick\":75}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "game-arena-attack-grenade-throw",
+    "message": {
+      "address": "/game/arena/attack",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"actorId\":0,\"attackId\":1,\"itemId\":9,\"kind\":\"grenade\",\"order\":9,\"origin\":{\"x\":-2.4619977474212646,\"y\":-1.2553508281707764},\"target\":{\"x\":0.0,\"y\":5.0},\"tick\":75}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "render-arena-spawn-grenade",
+    "message": {
+      "address": "/render/arena/spawn",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"entityId\":1,\"kind\":\"grenade\",\"order\":10,\"state\":{\"Damage\":100,\"Id\":1,\"Position\":{\"x\":-2.4619977474212646,\"y\":-1.2553508281707764},\"Remaining\":0.5,\"Start\":{\"x\":-2.4619977474212646,\"y\":-1.2553508281707764},\"Target\":{\"x\":0.0,\"y\":5.0}},\"tick\":75}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "render-arena-spawn-effect",
+    "message": {
+      "address": "/render/arena/spawn",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"entityId\":2,\"kind\":\"effect\",\"order\":0,\"state\":{\"Direction\":{\"x\":0.0,\"y\":1.0},\"Id\":2,\"Kind\":1,\"Position\":{\"x\":0.0,\"y\":5.0},\"Radius\":3.0,\"Remaining\":0.30000001192092896},\"tick\":104}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "render-arena-despawn-example",
+    "message": {
+      "address": "/render/arena/despawn",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"entityId\":1,\"kind\":\"grenade\",\"order\":1,\"tick\":104}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "input-arena-pause-example",
+    "message": {
+      "address": "/input/arena/pause",
+      "args": []
+    }
+  },
+  {
+    "name": "input-arena-menu-example",
+    "message": {
+      "address": "/input/arena/menu",
+      "args": []
+    }
+  },
+  {
+    "name": "input-arena-upgrade-example",
+    "message": {
+      "address": "/input/arena/upgrade",
+      "args": [
+        {
+          "type": "int",
+          "value": 11
+        },
+        {
+          "type": "int",
+          "value": 0
+        }
+      ]
+    }
+  },
+  {
+    "name": "ui-arena-timeline-event-floor-start",
+    "message": {
+      "address": "/ui/arena/timeline/event",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"clipId\":\"floor-transition\",\"cueId\":\"r1:c1\",\"fromFloor\":0,\"kind\":\"start\",\"offsetTick\":0,\"order\":1,\"run\":1,\"tick\":185,\"toFloor\":1}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "ui-arena-timeline-event-applied-bundle",
+    "message": {
+      "address": "/ui/arena/timeline/event",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"bundle\":{\"messages\":[{\"address\":\"/render/arena/cue/floor\",\"args\":[{\"type\":\"float\",\"value\":0.0}]}]},\"clipId\":\"floor-transition\",\"cueId\":\"r1:c1\",\"eventIndex\":0,\"kind\":\"event\",\"offsetTick\":0,\"order\":2,\"run\":1,\"tick\":185,\"trackIndex\":0}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "render-arena-cue-floor-example",
+    "message": {
+      "address": "/render/arena/cue/floor",
+      "args": [
+        {
+          "type": "float",
+          "value": 0.0
+        }
+      ]
+    },
+    "context": "clip"
+  },
+  {
+    "name": "render-arena-spawn-enemy",
+    "message": {
+      "address": "/render/arena/spawn",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"entityId\":1,\"kind\":\"enemy\",\"order\":0,\"state\":{\"AttackCooldown\":1.0,\"AttackInterval\":1.0,\"AttackRange\":1.5,\"BossState\":0,\"Damage\":10,\"Health\":40,\"Id\":1,\"Kind\":0,\"MaxHealth\":40,\"PhaseRemaining\":0.0,\"Position\":{\"x\":-7.5,\"y\":6.0},\"Radius\":0.5,\"Speed\":2.5},\"tick\":203}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "game-arena-attack-player-weapon",
+    "message": {
+      "address": "/game/arena/attack",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"actorId\":0,\"attackId\":4,\"direction\":{\"x\":-0.11841292679309845,\"y\":0.9929644465446472},\"itemId\":5,\"kind\":1,\"order\":0,\"origin\":{\"x\":0.057471271604299545,\"y\":-7.060344696044922},\"tick\":204}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "render-arena-spawn-projectile",
+    "message": {
+      "address": "/render/arena/spawn",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"entityId\":4,\"kind\":\"projectile\",\"order\":1,\"state\":{\"Damage\":21,\"Direction\":{\"x\":-0.11841292679309845,\"y\":0.9929644465446472},\"DistanceRemaining\":12.0,\"EnemyOwned\":false,\"Id\":4,\"Position\":{\"x\":0.057471271604299545,\"y\":-7.060344696044922},\"Radius\":0.14000000059604645,\"Speed\":12.0},\"tick\":204}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "ui-arena-timeline-event-stop",
+    "message": {
+      "address": "/ui/arena/timeline/event",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"clipId\":\"floor-transition\",\"cueId\":\"r1:c1\",\"kind\":\"stop\",\"offsetTick\":59,\"order\":1,\"reason\":\"completed\",\"run\":1,\"tick\":244}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "game-arena-damage-example",
+    "message": {
+      "address": "/game/arena/damage",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"absorbed\":0,\"attackIds\":[5,4],\"damage\":33,\"health\":7,\"order\":4,\"targetId\":3,\"targetKind\":\"enemy\",\"tick\":256}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "game-arena-death-enemy",
+    "message": {
+      "address": "/game/arena/death",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"entityId\":3,\"kind\":0,\"order\":3,\"tick\":271}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "game-arena-attack-enemy-attack",
+    "message": {
+      "address": "/game/arena/attack",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"actorId\":136,\"attackId\":168,\"direction\":{\"x\":0.2763257622718811,\"y\":-0.9610640406608582},\"kind\":2,\"order\":0,\"origin\":{\"x\":7.119197845458984,\"y\":2.9043843746185303},\"tick\":1280}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "ui-arena-timeline-event-boss-start",
+    "message": {
+      "address": "/ui/arena/timeline/event",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"clipId\":\"boss-telegraph\",\"cueId\":\"r1:c6\",\"entityId\":199,\"floor\":5,\"kind\":\"start\",\"offsetTick\":0,\"order\":0,\"run\":1,\"tick\":1625}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "render-arena-cue-boss-example",
+    "message": {
+      "address": "/render/arena/cue/boss",
+      "args": [
+        {
+          "type": "float",
+          "value": 3.0
+        },
+        {
+          "type": "float",
+          "value": 0.44999998807907104
+        }
+      ]
+    },
+    "context": "clip"
+  },
+  {
+    "name": "game-arena-attack-boss-burst",
+    "message": {
+      "address": "/game/arena/attack",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"actorId\":199,\"attackId\":248,\"kind\":\"boss_burst\",\"order\":0,\"origin\":{\"x\":2.5267019271850586,\"y\":2.363966464996338},\"tick\":1673}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "game-arena-reward-example",
+    "message": {
+      "address": "/game/arena/reward",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"floor\":5,\"health\":110,\"inventory\":{\"attackMultiplier\":1.0499999523162842,\"attackUpgrades\":1,\"backpack\":[{\"damage\":0,\"id\":0,\"interval\":0.0,\"kind\":0,\"name\":\"\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":0,\"interval\":0.0,\"kind\":0,\"name\":\"\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":0,\"interval\":0.0,\"kind\":0,\"name\":\"\",\"shield\":0,\"shieldFraction\":0.0}],\"chest\":[{\"damage\":24,\"id\":13,\"interval\":0.5,\"kind\":0,\"name\":\"Quick Blade\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":36,\"id\":14,\"interval\":0.800000011920929,\"kind\":0,\"name\":\"Power Blade\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":15,\"id\":15,\"interval\":0.25,\"kind\":1,\"name\":\"Quick Shooter\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":24,\"id\":16,\"interval\":0.44999998807907104,\"kind\":1,\"name\":\"Power Shooter\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":60,\"id\":17,\"interval\":1.0,\"kind\":2,\"name\":\"Quick Heavy Shooter\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":90,\"id\":18,\"interval\":1.5,\"kind\":2,\"name\":\"Power Heavy Shooter\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":19,\"interval\":0.0,\"kind\":3,\"name\":\"Medkit\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":100,\"id\":20,\"interval\":0.0,\"kind\":4,\"name\":\"Grenade\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":21,\"interval\":0.0,\"kind\":5,\"name\":\"Shield\",\"shield\":110,\"shieldFraction\":0.0},{\"damage\":0,\"id\":22,\"interval\":0.0,\"kind\":6,\"name\":\"Health Upgrade (+10 HP)\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":23,\"interval\":0.0,\"kind\":7,\"name\":\"Attack Upgrade (+5%)\",\"shield\":0,\"shieldFraction\":0.0}],\"damagedThisUpdate\":false,\"equipment\":[{\"damage\":20,\"id\":5,\"interval\":0.44999998807907104,\"kind\":1,\"name\":\"Power Shooter\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":12,\"id\":4,\"interval\":0.25,\"kind\":1,\"name\":\"Quick Shooter\",\"shield\":0,\"shieldFraction\":0.0},{\"damage\":0,\"id\":10,\"interval\":0.0,\"kind\":5,\"name\":\"Shield\",\"shield\":110,\"shieldFraction\":0.0},{\"damage\":0,\"id\":8,\"interval\":0.0,\"kind\":3,\"name\":\"Medkit\",\"shield\":0,\"shieldFraction\":0.0}],\"health\":110,\"maxHealth\":110,\"nextItemId\":23,\"shieldDelayRemaining\":0.0},\"itemIds\":[13,14,15,16,17,18,19,20,21,22,23],\"order\":19,\"tick\":1736}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "game-arena-script-fault-example",
+    "message": {
+      "address": "/game/arena/script-fault",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"tick\":4679,\"enemyId\":736,\"scriptHash\":\"1c25f847ac9a303b6d4e05400556b49be87314a6db2dee62d7211d5228f293c7\",\"diagnostic\":{\"kind\":\"runtime\",\"message\":\"Runtime error: contract fault (line 3, position 41)\",\"line\":3,\"column\":41}}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "game-arena-death-player",
+    "message": {
+      "address": "/game/arena/death",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"entityId\":0,\"kind\":\"player\",\"order\":6,\"tick\":5526}"
+        }
+      ]
+    }
+  },
+  {
+    "name": "game-arena-result-example",
+    "message": {
+      "address": "/game/arena/result",
+      "args": [
+        {
+          "type": "str",
+          "value": "{\"order\":11,\"result\":{\"attackMultiplier\":1.149999976158142,\"bossesDefeated\":2,\"elapsed\":88.02098846435547,\"enemiesDefeated\":58,\"equipmentNames\":[\"Power Shooter\",\"Quick Shooter\",\"Shield\",\"Medkit\"],\"floor\":11,\"floorsCleared\":10,\"maxHealth\":130,\"present\":true},\"tick\":5526}"
+        }
+      ]
+    }
+  }
+]

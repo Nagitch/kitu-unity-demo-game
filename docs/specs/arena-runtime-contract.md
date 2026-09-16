@@ -107,6 +107,11 @@ is not a resumable save-state in v1.
 
 ## Output contracts
 
+The [Arena OSC event reference](arena-events.md) is the complete current v1
+address/payload/semantics catalog, including inputs, management and presentation.
+The table below is a historical overview; exact fields and variant exceptions
+are defined in the event reference and its checked schemas.
+
 All outputs identify their session/run, source tick and output order. This is a
 logical contract; JSON, MessagePack and FFI encoding must preserve it.
 
