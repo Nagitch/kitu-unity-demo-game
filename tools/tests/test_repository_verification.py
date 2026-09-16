@@ -100,6 +100,17 @@ class RepositoryVerificationTests(unittest.TestCase):
         self.calls.clear()
         self.observed_reports.clear()
 
+    def test_contract_scope_checks_docs_tools_and_actual_runtime_trace(self):
+        self.invoke("contracts")
+        self.assert_final("passed")
+        calls = {name: (argv, options) for name, argv, options in self.calls}
+        self.assertIn("prepare-contracts", calls)
+        self.assertIn("contract-reference", calls)
+        self.assertIn("contract-tool-tests", calls)
+        trace = str(self.evidence / "arena-contract-trace.ndjson")
+        self.assertEqual(calls["contract-runtime"][1]["env"]["KITU_ARENA_CONTRACT_TRACE"], trace)
+        self.assertEqual(calls["contract-trace"][0][-2:], ["--trace", trace])
+
     def test_fresh_report_tracks_running_steps_and_final_counted_success(self):
         stdout = self.invoke("test")
         report = self.assert_final("passed")

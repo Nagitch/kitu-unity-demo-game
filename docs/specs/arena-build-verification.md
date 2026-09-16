@@ -49,6 +49,15 @@ The pinned inputs are Rust in `rust-toolchain.toml`, Cargo dependencies in
 frontend build also needs the `wasm32-unknown-unknown` Rust target. Use the
 container setup for these tools rather than relying on unrelated host installs.
 
+For `all` or `contracts`, prepare the tool-only JSON Schema validator in the
+same environment that runs verification (inside the container when using it):
+
+```sh
+python3 -m venv .tmp/contracts-venv
+. .tmp/contracts-venv/bin/activate
+python3 -m pip install -r tools/requirements-contracts.txt
+```
+
 Choose a new output directory for every attempt:
 
 ```sh
@@ -61,7 +70,7 @@ demo repository root:
 
 ```sh
 devcontainer exec --workspace-folder .. \
-  python3 kitu-unity-demo-game/tools/run.py python3 tools/verify-repository.py \
+  python3 kitu-unity-demo-game/tools/run.py .tmp/contracts-venv/bin/python tools/verify-repository.py \
   --scope all --evidence .tmp/verification/repository-01
 ```
 
@@ -80,7 +89,8 @@ is a failed/incomplete check; retain that report before trying a fresh directory
 | `docs` | `RUSTDOCFLAGS='-D warnings' cargo doc --locked --workspace --no-deps --all-features` |
 | `data` | Portable Python tool tests, deterministic source package, and actual Rust loader/C ABI consumption of that package |
 | `frontend` | Frozen pnpm install, Svelte check, lint, Inspector tests, and `pnpm run build` including WASM generation |
-| `all` | All seven scopes above, in order |
+| `contracts` | Generated event reference, schema/example coverage, validator regressions and actual Runtime trace validation |
+| `all` | All eight scopes above, in order |
 
 Use a single scope for a relevant follow-up, preserving its name in evidence:
 

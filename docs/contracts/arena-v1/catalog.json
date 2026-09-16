@@ -1,0 +1,536 @@
+{
+  "contractVersion": 1,
+  "schema": "schemas/arena.schema.json",
+  "messages": [
+    {
+      "address": "/input/arena/start",
+      "category": "Input commands",
+      "summary": "Start or retry a run",
+      "source": "app/src/arena.rs",
+      "arguments": []
+    },
+    {
+      "address": "/input/arena/menu",
+      "category": "Input commands",
+      "summary": "Return to opening",
+      "source": "app/src/arena.rs",
+      "arguments": []
+    },
+    {
+      "address": "/input/arena/pause",
+      "category": "Input commands",
+      "summary": "Pause an active run",
+      "source": "app/src/arena.rs",
+      "arguments": []
+    },
+    {
+      "address": "/input/arena/resume",
+      "category": "Input commands",
+      "summary": "Resume a paused run",
+      "source": "app/src/arena.rs",
+      "arguments": []
+    },
+    {
+      "address": "/input/arena/disconnect",
+      "category": "Input commands",
+      "summary": "Pause after controller loss",
+      "source": "app/src/arena.rs",
+      "arguments": []
+    },
+    {
+      "address": "/input/arena/inventory",
+      "category": "Input commands",
+      "summary": "Open inventory",
+      "source": "app/src/arena.rs",
+      "arguments": []
+    },
+    {
+      "address": "/input/arena/chest",
+      "category": "Input commands",
+      "summary": "Open chest",
+      "source": "app/src/arena.rs",
+      "arguments": []
+    },
+    {
+      "address": "/input/arena/close",
+      "category": "Input commands",
+      "summary": "Close inventory or chest",
+      "source": "app/src/arena.rs",
+      "arguments": []
+    },
+    {
+      "address": "/input/arena/frame",
+      "category": "Input commands",
+      "summary": "Latest movement, aim and held-fire state",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "move_x",
+          "type": "float",
+          "description": "World X movement axis."
+        },
+        {
+          "name": "move_z",
+          "type": "float",
+          "description": "World Z movement axis."
+        },
+        {
+          "name": "has_aim",
+          "type": "bool",
+          "description": "Whether aim coordinates are valid."
+        },
+        {
+          "name": "aim_x",
+          "type": "float",
+          "description": "World X target position."
+        },
+        {
+          "name": "aim_z",
+          "type": "float",
+          "description": "World Z target position."
+        },
+        {
+          "name": "fire_a",
+          "type": "bool",
+          "description": "Weapon A held."
+        },
+        {
+          "name": "fire_b",
+          "type": "bool",
+          "description": "Weapon B held."
+        }
+      ]
+    },
+    {
+      "address": "/input/arena/use",
+      "category": "Input commands",
+      "summary": "Queue one consumable press",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "slot",
+          "type": "int",
+          "description": "ItemA=2 or ItemB=3; other i32 values are structurally valid but rejected by game rules."
+        }
+      ]
+    },
+    {
+      "address": "/input/arena/take",
+      "category": "Input commands",
+      "summary": "Take or swap a chest item",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "item_id",
+          "type": "int",
+          "description": "Expected current item ID; stale IDs are rejected."
+        },
+        {
+          "name": "backpack_index",
+          "type": "int",
+          "description": "Backpack position 0..2."
+        }
+      ]
+    },
+    {
+      "address": "/input/arena/equip",
+      "category": "Input commands",
+      "summary": "Equip a backpack item",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "item_id",
+          "type": "int",
+          "description": "Expected current item ID; stale IDs are rejected."
+        },
+        {
+          "name": "backpack_index",
+          "type": "int",
+          "description": "Backpack position 0..2."
+        },
+        {
+          "name": "equipment_slot",
+          "type": "int",
+          "description": "WeaponA=0, WeaponB=1, ItemA=2, ItemB=3."
+        }
+      ]
+    },
+    {
+      "address": "/input/arena/unequip",
+      "category": "Input commands",
+      "summary": "Return equipment to backpack",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "item_id",
+          "type": "int",
+          "description": "Expected current item ID; stale IDs are rejected."
+        },
+        {
+          "name": "equipment_slot",
+          "type": "int",
+          "description": "WeaponA=0, WeaponB=1, ItemA=2, ItemB=3."
+        }
+      ]
+    },
+    {
+      "address": "/input/arena/discard",
+      "category": "Input commands",
+      "summary": "Discard a backpack item",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "item_id",
+          "type": "int",
+          "description": "Expected current item ID; stale IDs are rejected."
+        },
+        {
+          "name": "backpack_index",
+          "type": "int",
+          "description": "Backpack position 0..2."
+        }
+      ]
+    },
+    {
+      "address": "/input/arena/upgrade",
+      "category": "Input commands",
+      "summary": "Consume a permanent upgrade",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "item_id",
+          "type": "int",
+          "description": "Expected current item ID; stale IDs are rejected."
+        },
+        {
+          "name": "backpack_index",
+          "type": "int",
+          "description": "Backpack position 0..2."
+        }
+      ]
+    },
+    {
+      "address": "/input/arena/config",
+      "category": "Management inputs",
+      "summary": "Stage next-run config",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "ContentVersion"
+    },
+    {
+      "address": "/input/arena/script",
+      "category": "Management inputs",
+      "summary": "Stage next-run script",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "ScriptVersion"
+    },
+    {
+      "address": "/input/arena/timeline",
+      "category": "Management inputs",
+      "summary": "Stage next-run timeline",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "TimelineVersion"
+    },
+    {
+      "address": "/game/arena/run",
+      "category": "Game events",
+      "summary": "Run started",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "Run"
+    },
+    {
+      "address": "/game/arena/attack",
+      "category": "Game events",
+      "summary": "Attack executed",
+      "source": "app/src/arena/combat.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "Attack"
+    },
+    {
+      "address": "/game/arena/damage",
+      "category": "Game events",
+      "summary": "Damage applied",
+      "source": "app/src/arena/combat.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "Damage"
+    },
+    {
+      "address": "/game/arena/death",
+      "category": "Game events",
+      "summary": "Entity died",
+      "source": "app/src/arena/combat.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "Death"
+    },
+    {
+      "address": "/game/arena/inventory",
+      "category": "Game events",
+      "summary": "Inventory changed",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "InventoryEvent"
+    },
+    {
+      "address": "/game/arena/phase",
+      "category": "Game events",
+      "summary": "Game phase changed",
+      "source": "app/src/arena/combat.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "Phase"
+    },
+    {
+      "address": "/game/arena/reward",
+      "category": "Game events",
+      "summary": "Boss-floor reward granted",
+      "source": "app/src/arena/combat.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "Reward"
+    },
+    {
+      "address": "/game/arena/result",
+      "category": "Game events",
+      "summary": "Run result finalized",
+      "source": "app/src/arena/combat.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "Result"
+    },
+    {
+      "address": "/game/arena/script-fault",
+      "category": "Game events",
+      "summary": "Boss script failed",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "ScriptFault"
+    },
+    {
+      "address": "/render/arena/spawn",
+      "category": "Object lifecycle",
+      "summary": "Spawn an enemy, projectile, grenade or effect",
+      "source": "app/src/arena/combat.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "Spawn"
+    },
+    {
+      "address": "/render/arena/despawn",
+      "category": "Object lifecycle",
+      "summary": "Remove an actor or effect",
+      "source": "app/src/arena/combat.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "Despawn"
+    },
+    {
+      "address": "/ui/arena/command",
+      "category": "Receipts and timeline events",
+      "summary": "Discrete command receipt",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "CommandOutcome"
+    },
+    {
+      "address": "/ui/arena/use",
+      "category": "Receipts and timeline events",
+      "summary": "Consumable attempt result",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "UseOutcome"
+    },
+    {
+      "address": "/ui/arena/timeline/event",
+      "category": "Receipts and timeline events",
+      "summary": "Presentation cue audit",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "TimelineEvent"
+    },
+    {
+      "address": "/ui/arena/state",
+      "category": "State snapshots",
+      "summary": "Complete gameplay state",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "ArenaState"
+    },
+    {
+      "address": "/render/arena/presentation",
+      "category": "State snapshots",
+      "summary": "Complete timeline presentation state",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "PresentationSnapshot"
+    },
+    {
+      "address": "/ui/arena/content",
+      "category": "State snapshots",
+      "summary": "Active and pending game content",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "ContentSnapshot"
+    },
+    {
+      "address": "/ui/arena/script",
+      "category": "State snapshots",
+      "summary": "Active and pending boss script",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "ScriptSnapshot"
+    },
+    {
+      "address": "/ui/arena/timeline",
+      "category": "State snapshots",
+      "summary": "Active and pending timeline sources",
+      "source": "app/src/arena.rs",
+      "arguments": [
+        {
+          "name": "payload",
+          "type": "str"
+        }
+      ],
+      "payload": "TimelineSnapshot"
+    },
+    {
+      "address": "/render/arena/cue/boss",
+      "category": "TSQ1 clip messages",
+      "summary": "Assign boss warning radius and intensity",
+      "source": "app/src/arena/presentation.rs",
+      "arguments": [
+        {
+          "name": "radius",
+          "type": "float",
+          "description": "World radius, inclusive range 0.25..8.",
+          "minimum": 0.25,
+          "maximum": 8
+        },
+        {
+          "name": "intensity",
+          "type": "float",
+          "description": "Inclusive range 0..1.",
+          "minimum": 0,
+          "maximum": 1
+        }
+      ]
+    },
+    {
+      "address": "/render/arena/cue/floor",
+      "category": "TSQ1 clip messages",
+      "summary": "Assign floor fade opacity",
+      "source": "app/src/arena/presentation.rs",
+      "arguments": [
+        {
+          "name": "opacity",
+          "type": "float",
+          "description": "Inclusive range 0..1.",
+          "minimum": 0,
+          "maximum": 1
+        }
+      ]
+    }
+  ]
+}

@@ -47,6 +47,9 @@ authoring I/O or a listener.
 
 ## Clip and OSC contract
 
+See the [Arena OSC event reference](arena-events.md) for the complete message
+catalog, including cue assignments, timeline audit variants and snapshots.
+
 The shared `kitu-tsq1::presentation::Clip` API uses the pinned TSQ1 and OSC public
 APIs. Musical deltas are exact integers: 60 PPQ, one tempo entry at tick 0 with
 1,000,000 microseconds per quarter, no other timing axes or tempo changes. Events

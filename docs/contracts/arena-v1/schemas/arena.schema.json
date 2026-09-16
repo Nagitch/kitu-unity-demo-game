@@ -1,0 +1,2944 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Arena v1 payload definitions",
+  "$defs": {
+    "Enemy": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Run-local entity ID."
+        },
+        "Kind": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Pursuer=0, shooter=1, heavy=2, boss=3.",
+          "enum": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        "Position": {
+          "$ref": "#/$defs/Vec2",
+          "description": "Ground-plane position."
+        },
+        "Health": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Current HP."
+        },
+        "MaxHealth": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Initial scaled HP."
+        },
+        "Radius": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Collision radius."
+        },
+        "Speed": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Movement units per second."
+        },
+        "Damage": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Scaled attack damage."
+        },
+        "AttackInterval": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Attack interval in seconds."
+        },
+        "AttackRange": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Movement stops at this attack distance."
+        },
+        "AttackCooldown": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Remaining seconds before the next attack."
+        },
+        "BossState": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Pursuit=0, telegraph=1, recovery=2."
+        },
+        "PhaseRemaining": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Remaining boss behavior phase seconds."
+        }
+      },
+      "required": [
+        "Id",
+        "Kind",
+        "Position",
+        "Health",
+        "MaxHealth",
+        "Radius",
+        "Speed",
+        "Damage",
+        "AttackInterval",
+        "AttackRange",
+        "AttackCooldown",
+        "BossState",
+        "PhaseRemaining"
+      ],
+      "additionalProperties": false
+    },
+    "Projectile": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Run-local entity ID."
+        },
+        "Position": {
+          "$ref": "#/$defs/Vec2",
+          "description": "Current position."
+        },
+        "Direction": {
+          "$ref": "#/$defs/Vec2",
+          "description": "Travel direction."
+        },
+        "Speed": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Movement units per second."
+        },
+        "DistanceRemaining": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Remaining travel range."
+        },
+        "Damage": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Damage fixed at firing."
+        },
+        "EnemyOwned": {
+          "type": "boolean",
+          "description": "Whether the projectile targets the player."
+        },
+        "Radius": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Swept collision radius."
+        }
+      },
+      "required": [
+        "Id",
+        "Position",
+        "Direction",
+        "Speed",
+        "DistanceRemaining",
+        "Damage",
+        "EnemyOwned",
+        "Radius"
+      ],
+      "additionalProperties": false
+    },
+    "Grenade": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Run-local entity ID."
+        },
+        "Start": {
+          "$ref": "#/$defs/Vec2",
+          "description": "Throw origin."
+        },
+        "Target": {
+          "$ref": "#/$defs/Vec2",
+          "description": "Bounded landing point."
+        },
+        "Position": {
+          "$ref": "#/$defs/Vec2",
+          "description": "Current interpolated position."
+        },
+        "Remaining": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Remaining flight seconds."
+        },
+        "Damage": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Scaled damage fixed at throw."
+        }
+      },
+      "required": [
+        "Id",
+        "Start",
+        "Target",
+        "Position",
+        "Remaining",
+        "Damage"
+      ],
+      "additionalProperties": false
+    },
+    "Effect": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Run-local effect ID."
+        },
+        "Kind": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Slash=0, explosion=1, hit=2.",
+          "enum": [
+            0,
+            1,
+            2
+          ]
+        },
+        "Position": {
+          "$ref": "#/$defs/Vec2",
+          "description": "Ground-plane origin."
+        },
+        "Direction": {
+          "$ref": "#/$defs/Vec2",
+          "description": "Presentation direction."
+        },
+        "Radius": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Visible radius."
+        },
+        "Remaining": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Remaining lifetime seconds."
+        }
+      },
+      "required": [
+        "Id",
+        "Kind",
+        "Position",
+        "Direction",
+        "Radius",
+        "Remaining"
+      ],
+      "additionalProperties": false
+    },
+    "RunResult": {
+      "type": "object",
+      "properties": {
+        "present": {
+          "type": "boolean",
+          "description": "Whether a death result exists."
+        },
+        "floor": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Floor reached."
+        },
+        "enemiesDefeated": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Enemy kills."
+        },
+        "bossesDefeated": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Boss kills."
+        },
+        "floorsCleared": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Cleared floors."
+        },
+        "maxHealth": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "HP capacity at death."
+        },
+        "elapsed": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Run elapsed time."
+        },
+        "attackMultiplier": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Damage multiplier at death."
+        },
+        "equipmentNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Copied names in equipment slot order, or an empty list before death."
+        }
+      },
+      "required": [
+        "present",
+        "floor",
+        "enemiesDefeated",
+        "bossesDefeated",
+        "floorsCleared",
+        "maxHealth",
+        "elapsed",
+        "attackMultiplier",
+        "equipmentNames"
+      ],
+      "additionalProperties": false
+    },
+    "ArenaState": {
+      "type": "object",
+      "properties": {
+        "tick": {
+          "type": "integer",
+          "minimum": -9223372036854775808,
+          "maximum": 9223372036854775807,
+          "description": "Last completed source tick; -1 before the first update."
+        },
+        "simulationSteps": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Number of gameplay steps, excluding paused/opening/results ticks."
+        },
+        "phase": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Reference ArenaPhase: opening=0, preparation=1, transition=2, combat=3, cleared=4, results=5.",
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "overlay": {
+          "type": "string",
+          "description": "Runtime-owned pause/interaction overlay.",
+          "enum": [
+            "none",
+            "pause",
+            "inventory",
+            "chest"
+          ]
+        },
+        "floor": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Current floor; preparation is zero."
+        },
+        "elapsed": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Gameplay elapsed seconds, accumulated using reference f32 arithmetic."
+        },
+        "playerPosition": {
+          "$ref": "#/$defs/Vec2",
+          "description": "Authoritative player ground-plane position."
+        },
+        "aimDirection": {
+          "$ref": "#/$defs/Vec2",
+          "description": "Last valid normalized aim direction."
+        },
+        "inventory": {
+          "$ref": "#/$defs/Inventory",
+          "description": "Complete item ownership and health/shield clock projection."
+        },
+        "chestAvailable": {
+          "type": "boolean",
+          "description": "Whether the current safe phase offers a chest."
+        },
+        "portalAvailable": {
+          "type": "boolean",
+          "description": "Whether the current phase offers a portal (progression migrates in stage 5)."
+        },
+        "enemiesDefeated": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Total enemies defeated in this run."
+        },
+        "bossesDefeated": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Total bosses defeated in this run."
+        },
+        "floorsCleared": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Cleared floors in this run."
+        },
+        "nextEntityId": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Next run-local entity/effect ID."
+        },
+        "transitionRemaining": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Remaining transition seconds; transitions do not advance the elapsed run time."
+        },
+        "portalArmed": {
+          "type": "boolean",
+          "description": "Portal must be exited before it can trigger another transition."
+        },
+        "weaponCooldowns": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": -3.4028234663852886e+38,
+            "maximum": 3.4028234663852886e+38,
+            "description": "Finite f32; exact f32 transport encoding is checked by the wire codec."
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "Weapon A/B cooldown seconds."
+        },
+        "enemies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Enemy"
+          },
+          "description": "Enemies in stable spawn order."
+        },
+        "projectiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Projectile"
+          },
+          "description": "Active projectiles in allocation order."
+        },
+        "grenades": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Grenade"
+          },
+          "description": "Active grenades in allocation order."
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Effect"
+          },
+          "description": "Active presentation effects in allocation order."
+        },
+        "result": {
+          "$ref": "#/$defs/RunResult",
+          "description": "Detached immutable result values when the player dies."
+        }
+      },
+      "required": [
+        "tick",
+        "simulationSteps",
+        "phase",
+        "overlay",
+        "floor",
+        "elapsed",
+        "playerPosition",
+        "aimDirection",
+        "inventory",
+        "chestAvailable",
+        "portalAvailable",
+        "enemiesDefeated",
+        "bossesDefeated",
+        "floorsCleared",
+        "nextEntityId",
+        "transitionRemaining",
+        "portalArmed",
+        "weaponCooldowns",
+        "enemies",
+        "projectiles",
+        "grenades",
+        "effects",
+        "result"
+      ],
+      "additionalProperties": false
+    },
+    "Item": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Run-local instance identity."
+        },
+        "kind": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "C# ItemKind discriminant: blade, shooter, heavy, medkit, grenade, shield, HP upgrade, attack upgrade.",
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "damage": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Unscaled base damage."
+        },
+        "shield": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Remaining integral shield charge."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name."
+        },
+        "interval": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Weapon interval in seconds."
+        },
+        "shieldFraction": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Fractional shield recovery retained across transfers."
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "damage",
+        "shield",
+        "name",
+        "interval",
+        "shieldFraction"
+      ],
+      "additionalProperties": false
+    },
+    "Inventory": {
+      "type": "object",
+      "properties": {
+        "health": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Current HP; zero prevents all further consumption, transfer or healing."
+        },
+        "maxHealth": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Current HP and shield capacity."
+        },
+        "nextItemId": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Last allocated item ID (matching the reference field name)."
+        },
+        "attackUpgrades": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Number of consumed attack upgrades."
+        },
+        "attackMultiplier": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Derived attack multiplier."
+        },
+        "shieldDelayRemaining": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Shared delay before equipped shields may recover."
+        },
+        "damagedThisUpdate": {
+          "type": "boolean",
+          "description": "Prevents recovery throughout an update that received damage."
+        },
+        "backpack": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Item"
+          },
+          "minItems": 3,
+          "maxItems": 3,
+          "description": "Three stable backpack positions."
+        },
+        "equipment": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Item"
+          },
+          "minItems": 4,
+          "maxItems": 4,
+          "description": "Weapon A/B and item A/B, in that order."
+        },
+        "chest": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Item"
+          },
+          "description": "Ordered available chest items."
+        }
+      },
+      "required": [
+        "health",
+        "maxHealth",
+        "nextItemId",
+        "attackUpgrades",
+        "attackMultiplier",
+        "shieldDelayRemaining",
+        "damagedThisUpdate",
+        "backpack",
+        "equipment",
+        "chest"
+      ],
+      "additionalProperties": false
+    },
+    "ContentVersion": {
+      "type": "object",
+      "properties": {
+        "hash": {
+          "type": "string",
+          "description": "SHA-256 of the canonical evaluated values.",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "sourceSha256": {
+          "type": "string",
+          "description": "SHA-256 of legacy TMD bytes, or the complete ordered source provenance.",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "tanuRevision": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Tanu API revision that evaluated the source."
+        },
+        "provenance": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ContentProvenance"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Detached source kinds, digests and field origins; never filesystem paths."
+        },
+        "values": {
+          "$ref": "#/$defs/ArenaConfig",
+          "description": "Complete values needed to reproduce gameplay without re-evaluating a file."
+        }
+      },
+      "required": [
+        "hash",
+        "sourceSha256",
+        "values"
+      ],
+      "additionalProperties": false
+    },
+    "ContentSnapshot": {
+      "type": "object",
+      "properties": {
+        "run": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Session-local run number, incremented by every successful start/retry."
+        },
+        "active": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ContentVersion"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Configuration fixed for the current or most recently completed run."
+        },
+        "pending": {
+          "$ref": "#/$defs/ContentVersion",
+          "description": "Last valid candidate to use at the next start."
+        }
+      },
+      "required": [
+        "run",
+        "active",
+        "pending"
+      ],
+      "additionalProperties": false
+    },
+    "ItemRule": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable key referenced by chest entries; `starter` names the initial weapon."
+        },
+        "name": {
+          "type": "string",
+          "description": "Unique displayed name."
+        },
+        "kind": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Reference ItemKind discriminant, 0 through 7.",
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ]
+        },
+        "damage": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Preparation damage (grenade damage is also fixed at item creation)."
+        },
+        "bossDamage": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Repeating boss chest damage."
+        },
+        "interval": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Weapon cooldown in seconds; zero for non-weapons."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "damage",
+        "bossDamage",
+        "interval"
+      ],
+      "additionalProperties": false
+    },
+    "EnemyRule": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Pursuer=0, shooter=1, heavy=2, boss=3.",
+          "enum": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        "health": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Base HP."
+        },
+        "damage": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Base attack damage."
+        },
+        "speed": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Ground units per second."
+        },
+        "range": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Attack distance in ground units."
+        },
+        "interval": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Attack interval in seconds."
+        },
+        "radius": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Collision radius in ground units."
+        }
+      },
+      "required": [
+        "kind",
+        "health",
+        "damage",
+        "speed",
+        "range",
+        "interval",
+        "radius"
+      ],
+      "additionalProperties": false
+    },
+    "Difficulty": {
+      "type": "object",
+      "properties": {
+        "healthGrowth": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "HP multiplier increase per floor after floor one."
+        },
+        "damageGrowth": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "Attack multiplier increase per floor after floor one."
+        }
+      },
+      "required": [
+        "healthGrowth",
+        "damageGrowth"
+      ],
+      "additionalProperties": false
+    },
+    "ChestEntry": {
+      "type": "object",
+      "properties": {
+        "phase": {
+          "$ref": "#/$defs/ChestPhase",
+          "description": "Generation point."
+        },
+        "itemId": {
+          "type": "string",
+          "description": "Referenced item archetype key."
+        }
+      },
+      "required": [
+        "phase",
+        "itemId"
+      ],
+      "additionalProperties": false
+    },
+    "ArenaConfig": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Typed content schema, independent of transport schema.",
+          "const": 1
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ItemRule"
+          },
+          "description": "Item definitions, including `starter`."
+        },
+        "enemies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EnemyRule"
+          },
+          "description": "Exactly one definition for each enemy kind."
+        },
+        "difficulty": {
+          "$ref": "#/$defs/Difficulty",
+          "description": "Floor scaling."
+        },
+        "chests": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ChestEntry"
+          },
+          "description": "Ordered chest contents."
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "items",
+        "enemies",
+        "difficulty",
+        "chests"
+      ],
+      "additionalProperties": false
+    },
+    "SourceDescriptor": {
+      "type": "object",
+      "properties": {
+        "layer": {
+          "$ref": "#/$defs/Layer",
+          "description": "Position in the fixed override order."
+        },
+        "format": {
+          "$ref": "#/$defs/SourceFormat",
+          "description": "Actual storage format."
+        },
+        "schemaVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Arena source schema."
+        },
+        "evaluator": {
+          "type": "string",
+          "description": "Tanu revision or the SQLite scalar-reading policy."
+        },
+        "sourceSha256": {
+          "type": "string",
+          "description": "Raw TMD digest or normalized queried SQLite snapshot digest.",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        }
+      },
+      "required": [
+        "layer",
+        "format",
+        "schemaVersion",
+        "evaluator",
+        "sourceSha256"
+      ],
+      "additionalProperties": false
+    },
+    "ContentProvenance": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Provenance encoding version."
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceDescriptor"
+          },
+          "description": "Declared sources in base, difficulty, event, debug order."
+        },
+        "origins": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/Layer"
+          },
+          "description": "RFC6901-escaped semantic field paths and their winning layers."
+        }
+      },
+      "required": [
+        "version",
+        "sources",
+        "origins"
+      ],
+      "additionalProperties": false
+    },
+    "ScriptVersion": {
+      "type": "object",
+      "properties": {
+        "hash": {
+          "type": "string",
+          "description": "SHA-256 of source plus the exact contract and execution policy identities.",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "sourceSha256": {
+          "type": "string",
+          "description": "SHA-256 of the UTF-8 source bytes.",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "source": {
+          "type": "string",
+          "description": "Detached source; never a filename or a reference to authoring state."
+        },
+        "contractVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Arena boss context/action schema.",
+          "const": 1
+        },
+        "policyVersion": {
+          "type": "string",
+          "description": "Generic sandbox policy identity."
+        },
+        "rhaiVersion": {
+          "type": "string",
+          "description": "Exact Rhai dependency version."
+        }
+      },
+      "required": [
+        "hash",
+        "sourceSha256",
+        "source",
+        "contractVersion",
+        "policyVersion",
+        "rhaiVersion"
+      ],
+      "additionalProperties": false
+    },
+    "ScriptFault": {
+      "type": "object",
+      "properties": {
+        "tick": {
+          "type": "integer",
+          "minimum": -9223372036854775808,
+          "maximum": 9223372036854775807,
+          "description": "Management tick consumed when the failure was observed."
+        },
+        "enemyId": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Boss entity whose request failed before gameplay mutation."
+        },
+        "scriptHash": {
+          "type": "string",
+          "description": "Active detached script identity."
+        },
+        "diagnostic": {
+          "$ref": "#/$defs/Diagnostic",
+          "description": "Bounded compile/evaluation/application-contract diagnostic."
+        }
+      },
+      "required": [
+        "tick",
+        "enemyId",
+        "scriptHash",
+        "diagnostic"
+      ],
+      "additionalProperties": false
+    },
+    "ScriptSnapshot": {
+      "type": "object",
+      "properties": {
+        "run": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Number of started runs."
+        },
+        "active": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ScriptVersion"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Rules selected when the current or most recent run began."
+        },
+        "pending": {
+          "$ref": "#/$defs/ScriptVersion",
+          "description": "Validated candidate to adopt on start/retry."
+        },
+        "fault": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ScriptFault"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Late evaluation failure; cleared only by starting a new run."
+        }
+      },
+      "required": [
+        "run",
+        "active",
+        "pending",
+        "fault"
+      ],
+      "additionalProperties": false
+    },
+    "ClipSource": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable application clip identifier."
+        },
+        "sourceSha256": {
+          "type": "string",
+          "description": "SHA-256 of the exact bytes, including supported TSQ1 framing.",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "bytes": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "maxItems": 8192,
+          "description": "Exact detached TSQ1 file bytes, at most 8 KiB. Binary validity is checked by the TSQ1 decoder."
+        }
+      },
+      "required": [
+        "id",
+        "sourceSha256",
+        "bytes"
+      ],
+      "additionalProperties": false
+    },
+    "TimelineVersion": {
+      "type": "object",
+      "properties": {
+        "hash": {
+          "type": "string",
+          "description": "SHA-256 of contract, tick rate and ordered clip identities.",
+          "pattern": "^[0-9a-fA-F]{64}$"
+        },
+        "contractVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Arena presentation schema.",
+          "const": 1
+        },
+        "tickRate": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Integer gameplay updates per second.",
+          "const": 60
+        },
+        "clips": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ClipSource"
+          },
+          "description": "Exactly boss-telegraph then floor-transition.",
+          "minItems": 2,
+          "maxItems": 2
+        }
+      },
+      "required": [
+        "hash",
+        "contractVersion",
+        "tickRate",
+        "clips"
+      ],
+      "additionalProperties": false
+    },
+    "BossCue": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique instance identity within the run."
+        },
+        "clipId": {
+          "type": "string",
+          "description": "Source clip identifier.",
+          "const": "boss-telegraph"
+        },
+        "entityId": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Authoritative enemy entity identifier."
+        },
+        "floor": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Floor where this warning started."
+        },
+        "startedTick": {
+          "type": "integer",
+          "minimum": -9223372036854775808,
+          "maximum": 9223372036854775807,
+          "description": "Management tick of the triggering state change."
+        },
+        "offsetTick": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Successful gameplay steps since the trigger."
+        },
+        "nextEventIndex": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Number of consumed TSQ1 bundle events."
+        },
+        "eventCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Total authored bundle events, including empty bundles."
+        },
+        "radius": {
+          "type": "number",
+          "minimum": 0.25,
+          "maximum": 8,
+          "description": "Last authored world-space warning radius."
+        },
+        "intensity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Last authored warning intensity, in [0, 1]."
+        }
+      },
+      "required": [
+        "id",
+        "clipId",
+        "entityId",
+        "floor",
+        "startedTick",
+        "offsetTick",
+        "nextEventIndex",
+        "eventCount",
+        "radius",
+        "intensity"
+      ],
+      "additionalProperties": false
+    },
+    "FloorCue": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique instance identity within the run."
+        },
+        "clipId": {
+          "type": "string",
+          "description": "Source clip identifier.",
+          "const": "floor-transition"
+        },
+        "fromFloor": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Floor being left."
+        },
+        "toFloor": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Floor being entered."
+        },
+        "startedTick": {
+          "type": "integer",
+          "minimum": -9223372036854775808,
+          "maximum": 9223372036854775807,
+          "description": "Management tick of the trigger."
+        },
+        "offsetTick": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Successful gameplay steps since the trigger."
+        },
+        "nextEventIndex": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Number of consumed TSQ1 bundle events."
+        },
+        "eventCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Total authored bundle events."
+        },
+        "opacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Last authored opacity, in [0, 1]."
+        }
+      },
+      "required": [
+        "id",
+        "clipId",
+        "fromFloor",
+        "toFloor",
+        "startedTick",
+        "offsetTick",
+        "nextEventIndex",
+        "eventCount",
+        "opacity"
+      ],
+      "additionalProperties": false
+    },
+    "PresentationSnapshot": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295,
+          "description": "Arena presentation schema.",
+          "const": 1
+        },
+        "run": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Number of accepted starts."
+        },
+        "tick": {
+          "type": "integer",
+          "minimum": -9223372036854775808,
+          "maximum": 9223372036854775807,
+          "description": "Current management tick, including paused ticks."
+        },
+        "simulationStep": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Authoritative cumulative successful gameplay step count."
+        },
+        "bosses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BossCue"
+          },
+          "description": "Live warnings sorted by entity identifier."
+        },
+        "floor": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FloorCue"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "At most one live floor fade."
+        }
+      },
+      "required": [
+        "contractVersion",
+        "run",
+        "tick",
+        "simulationStep",
+        "bosses",
+        "floor"
+      ],
+      "additionalProperties": false
+    },
+    "TimelineSnapshot": {
+      "type": "object",
+      "properties": {
+        "run": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Number of accepted starts."
+        },
+        "active": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TimelineVersion"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Sources selected at the last accepted start."
+        },
+        "pending": {
+          "$ref": "#/$defs/TimelineVersion",
+          "description": "Validated sources to adopt on the next start/retry."
+        },
+        "presentation": {
+          "$ref": "#/$defs/PresentationSnapshot",
+          "description": "Current cue clocks and values."
+        }
+      },
+      "required": [
+        "run",
+        "active",
+        "pending",
+        "presentation"
+      ],
+      "additionalProperties": false
+    },
+    "Vec2": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "World X, in Unity world units."
+        },
+        "y": {
+          "type": "number",
+          "minimum": -3.4028234663852886e+38,
+          "maximum": 3.4028234663852886e+38,
+          "description": "World Z, in Unity world units; this is not vertical height."
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "additionalProperties": false
+    },
+    "Layer": {
+      "enum": [
+        "base",
+        "difficulty",
+        "event",
+        "debug"
+      ]
+    },
+    "SourceFormat": {
+      "enum": [
+        "tmd",
+        "sqlite"
+      ]
+    },
+    "ChestPhase": {
+      "enum": [
+        "preparing",
+        "boss"
+      ]
+    },
+    "Diagnostic": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "Variant discriminator. Numeric namespaces depend on the message/actor; see semantic notes."
+        },
+        "message": {
+          "type": "string",
+          "description": "Bounded diagnostic text; not a stable contract code."
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Optional source line reported by the script engine."
+        },
+        "column": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Optional source column reported by the script engine."
+        }
+      },
+      "required": [
+        "kind",
+        "message",
+        "line",
+        "column"
+      ],
+      "additionalProperties": false
+    },
+    "Attack": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "tick": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807,
+              "description": "Management tick at which this event was emitted."
+            },
+            "order": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+            },
+            "actorId": {
+              "const": 0,
+              "description": "Attacking actor ID; 0 is the player."
+            },
+            "attackId": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Attack correlation ID; see burst limitations in the semantic notes."
+            },
+            "itemId": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Run-local item instance ID (a distinct namespace from actor IDs)."
+            },
+            "kind": {
+              "enum": [
+                0,
+                1,
+                2
+              ],
+              "description": "Variant discriminator. Numeric namespaces depend on the message/actor; see semantic notes."
+            },
+            "origin": {
+              "$ref": "#/$defs/Vec2",
+              "description": "World-space origin of the attack."
+            },
+            "direction": {
+              "$ref": "#/$defs/Vec2",
+              "description": "Ground-plane direction; not a world-space target position."
+            }
+          },
+          "required": [
+            "tick",
+            "order",
+            "actorId",
+            "attackId",
+            "itemId",
+            "kind",
+            "origin",
+            "direction"
+          ],
+          "additionalProperties": false,
+          "title": "Player weapon"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tick": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807,
+              "description": "Management tick at which this event was emitted."
+            },
+            "order": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+            },
+            "actorId": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647,
+              "description": "Attacking actor ID; 0 is the player."
+            },
+            "attackId": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Attack correlation ID; see burst limitations in the semantic notes."
+            },
+            "kind": {
+              "enum": [
+                0,
+                1,
+                2,
+                3
+              ],
+              "description": "Variant discriminator. Numeric namespaces depend on the message/actor; see semantic notes."
+            },
+            "origin": {
+              "$ref": "#/$defs/Vec2",
+              "description": "World-space origin of the attack."
+            },
+            "direction": {
+              "$ref": "#/$defs/Vec2",
+              "description": "Ground-plane direction; not a world-space target position."
+            }
+          },
+          "required": [
+            "tick",
+            "order",
+            "actorId",
+            "attackId",
+            "kind",
+            "origin",
+            "direction"
+          ],
+          "additionalProperties": false,
+          "title": "Enemy attack"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tick": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807,
+              "description": "Management tick at which this event was emitted."
+            },
+            "order": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+            },
+            "actorId": {
+              "const": 0,
+              "description": "Attacking actor ID; 0 is the player."
+            },
+            "attackId": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Attack correlation ID; see burst limitations in the semantic notes."
+            },
+            "itemId": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Run-local item instance ID (a distinct namespace from actor IDs)."
+            },
+            "kind": {
+              "const": "grenade",
+              "description": "Variant discriminator. Numeric namespaces depend on the message/actor; see semantic notes."
+            },
+            "origin": {
+              "$ref": "#/$defs/Vec2",
+              "description": "World-space origin of the attack."
+            },
+            "target": {
+              "$ref": "#/$defs/Vec2",
+              "description": "Bounded world-space grenade landing point."
+            }
+          },
+          "required": [
+            "tick",
+            "order",
+            "actorId",
+            "attackId",
+            "itemId",
+            "kind",
+            "origin",
+            "target"
+          ],
+          "additionalProperties": false,
+          "title": "Grenade throw"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tick": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807,
+              "description": "Management tick at which this event was emitted."
+            },
+            "order": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+            },
+            "actorId": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647,
+              "description": "Attacking actor ID; 0 is the player."
+            },
+            "attackId": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Attack correlation ID; see burst limitations in the semantic notes."
+            },
+            "kind": {
+              "const": "boss_burst",
+              "description": "Variant discriminator. Numeric namespaces depend on the message/actor; see semantic notes."
+            },
+            "origin": {
+              "$ref": "#/$defs/Vec2",
+              "description": "World-space origin of the attack."
+            }
+          },
+          "required": [
+            "tick",
+            "order",
+            "actorId",
+            "attackId",
+            "kind",
+            "origin"
+          ],
+          "additionalProperties": false,
+          "title": "Boss burst"
+        }
+      ]
+    },
+    "Damage": {
+      "type": "object",
+      "properties": {
+        "tick": {
+          "type": "integer",
+          "minimum": -9223372036854775808,
+          "maximum": 9223372036854775807,
+          "description": "Management tick at which this event was emitted."
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+        },
+        "targetId": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Damaged actor ID; 0 is the player."
+        },
+        "targetKind": {
+          "enum": [
+            "enemy",
+            "player"
+          ],
+          "description": "Whether the target is the player or an enemy."
+        },
+        "damage": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Attempted damage before shield absorption and HP clamping."
+        },
+        "attackIds": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "description": "Contributing attack IDs in first-hit accumulation order."
+        },
+        "health": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "HP after applying this operation."
+        },
+        "absorbed": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Integral shield charge absorbed by this player damage application; zero for enemies."
+        }
+      },
+      "required": [
+        "tick",
+        "order",
+        "targetId",
+        "targetKind",
+        "damage",
+        "attackIds",
+        "health",
+        "absorbed"
+      ],
+      "additionalProperties": false
+    },
+    "Death": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "tick": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807,
+              "description": "Management tick at which this event was emitted."
+            },
+            "order": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+            },
+            "entityId": {
+              "const": 0,
+              "description": "Run-local actor/effect identifier; player is 0 where applicable."
+            },
+            "kind": {
+              "const": "player",
+              "description": "Variant discriminator. Numeric namespaces depend on the message/actor; see semantic notes."
+            }
+          },
+          "required": [
+            "tick",
+            "order",
+            "entityId",
+            "kind"
+          ],
+          "additionalProperties": false,
+          "title": "Player"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tick": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807,
+              "description": "Management tick at which this event was emitted."
+            },
+            "order": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+            },
+            "entityId": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 2147483647,
+              "description": "Run-local actor/effect identifier; player is 0 where applicable."
+            },
+            "kind": {
+              "enum": [
+                0,
+                1,
+                2,
+                3
+              ],
+              "description": "Variant discriminator. Numeric namespaces depend on the message/actor; see semantic notes."
+            }
+          },
+          "required": [
+            "tick",
+            "order",
+            "entityId",
+            "kind"
+          ],
+          "additionalProperties": false,
+          "title": "Enemy"
+        }
+      ]
+    },
+    "InventoryEvent": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "tick": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807,
+              "description": "Management tick of this message; snapshots use -1 before the first completed tick."
+            },
+            "sequence": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Runtime-assigned input queue sequence, not output delivery sequence."
+            },
+            "source": {
+              "type": "string",
+              "description": "Producer identity bound to the input."
+            },
+            "messageId": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Original producer message ID."
+            },
+            "operation": {
+              "enum": [
+                "/input/arena/take",
+                "/input/arena/equip",
+                "/input/arena/unequip",
+                "/input/arena/discard",
+                "/input/arena/upgrade"
+              ],
+              "description": "The input OSC address responsible for this inventory mutation."
+            },
+            "itemId": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Run-local item instance ID (a distinct namespace from actor IDs)."
+            },
+            "index": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Backpack index; an unused zero placeholder for unequip."
+            },
+            "slot": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Equipment slot (WeaponA=0, WeaponB=1, ItemA=2, ItemB=3); unused transfer fields can be zero."
+            },
+            "inventory": {
+              "$ref": "#/$defs/Inventory",
+              "description": "Complete post-operation inventory state."
+            }
+          },
+          "required": [
+            "tick",
+            "sequence",
+            "source",
+            "messageId",
+            "operation",
+            "itemId",
+            "index",
+            "slot",
+            "inventory"
+          ],
+          "additionalProperties": false,
+          "title": "Transfer or upgrade"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tick": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807,
+              "description": "Management tick at which this event was emitted."
+            },
+            "order": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+            },
+            "operation": {
+              "const": "/input/arena/use",
+              "description": "The input OSC address responsible for this inventory mutation."
+            },
+            "slot": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Equipment slot (WeaponA=0, WeaponB=1, ItemA=2, ItemB=3); unused transfer fields can be zero."
+            },
+            "itemId": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Run-local item instance ID (a distinct namespace from actor IDs)."
+            },
+            "inventory": {
+              "$ref": "#/$defs/Inventory",
+              "description": "Complete post-operation inventory state."
+            }
+          },
+          "required": [
+            "tick",
+            "order",
+            "operation",
+            "slot",
+            "itemId",
+            "inventory"
+          ],
+          "additionalProperties": false,
+          "title": "Consumed item"
+        }
+      ]
+    },
+    "Phase": {
+      "type": "object",
+      "properties": {
+        "tick": {
+          "type": "integer",
+          "minimum": -9223372036854775808,
+          "maximum": 9223372036854775807,
+          "description": "Management tick at which this event was emitted."
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+        },
+        "previous": {
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "description": "Previous game phase (0..5)."
+        },
+        "phase": {
+          "enum": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "description": "Current game phase; see the six numeric phase values in the semantic notes."
+        },
+        "floor": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Current floor; Preparing is floor zero."
+        },
+        "floorsCleared": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Completed floors in this run."
+        },
+        "enemiesDefeated": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Total enemy kills in this run, including bosses."
+        },
+        "bossesDefeated": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Boss kills in this run."
+        }
+      },
+      "required": [
+        "tick",
+        "order",
+        "previous",
+        "phase",
+        "floor",
+        "floorsCleared",
+        "enemiesDefeated",
+        "bossesDefeated"
+      ],
+      "additionalProperties": false
+    },
+    "Reward": {
+      "type": "object",
+      "properties": {
+        "tick": {
+          "type": "integer",
+          "minimum": -9223372036854775808,
+          "maximum": 9223372036854775807,
+          "description": "Management tick at which this event was emitted."
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+        },
+        "floor": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Current floor; Preparing is floor zero."
+        },
+        "health": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "HP after applying this operation."
+        },
+        "itemIds": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          },
+          "description": "Ordered newly generated chest item IDs."
+        },
+        "inventory": {
+          "$ref": "#/$defs/Inventory",
+          "description": "Complete post-operation inventory state."
+        }
+      },
+      "required": [
+        "tick",
+        "order",
+        "floor",
+        "health",
+        "itemIds",
+        "inventory"
+      ],
+      "additionalProperties": false
+    },
+    "Result": {
+      "type": "object",
+      "properties": {
+        "tick": {
+          "type": "integer",
+          "minimum": -9223372036854775808,
+          "maximum": 9223372036854775807,
+          "description": "Management tick at which this event was emitted."
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+        },
+        "result": {
+          "$ref": "#/$defs/RunResult",
+          "description": "Immutable values captured at player death."
+        }
+      },
+      "required": [
+        "tick",
+        "order",
+        "result"
+      ],
+      "additionalProperties": false
+    },
+    "Run": {
+      "type": "object",
+      "properties": {
+        "tick": {
+          "type": "integer",
+          "minimum": -9223372036854775808,
+          "maximum": 9223372036854775807,
+          "description": "Management tick at which this event was emitted."
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+        },
+        "run": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Session-local number incremented by each successful start/retry."
+        },
+        "content": {
+          "$ref": "#/$defs/ContentVersion",
+          "description": "Detached game-content version adopted for this run."
+        },
+        "script": {
+          "$ref": "#/$defs/ScriptVersion",
+          "description": "Detached boss script adopted for this run."
+        },
+        "timeline": {
+          "$ref": "#/$defs/TimelineVersion",
+          "description": "Detached presentation sources adopted for this run."
+        }
+      },
+      "required": [
+        "tick",
+        "order",
+        "run",
+        "content",
+        "script",
+        "timeline"
+      ],
+      "additionalProperties": false
+    },
+    "Spawn": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "tick": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807,
+              "description": "Management tick at which this event was emitted."
+            },
+            "order": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+            },
+            "kind": {
+              "const": "enemy",
+              "description": "Variant discriminator. Numeric namespaces depend on the message/actor; see semantic notes."
+            },
+            "entityId": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Run-local actor/effect identifier; player is 0 where applicable."
+            },
+            "state": {
+              "$ref": "#/$defs/Enemy",
+              "description": "Complete actor state at creation."
+            }
+          },
+          "required": [
+            "tick",
+            "order",
+            "kind",
+            "entityId",
+            "state"
+          ],
+          "additionalProperties": false,
+          "title": "enemy"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tick": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807,
+              "description": "Management tick at which this event was emitted."
+            },
+            "order": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+            },
+            "kind": {
+              "const": "projectile",
+              "description": "Variant discriminator. Numeric namespaces depend on the message/actor; see semantic notes."
+            },
+            "entityId": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Run-local actor/effect identifier; player is 0 where applicable."
+            },
+            "state": {
+              "$ref": "#/$defs/Projectile",
+              "description": "Complete actor state at creation."
+            }
+          },
+          "required": [
+            "tick",
+            "order",
+            "kind",
+            "entityId",
+            "state"
+          ],
+          "additionalProperties": false,
+          "title": "projectile"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tick": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807,
+              "description": "Management tick at which this event was emitted."
+            },
+            "order": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+            },
+            "kind": {
+              "const": "grenade",
+              "description": "Variant discriminator. Numeric namespaces depend on the message/actor; see semantic notes."
+            },
+            "entityId": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Run-local actor/effect identifier; player is 0 where applicable."
+            },
+            "state": {
+              "$ref": "#/$defs/Grenade",
+              "description": "Complete actor state at creation."
+            }
+          },
+          "required": [
+            "tick",
+            "order",
+            "kind",
+            "entityId",
+            "state"
+          ],
+          "additionalProperties": false,
+          "title": "grenade"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tick": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807,
+              "description": "Management tick at which this event was emitted."
+            },
+            "order": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+            },
+            "kind": {
+              "const": "effect",
+              "description": "Variant discriminator. Numeric namespaces depend on the message/actor; see semantic notes."
+            },
+            "entityId": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Run-local actor/effect identifier; player is 0 where applicable."
+            },
+            "state": {
+              "$ref": "#/$defs/Effect",
+              "description": "Complete actor state at creation."
+            }
+          },
+          "required": [
+            "tick",
+            "order",
+            "kind",
+            "entityId",
+            "state"
+          ],
+          "additionalProperties": false,
+          "title": "effect"
+        }
+      ]
+    },
+    "Despawn": {
+      "type": "object",
+      "properties": {
+        "tick": {
+          "type": "integer",
+          "minimum": -9223372036854775808,
+          "maximum": 9223372036854775807,
+          "description": "Management tick at which this event was emitted."
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+        },
+        "kind": {
+          "enum": [
+            "enemy",
+            "projectile",
+            "grenade",
+            "effect"
+          ],
+          "description": "Variant discriminator. Numeric namespaces depend on the message/actor; see semantic notes."
+        },
+        "entityId": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Run-local actor/effect identifier; player is 0 where applicable."
+        }
+      },
+      "required": [
+        "tick",
+        "order",
+        "kind",
+        "entityId"
+      ],
+      "additionalProperties": false
+    },
+    "CommandOutcome": {
+      "type": "object",
+      "properties": {
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Runtime-assigned input queue sequence, not output delivery sequence."
+        },
+        "source": {
+          "type": "string",
+          "description": "Producer identity bound to the input."
+        },
+        "id": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Producer message ID for a receipt; see type-specific descriptions elsewhere."
+        },
+        "tick": {
+          "type": "integer",
+          "minimum": -9223372036854775808,
+          "maximum": 9223372036854775807,
+          "description": "Management tick of this message; snapshots use -1 before the first completed tick."
+        },
+        "appliedTick": {
+          "type": "integer",
+          "minimum": -9223372036854775808,
+          "maximum": 9223372036854775807,
+          "description": "Original application tick; -1 for ID conflicts."
+        },
+        "accepted": {
+          "type": "boolean",
+          "description": "Whether the Runtime game operation was accepted."
+        },
+        "duplicate": {
+          "type": "boolean",
+          "description": "Whether this response represents a duplicate or reused producer ID."
+        },
+        "code": {
+          "enum": [
+            "ok",
+            "invalid_state",
+            "out_of_range",
+            "stale_item",
+            "invalid_target",
+            "rule_rejected",
+            "id_conflict"
+          ],
+          "description": "Stable result code, not localized display text."
+        }
+      },
+      "required": [
+        "sequence",
+        "source",
+        "id",
+        "tick",
+        "appliedTick",
+        "accepted",
+        "duplicate",
+        "code"
+      ],
+      "additionalProperties": false
+    },
+    "UseOutcome": {
+      "type": "object",
+      "properties": {
+        "tick": {
+          "type": "integer",
+          "minimum": -9223372036854775808,
+          "maximum": 9223372036854775807,
+          "description": "Management tick at which this event was emitted."
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18446744073709551615,
+          "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+        },
+        "slot": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Equipment slot (WeaponA=0, WeaponB=1, ItemA=2, ItemB=3); unused transfer fields can be zero."
+        },
+        "itemId": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647,
+          "description": "Run-local item instance ID (a distinct namespace from actor IDs)."
+        },
+        "consumed": {
+          "type": "boolean",
+          "description": "Whether the item was actually consumed by this gameplay attempt."
+        },
+        "code": {
+          "enum": [
+            "ok",
+            "empty_slot",
+            "automatic_shield",
+            "full_health",
+            "invalid_aim"
+          ],
+          "description": "Stable result code, not localized display text."
+        }
+      },
+      "required": [
+        "tick",
+        "order",
+        "slot",
+        "itemId",
+        "consumed",
+        "code"
+      ],
+      "additionalProperties": false
+    },
+    "TimelineEvent": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "tick": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807,
+              "description": "Management tick at which this event was emitted."
+            },
+            "order": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+            },
+            "run": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Session-local number incremented by each successful start/retry."
+            },
+            "cueId": {
+              "type": "string",
+              "description": "Run-local presentation cue identity."
+            },
+            "clipId": {
+              "const": "boss-telegraph",
+              "description": "Authored clip identity."
+            },
+            "offsetTick": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Successful gameplay steps since this cue started."
+            },
+            "kind": {
+              "const": "start",
+              "description": "Variant discriminator. Numeric namespaces depend on the message/actor; see semantic notes."
+            },
+            "entityId": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Run-local actor/effect identifier; player is 0 where applicable."
+            },
+            "floor": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Current floor; Preparing is floor zero."
+            }
+          },
+          "required": [
+            "tick",
+            "order",
+            "run",
+            "cueId",
+            "clipId",
+            "offsetTick",
+            "kind",
+            "entityId",
+            "floor"
+          ],
+          "additionalProperties": false,
+          "title": "Boss start"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tick": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807,
+              "description": "Management tick at which this event was emitted."
+            },
+            "order": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+            },
+            "run": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Session-local number incremented by each successful start/retry."
+            },
+            "cueId": {
+              "type": "string",
+              "description": "Run-local presentation cue identity."
+            },
+            "clipId": {
+              "const": "floor-transition",
+              "description": "Authored clip identity."
+            },
+            "offsetTick": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Successful gameplay steps since this cue started."
+            },
+            "kind": {
+              "const": "start",
+              "description": "Variant discriminator. Numeric namespaces depend on the message/actor; see semantic notes."
+            },
+            "fromFloor": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Floor being left."
+            },
+            "toFloor": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Floor being entered."
+            }
+          },
+          "required": [
+            "tick",
+            "order",
+            "run",
+            "cueId",
+            "clipId",
+            "offsetTick",
+            "kind",
+            "fromFloor",
+            "toFloor"
+          ],
+          "additionalProperties": false,
+          "title": "Floor start"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tick": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807,
+              "description": "Management tick at which this event was emitted."
+            },
+            "order": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+            },
+            "run": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Session-local number incremented by each successful start/retry."
+            },
+            "cueId": {
+              "type": "string",
+              "description": "Run-local presentation cue identity."
+            },
+            "clipId": {
+              "enum": [
+                "boss-telegraph",
+                "floor-transition"
+              ],
+              "description": "Authored clip identity."
+            },
+            "offsetTick": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Successful gameplay steps since this cue started."
+            },
+            "kind": {
+              "const": "event",
+              "description": "Variant discriminator. Numeric namespaces depend on the message/actor; see semantic notes."
+            },
+            "trackIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295,
+              "description": "Zero-based authored track index."
+            },
+            "eventIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295,
+              "description": "Zero-based event index within its authored track."
+            },
+            "bundle": {
+              "$ref": "#/$defs/WireBundle",
+              "description": "Original typed OSC bundle, preserving empty bundles and message/argument order."
+            }
+          },
+          "required": [
+            "tick",
+            "order",
+            "run",
+            "cueId",
+            "clipId",
+            "offsetTick",
+            "kind",
+            "trackIndex",
+            "eventIndex",
+            "bundle"
+          ],
+          "additionalProperties": false,
+          "title": "Applied bundle"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tick": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807,
+              "description": "Management tick at which this event was emitted."
+            },
+            "order": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Zero-based message index within the emitted OSC bundle, including other message families."
+            },
+            "run": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Session-local number incremented by each successful start/retry."
+            },
+            "cueId": {
+              "type": "string",
+              "description": "Run-local presentation cue identity."
+            },
+            "clipId": {
+              "enum": [
+                "boss-telegraph",
+                "floor-transition"
+              ],
+              "description": "Authored clip identity."
+            },
+            "offsetTick": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 18446744073709551615,
+              "description": "Successful gameplay steps since this cue started."
+            },
+            "kind": {
+              "const": "stop",
+              "description": "Variant discriminator. Numeric namespaces depend on the message/actor; see semantic notes."
+            },
+            "reason": {
+              "enum": [
+                "new-run",
+                "menu",
+                "lifecycle",
+                "boss-phase-ended",
+                "completed",
+                "replaced"
+              ],
+              "description": "Reason the cue instance stopped."
+            }
+          },
+          "required": [
+            "tick",
+            "order",
+            "run",
+            "cueId",
+            "clipId",
+            "offsetTick",
+            "kind",
+            "reason"
+          ],
+          "additionalProperties": false,
+          "title": "Stop"
+        }
+      ]
+    },
+    "WireArg": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "int",
+              "description": "OSC scalar tag."
+            },
+            "value": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647,
+              "description": "Value interpreted according to its exact OSC tag."
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "int64",
+              "description": "OSC scalar tag."
+            },
+            "value": {
+              "type": "integer",
+              "minimum": -9223372036854775808,
+              "maximum": 9223372036854775807,
+              "description": "Value interpreted according to its exact OSC tag."
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "float",
+              "description": "OSC scalar tag."
+            },
+            "value": {
+              "type": "number",
+              "minimum": -3.4028234663852886e+38,
+              "maximum": 3.4028234663852886e+38,
+              "description": "Finite f32; exact f32 transport encoding is checked by the wire codec."
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "str",
+              "description": "OSC scalar tag."
+            },
+            "value": {
+              "type": "string",
+              "description": "Value interpreted according to its exact OSC tag."
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "bool",
+              "description": "OSC scalar tag."
+            },
+            "value": {
+              "type": "boolean",
+              "description": "Value interpreted according to its exact OSC tag."
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "WireMessage": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string",
+          "description": "Exact OSC address."
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WireArg"
+          },
+          "description": "Ordered typed OSC scalar arguments."
+        }
+      },
+      "required": [
+        "address",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    "WireBundle": {
+      "type": "object",
+      "properties": {
+        "messages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WireMessage"
+          },
+          "description": "Ordered OSC messages; an empty list remains a valid bundle."
+        }
+      },
+      "required": [
+        "messages"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

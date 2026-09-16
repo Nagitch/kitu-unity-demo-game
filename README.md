@@ -19,6 +19,13 @@ the CLI and the WebTransport gateway belong to
 [Kitu](https://github.com/Nagitch/kitu-logic-processor). This repository consumes
 those interfaces and does not vendor their production implementation.
 
+## Event contract
+
+Read the [Arena OSC event reference](docs/specs/arena-events.md) for the complete
+message list, payload fields, emission conditions and Unity presentation guidance.
+The checked-in Markdown is generated from the versioned catalog, JSON Schemas
+and authored semantics; CI checks document drift and real Runtime traffic.
+
 ## Setup
 
 Use Rust **1.96.0**, Python **3.11 or later**, Node **24**, pnpm **11.9.0** and Git
@@ -51,7 +58,12 @@ temporary override to apply.
 
 ## Verification
 
+The portable `all`/`contracts` scopes also need the JSON Schema validator:
+
 ```sh
+python3 -m venv .tmp/contracts-venv
+. .tmp/contracts-venv/bin/activate
+python3 -m pip install -r tools/requirements-contracts.txt
 python3 tools/run.py python3 tools/verify-repository.py --scope all --evidence .tmp/portable-1
 python3 tools/run.py python3 tools/verify-arena-macos.py --scope native --evidence .tmp/native-1
 python3 tools/run.py python3 tools/verify-arena-macos.py --scope full --evidence .tmp/full-1

@@ -21,7 +21,7 @@ from arena_macos import ROOT, artifact, run, write_json
 from source_evidence import capture_graph, capture_source
 
 FRONTEND = ROOT / "admin"
-SCOPES = ("reference", "fmt", "test", "clippy", "docs", "data", "frontend")
+SCOPES = ("reference", "fmt", "test", "clippy", "docs", "data", "frontend", "contracts")
 
 
 def now():
@@ -101,7 +101,7 @@ def main():
             if not re.search(r"\brustc " + re.escape(expected) + r"\b", version):
                 raise RuntimeError(f"Use the pinned Rust {expected} toolchain")
         for scope in scopes:
-            if scope in ("test", "clippy", "docs", "data"):
+            if scope in ("test", "clippy", "docs", "data", "contracts"):
                 features = ["--all-features"] if scope in ("clippy", "docs") else []
                 command("prepare-" + scope, [sys.executable, ROOT / "tools/prepare-kitu-build.py",
                                             "--manifest-path", ROOT / "app/Cargo.toml",
@@ -142,6 +142,16 @@ def main():
                 if "Python package interoperability: " + package["hash"] not in output:
                     raise RuntimeError("Rust/C ABI did not consume the staged Python package")
                 report["package"] = package
+            elif scope == "contracts":
+                command("contract-reference", [sys.executable, "tools/arena_contracts.py", "check"])
+                command("contract-tool-tests", [sys.executable, "-m", "unittest", "discover",
+                                                  "-s", "tools/contract_tests", "-v"])
+                trace = evidence / "arena-contract-trace.ndjson"
+                command("contract-runtime", ["cargo", "test", "--locked", "-p", "kitu-demo-game",
+                                               "--test", "arena_contract"],
+                        extra={"KITU_ARENA_CONTRACT_TRACE": str(trace)})
+                command("contract-trace", [sys.executable, "tools/arena_contracts.py", "check",
+                                             "--trace", str(trace)])
             elif scope == "frontend":
                 _, node = command("node-version", ["node", "--version"], cwd=FRONTEND, timeout=60)
                 if not re.search(r"\bv24\.", node):

@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        scope: [reference, fmt, test, clippy, docs, data, frontend]
+        scope: [reference, fmt, test, clippy, docs, data, frontend, contracts]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -71,6 +71,10 @@ jobs:
       - name: Prepare Admin and WASM dependencies
         if: matrix.scope == 'frontend'
         run: python3 tools/setup.py
+
+      - name: Install contract verification tools
+        if: matrix.scope == 'contracts'
+        run: python3 -m pip install -r tools/requirements-contracts.txt
 
       - name: Verify repository scope
         run: >-

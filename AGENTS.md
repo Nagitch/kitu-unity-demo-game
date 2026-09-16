@@ -18,3 +18,15 @@ Run repository-local checks appropriate to the change. Python verification
 reports require an absent evidence directory. Native/full verification runs on
 macOS, and full requires licensed Unity 6000.6.0f1. Preserve unrelated generated
 Unity settings after verification. Never claim an unexecuted gate passed.
+
+## Arena message contract
+
+Before adding or changing an Arena OSC message, read
+`docs/specs/arena-events.md`. Keep its catalog, JSON Schemas, authored semantics
+and examples in `docs/contracts/arena-v1/` consistent with the implementation.
+Regenerate the reference with `python3 tools/arena_contracts.py generate`; do not
+hand-edit its generated region. Run the `contracts` verification scope (with
+`tools/requirements-contracts.txt` installed), plus behavior tests for changes to
+emission conditions, order, duplication, pause or replay. New addresses and
+payload variants need examples and real trace coverage. Review compatibility
+before changing the wire shape or meaning; do not silently rewrite v1 fixtures.
