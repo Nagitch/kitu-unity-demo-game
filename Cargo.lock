@@ -883,7 +883,7 @@ dependencies = [
 [[package]]
 name = "kitu-app-actions"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
 dependencies = [
  "kitu-osc-ir",
  "serde",
@@ -893,7 +893,7 @@ dependencies = [
 [[package]]
 name = "kitu-core"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
 dependencies = [
  "thiserror",
 ]
@@ -901,7 +901,7 @@ dependencies = [
 [[package]]
 name = "kitu-data-sqlite"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
 dependencies = [
  "rusqlite",
  "serde",
@@ -911,7 +911,7 @@ dependencies = [
 [[package]]
 name = "kitu-data-tmd"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
 dependencies = [
  "kitu-core",
  "serde_json",
@@ -971,7 +971,7 @@ dependencies = [
 [[package]]
 name = "kitu-ecs"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
 dependencies = [
  "kitu-core",
 ]
@@ -979,7 +979,7 @@ dependencies = [
 [[package]]
 name = "kitu-osc-ir"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
 dependencies = [
  "kitu-core",
 ]
@@ -987,7 +987,7 @@ dependencies = [
 [[package]]
 name = "kitu-runtime"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
 dependencies = [
  "kitu-app-actions",
  "kitu-core",
@@ -1000,7 +1000,7 @@ dependencies = [
 [[package]]
 name = "kitu-scripting-rhai"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
 dependencies = [
  "rhai",
  "serde",
@@ -1010,7 +1010,7 @@ dependencies = [
 [[package]]
 name = "kitu-shell"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
 dependencies = [
  "kitu-core",
  "kitu-osc-ir",
@@ -1022,7 +1022,7 @@ dependencies = [
 [[package]]
 name = "kitu-transport"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
 dependencies = [
  "kitu-core",
  "kitu-osc-ir",
@@ -1037,7 +1037,7 @@ dependencies = [
 [[package]]
 name = "kitu-tsq1"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
 dependencies = [
  "anyhow",
  "kitu-core",
@@ -1052,7 +1052,7 @@ dependencies = [
 [[package]]
 name = "kitu-unity-ffi"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=2b3187c7891099f0af92ee8effa479922877edf5#2b3187c7891099f0af92ee8effa479922877edf5"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
 dependencies = [
  "kitu-core",
  "kitu-osc-ir",
@@ -1213,7 +1213,7 @@ dependencies = [
 [[package]]
 name = "openformula-kernel"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/openformula-kernel.git?rev=5448dcf6d130e4355da15aeed6c88e56a9a15673#5448dcf6d130e4355da15aeed6c88e56a9a15673"
+source = "git+https://github.com/Nagitch/openformula-kernel.git?rev=157481473506f1242f5370c584253ddaa34be788#157481473506f1242f5370c584253ddaa34be788"
 dependencies = [
  "libm",
 ]
@@ -1898,7 +1898,7 @@ dependencies = [
 [[package]]
 name = "tmd-core"
 version = "0.0.1"
-source = "git+https://github.com/Nagitch/tanu-markdown.git?rev=194358e8791f1391492abcb60d8cfcc37bbb383a#194358e8791f1391492abcb60d8cfcc37bbb383a"
+source = "git+https://github.com/Nagitch/tanu-markdown.git?rev=c84a80143ca7cb7d44256d83128ea7aac7c69ebc#c84a80143ca7cb7d44256d83128ea7aac7c69ebc"
 dependencies = [
  "chrono",
  "hex",
@@ -1922,7 +1922,7 @@ dependencies = [
 [[package]]
 name = "tmd-data"
 version = "0.0.1"
-source = "git+https://github.com/Nagitch/tanu-markdown.git?rev=194358e8791f1391492abcb60d8cfcc37bbb383a#194358e8791f1391492abcb60d8cfcc37bbb383a"
+source = "git+https://github.com/Nagitch/tanu-markdown.git?rev=c84a80143ca7cb7d44256d83128ea7aac7c69ebc#c84a80143ca7cb7d44256d83128ea7aac7c69ebc"
 dependencies = [
  "serde",
 ]
@@ -1930,7 +1930,7 @@ dependencies = [
 [[package]]
 name = "tmd-formula"
 version = "0.0.1"
-source = "git+https://github.com/Nagitch/tanu-markdown.git?rev=194358e8791f1391492abcb60d8cfcc37bbb383a#194358e8791f1391492abcb60d8cfcc37bbb383a"
+source = "git+https://github.com/Nagitch/tanu-markdown.git?rev=c84a80143ca7cb7d44256d83128ea7aac7c69ebc#c84a80143ca7cb7d44256d83128ea7aac7c69ebc"
 dependencies = [
  "openformula-kernel",
  "serde_json",
@@ -2097,7 +2097,7 @@ dependencies = [
 [[package]]
 name = "tsq1"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/tsq1?rev=05707147e83a4fba591a3933d49f056bb6d3540b#05707147e83a4fba591a3933d49f056bb6d3540b"
+source = "git+https://github.com/Nagitch/tsq1?rev=168e3918c4f23407e776b831b20476b11134cf28#168e3918c4f23407e776b831b20476b11134cf28"
 dependencies = [
  "midly",
  "openformula-kernel",
@@ -2106,7 +2106,7 @@ dependencies = [
 [[package]]
 name = "tsq1-osc"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/tsq1?rev=05707147e83a4fba591a3933d49f056bb6d3540b#05707147e83a4fba591a3933d49f056bb6d3540b"
+source = "git+https://github.com/Nagitch/tsq1?rev=168e3918c4f23407e776b831b20476b11134cf28#168e3918c4f23407e776b831b20476b11134cf28"
 dependencies = [
  "osc-codec-msgpack",
  "osc-ir",
