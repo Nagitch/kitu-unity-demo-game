@@ -84,7 +84,7 @@ jobs:
 
       - name: Retain portable evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: demo-${{ matrix.scope }}
           path: .tmp/ci/
@@ -135,7 +135,7 @@ jobs:
 
       - name: Retain native evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: demo-native
           path: .tmp/ci/
