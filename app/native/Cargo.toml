@@ -28,5 +28,5 @@ serde_json = "1"
 kitu-tsq1 = { workspace = true }
 kitu-transport = { workspace = true }
 ureq = { version = "3", default-features = false, features = ["json"] }
-tungstenite = "0.29"
+tungstenite = "0.30"
 sha2 = "0.11"
