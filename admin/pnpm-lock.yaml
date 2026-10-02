@@ -206,6 +206,11 @@ packages:
     peerDependencies:
       svelte: ^5
 
+  '@lucide/svelte@1.49.0':
+    resolution: {integrity: sha512-RFH6Vx7dj6hshcBa1qJ0nKAWwkh385jJbDwF1WVg7yflC89310BsA55SEmJnaSRfr03dAyZMMLUC1EMGBu0Z0Q==}
+    peerDependencies:
+      svelte: ^5
+
   '@napi-rs/wasm-runtime@1.1.6':
     resolution: {integrity: sha512-ZLv/JdUfkvOy9eCnnBaGfiO+XimbjebAeO+MRQqD/B+FR1tnRN0tpKSJHRbE8sFfS6aqsXZ67TQjfwfsxULVbg==}
     peerDependencies:
@@ -1355,6 +1360,9 @@ packages:
   tailwind-merge@3.6.0:
     resolution: {integrity: sha512-uxL7qAVQriqRQPAyK3pj66VqskWqoZ37PW94jwOTwNfq/z9oyu1V+eqrZqtR2+fCiXdYOZe/Modt8GtvqNzu+w==}
 
+  tailwind-merge@3.7.0:
+    resolution: {integrity: sha512-XPPUyAc+cvspz3lHTcR/QgPfW2A0lv/xQNIjX3HGhLR+Nq2lHaLq5MtTesHn8GUr3W3DguT2KT5x3NVgRtYwmA==}
+
   tailwindcss@4.3.1:
     resolution: {integrity: sha512-hk+TB1m+K8CYNrP6rjQaq/Y+4Zylwpa87mLYBKCunwnnQ9p+fHb7kmSfGqyEJoxF/O6CDyABWVFEafNSYKll+Q==}
 
@@ -1368,6 +1376,9 @@ packages:
 
   three@0.185.0:
     resolution: {integrity: sha512-+yRrcRO2iZa8uzvNNl0d7cL4huhgKgBvVJ0njcTe8xFqZ6DMAFZdCKDP91SEAuj25bNAj7k1QQdf+srZywVK6w==}
+
+  three@0.186.1:
+    resolution: {integrity: sha512-blFeqb49wRCSGUGj7gtpfnSGHy2lwDk94RhUmS1c/hTby70kvChbWpkJ4Pm1390LqzzvTmzgXKHPEafJwCb8jA==}
 
   tinyglobby@0.2.17:
     resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==}
@@ -1601,13 +1612,17 @@ snapshots:
 
   '@kitu/admin@file:../.kitu/admin-package(svelte@5.56.4(@typescript-eslint/types@8.62.0))':
     dependencies:
-      '@lucide/svelte': 1.21.0(svelte@5.56.4(@typescript-eslint/types@8.62.0))
+      '@lucide/svelte': 1.49.0(svelte@5.56.4(@typescript-eslint/types@8.62.0))
       clsx: 2.1.1
       svelte: 5.56.4(@typescript-eslint/types@8.62.0)
-      tailwind-merge: 3.6.0
-      three: 0.185.0
+      tailwind-merge: 3.7.0
+      three: 0.186.1
 
   '@lucide/svelte@1.21.0(svelte@5.56.4(@typescript-eslint/types@8.62.0))':
+    dependencies:
+      svelte: 5.56.4(@typescript-eslint/types@8.62.0)
+
+  '@lucide/svelte@1.49.0(svelte@5.56.4(@typescript-eslint/types@8.62.0))':
     dependencies:
       svelte: 5.56.4(@typescript-eslint/types@8.62.0)
 
@@ -2632,6 +2647,8 @@ snapshots:
 
   tailwind-merge@3.6.0: {}
 
+  tailwind-merge@3.7.0: {}
+
   tailwindcss@4.3.1: {}
 
   tapable@2.3.3: {}
@@ -2645,6 +2662,8 @@ snapshots:
       yallist: 5.0.0
 
   three@0.185.0: {}
+
+  three@0.186.1: {}
 
   tinyglobby@0.2.17:
     dependencies:

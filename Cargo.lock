@@ -174,7 +174,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "005ec2760ca554fae18df7a11195552ec576cd665632a881bc011d5bb2fd4d80"
 dependencies = [
  "find-msvc-tools",
- "shlex 2.0.1",
+ "shlex",
 ]
 
 [[package]]
@@ -883,7 +883,7 @@ dependencies = [
 [[package]]
 name = "kitu-app-actions"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=051d26bb0c9c7eba405167c0ccd4840e46769e4c#051d26bb0c9c7eba405167c0ccd4840e46769e4c"
 dependencies = [
  "kitu-osc-ir",
  "serde",
@@ -893,7 +893,7 @@ dependencies = [
 [[package]]
 name = "kitu-core"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=051d26bb0c9c7eba405167c0ccd4840e46769e4c#051d26bb0c9c7eba405167c0ccd4840e46769e4c"
 dependencies = [
  "thiserror",
 ]
@@ -901,7 +901,7 @@ dependencies = [
 [[package]]
 name = "kitu-data-sqlite"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=051d26bb0c9c7eba405167c0ccd4840e46769e4c#051d26bb0c9c7eba405167c0ccd4840e46769e4c"
 dependencies = [
  "rusqlite",
  "serde",
@@ -911,7 +911,7 @@ dependencies = [
 [[package]]
 name = "kitu-data-tmd"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=051d26bb0c9c7eba405167c0ccd4840e46769e4c#051d26bb0c9c7eba405167c0ccd4840e46769e4c"
 dependencies = [
  "kitu-core",
  "serde_json",
@@ -971,7 +971,7 @@ dependencies = [
 [[package]]
 name = "kitu-ecs"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=051d26bb0c9c7eba405167c0ccd4840e46769e4c#051d26bb0c9c7eba405167c0ccd4840e46769e4c"
 dependencies = [
  "kitu-core",
 ]
@@ -979,7 +979,7 @@ dependencies = [
 [[package]]
 name = "kitu-osc-ir"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=051d26bb0c9c7eba405167c0ccd4840e46769e4c#051d26bb0c9c7eba405167c0ccd4840e46769e4c"
 dependencies = [
  "kitu-core",
 ]
@@ -987,7 +987,7 @@ dependencies = [
 [[package]]
 name = "kitu-runtime"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=051d26bb0c9c7eba405167c0ccd4840e46769e4c#051d26bb0c9c7eba405167c0ccd4840e46769e4c"
 dependencies = [
  "kitu-app-actions",
  "kitu-core",
@@ -1000,7 +1000,7 @@ dependencies = [
 [[package]]
 name = "kitu-scripting-rhai"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=051d26bb0c9c7eba405167c0ccd4840e46769e4c#051d26bb0c9c7eba405167c0ccd4840e46769e4c"
 dependencies = [
  "rhai",
  "serde",
@@ -1010,19 +1010,19 @@ dependencies = [
 [[package]]
 name = "kitu-shell"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=051d26bb0c9c7eba405167c0ccd4840e46769e4c#051d26bb0c9c7eba405167c0ccd4840e46769e4c"
 dependencies = [
  "kitu-core",
  "kitu-osc-ir",
  "serde",
  "serde_json",
- "shlex 1.3.0",
+ "shlex",
 ]
 
 [[package]]
 name = "kitu-transport"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=051d26bb0c9c7eba405167c0ccd4840e46769e4c#051d26bb0c9c7eba405167c0ccd4840e46769e4c"
 dependencies = [
  "kitu-core",
  "kitu-osc-ir",
@@ -1037,7 +1037,7 @@ dependencies = [
 [[package]]
 name = "kitu-tsq1"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=051d26bb0c9c7eba405167c0ccd4840e46769e4c#051d26bb0c9c7eba405167c0ccd4840e46769e4c"
 dependencies = [
  "anyhow",
  "kitu-core",
@@ -1052,7 +1052,7 @@ dependencies = [
 [[package]]
 name = "kitu-unity-ffi"
 version = "0.1.0"
-source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=ed21fdd5db9cbde9a5ee0137f1abc810a6039b26#ed21fdd5db9cbde9a5ee0137f1abc810a6039b26"
+source = "git+https://github.com/Nagitch/kitu-logic-processor?rev=051d26bb0c9c7eba405167c0ccd4840e46769e4c#051d26bb0c9c7eba405167c0ccd4840e46769e4c"
 dependencies = [
  "kitu-core",
  "kitu-osc-ir",
@@ -1443,9 +1443,9 @@ checksum = "d6f6ff9a378485b298a5286656da665ba74413d36db0979633275d2e708145d4"
 
 [[package]]
 name = "rhai"
-version = "1.26.0"
+version = "1.26.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5e6e1be9d697d537ce450766df42ad6adf1a93f25f21d73217354ad7e3d3dae1"
+checksum = "0334639972c0ea5a3fd366aa36116754a11431b619fec3ed559b3f73bcbcebf5"
 dependencies = [
  "ahash",
  "bitflags",
@@ -1663,12 +1663,6 @@ checksum = "f40ca3c46823713e0d4209592e8d6e826aa57e928f09752619fc696c499637f6"
 dependencies = [
  "lazy_static",
 ]
-
-[[package]]
-name = "shlex"
-version = "1.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64"
 
 [[package]]
 name = "shlex"
