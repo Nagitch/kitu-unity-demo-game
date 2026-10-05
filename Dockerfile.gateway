@@ -1,4 +1,4 @@
-FROM rust:1.98.1-bookworm
+FROM rust:1.99.0-bookworm
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG KITU_REPOSITORY
