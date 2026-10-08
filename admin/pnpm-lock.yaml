@@ -12,8 +12,8 @@ importers:
   .:
     dependencies:
       '@kitu/admin':
-        specifier: file:../.kitu/admin-package
-        version: file:../.kitu/admin-package(svelte@5.56.4(@typescript-eslint/types@8.62.0))
+        specifier: file:./kitu-package
+        version: file:kitu-package(svelte@5.56.4(@typescript-eslint/types@8.62.0))
       '@lucide/svelte':
         specifier: ^1.21.0
         version: 1.21.0(svelte@5.56.4(@typescript-eslint/types@8.62.0))
@@ -196,8 +196,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@kitu/admin@file:../.kitu/admin-package':
-    resolution: {directory: ../.kitu/admin-package, type: directory}
+  '@kitu/admin@file:kitu-package':
+    resolution: {directory: kitu-package, type: directory}
     peerDependencies:
       svelte: ^5.0.0
 
@@ -1610,7 +1610,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@kitu/admin@file:../.kitu/admin-package(svelte@5.56.4(@typescript-eslint/types@8.62.0))':
+  '@kitu/admin@file:kitu-package(svelte@5.56.4(@typescript-eslint/types@8.62.0))':
     dependencies:
       '@lucide/svelte': 1.52.0(svelte@5.56.4(@typescript-eslint/types@8.62.0))
       clsx: 2.1.1

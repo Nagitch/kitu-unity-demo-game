@@ -12,7 +12,18 @@ Setup requires the checked-in `Cargo.lock` and `admin/pnpm-lock.yaml`. Every wor
 
 The default Cargo cache is `.kitu/cargo`. An explicitly configured `CARGO_HOME` is honored and saved in the selection. `run.py` restores that Cargo home and the selected Kitu/WASM paths. Both `run.py COMMAND ...` and `run.py -- COMMAND ...` pass arguments directly without a shell.
 
-Default setup installs the shared Admin package with its frozen lockfile, checks/tests/builds it, copies its public package artifacts into `.kitu/admin-package`, builds WASM, then installs/checks/builds the demo Admin with its frozen lockfile. The application consumes the shared package through `file:../.kitu/admin-package`.
+Default setup validates `admin/kitu-package/package.json` against the shared Admin manifest in the selected Kitu checkout, installs the shared Admin package with its frozen lockfile, checks/tests/builds it, copies its public package artifacts into `admin/kitu-package`, builds WASM, then installs/checks/builds the demo Admin with its frozen lockfile. The application consumes the shared package through `file:./kitu-package`. Setup rejects a missing or different manifest before running Admin builds; it does not silently replace the committed dependency contract.
+
+Only the shared package's manifest is checked in. It is an exact JSON copy from `tools/kitu-web-admin/package/package.json` at the Kitu revision in `Cargo.toml`, making its dependencies and peer dependencies available to pnpm and Dependabot before setup. The package's implementation, `dist`, `public`, and `LICENSE` artifacts are not vendored; setup still obtains them from the same Kitu source as Rust and WASM. The generated directories and license are ignored. Old `.kitu/admin-package` caches are no longer consumed.
+
+When updating the Kitu revision, refresh this manifest from that revision if it changed, then refresh `admin/pnpm-lock.yaml` and run setup. Dependabot may update the application's registry dependencies, but this manifest stays tied to the Kitu pin. Dependency-only operations do not need Rust, WASM, or package build outputs:
+
+```sh
+pnpm --dir admin install --lockfile-only --ignore-scripts --no-frozen-lockfile
+git diff --exit-code -- admin/package.json admin/pnpm-lock.yaml admin/kitu-package/package.json
+```
+
+The frontend CI runs this check before setup to catch regressions in clean-checkout dependency resolution. A successful dependency-only install is not a usable Admin build; run setup before checking, building, or serving the application.
 
 For a Rust-only environment:
 
@@ -30,7 +41,7 @@ python3 tools/run.py cargo test --locked -p kitu-demo-game
 
 Each invocation creates a new independent Git checkout under `.kitu/overrides/demo-*`. It preserves the demo's original HEAD/index and copies its current tracked and eligible untracked files, including working changes and deletions. Generated caches, existing overrides, Cargo targets, Node dependencies and Unity generated directories are excluded.
 
-Only the copy's workspace Kitu dependencies become paths to the requested Kitu checkout. All reachable app and native Kitu packages must resolve to that source. The copy receives an effective Cargo lockfile and, for Admin setup, an updated pnpm lockfile. The original demo's dependency manifest and lockfiles remain unchanged. Existing override checkouts are retained.
+Only the copy's workspace Kitu dependencies become paths to the requested Kitu checkout. All reachable app and native Kitu packages must resolve to that source. The copy receives an effective Cargo lockfile and, for Admin setup, the local Kitu Admin manifest and an updated pnpm lockfile. The original demo's dependency manifests and lockfiles remain unchanged. Existing override checkouts are retained.
 
 `.kitu/source.json` records the selected Kitu path, HEAD revision, mode, effective demo root, Cargo cache, package origins, graph digest and lockfile digest. An override also records its Cargo/pnpm lock diff paths. The original demo selection points to the effective copy, so subsequent `tools/run.py` commands operate there. Selection is published only after setup succeeds.
 

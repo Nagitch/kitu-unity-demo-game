@@ -223,16 +223,29 @@ def check_versions(args, root, env):
     return next(line.removeprefix("host: ") for line in verbose.splitlines() if line.startswith("host: "))
 
 
+def prepare_admin_manifest(root, package, override):
+    """Keep dependency-only installs possible without publishing Kitu artifacts."""
+    destination = root / "admin" / "kitu-package"
+    manifest = destination / "package.json"
+    upstream = package / "package.json"
+    if override:
+        # Only the isolated effective demo may follow a local framework edit.
+        destination.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(upstream, manifest)
+    elif not manifest.is_file() or json.loads(manifest.read_text()) != json.loads(upstream.read_text()):
+        raise SetupError("admin/kitu-package/package.json differs from the pinned Kitu Admin manifest; "
+                         "refresh it from the selected Kitu revision and update admin/pnpm-lock.yaml")
+    return destination
+
+
 def build_admin(root, source, args, env, override):
     env = dict(env, KITU_SOURCE_PATH=str(source),
                KITU_OSC_IR_WASM_CRATE=str(source / "crates" / "kitu-osc-ir-wasm"),
                KITU_ADMIN_WASM_OUT_DIR=str(root / "admin" / "static" / "kitu-osc-ir-wasm"))
     package = source / "tools" / "kitu-web-admin" / "package"
+    destination = prepare_admin_manifest(root, package, override)
     for argv in (["install", "--frozen-lockfile"], ["run", "check"], ["run", "test"], ["run", "build"]):
         command([args.pnpm, "--dir", package, *argv], root, env)
-    destination = root / ".kitu" / "admin-package"
-    destination.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(package / "package.json", destination / "package.json")
     shutil.copy2(package / "LICENSE", destination / "LICENSE")
     for name in ("dist", "public"):
         if (destination / name).exists():

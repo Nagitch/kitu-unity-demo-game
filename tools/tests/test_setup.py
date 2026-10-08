@@ -124,6 +124,73 @@ class SetupTests(unittest.TestCase):
         self.assertIn("+effective lock", path.read_text())
         self.assertEqual((self.demo / "Cargo.lock").read_text(), "original lock\n")
 
+    def admin_fixture(self):
+        package = self.kitu / "tools/kitu-web-admin/package"
+        destination = self.demo / "admin/kitu-package"
+        package.mkdir(parents=True)
+        destination.mkdir(parents=True)
+        manifest = {"name": "@kitu/admin", "version": "0.1.0",
+                    "dependencies": {"example": "^1"}, "peerDependencies": {"svelte": "^5"}}
+        for directory in (package, destination):
+            setup.write_json(directory / "package.json", manifest)
+        (self.demo / "admin/pnpm-lock.yaml").write_text("original pnpm lock\n")
+        (package / "LICENSE").write_text("fixture license")
+        for name in ("dist", "public"):
+            (package / name).mkdir()
+            (package / name / "built.txt").write_text("selected Kitu artifact")
+            (destination / name).mkdir()
+            (destination / name / "stale.txt").write_text("old artifact")
+        return package, destination
+
+    def test_admin_pinned_manifest_is_checked_before_external_builds(self):
+        package, destination = self.admin_fixture()
+        manifest = destination / "package.json"
+        before = manifest.read_bytes()
+        # Formatting does not affect the dependency contract.
+        manifest.write_text(json.dumps(json.loads(before)))
+        self.assertEqual(setup.prepare_admin_manifest(self.demo, package, False), destination)
+        for altered in ({"name": "@kitu/admin"}, None):
+            if altered is None:
+                manifest.unlink()
+            else:
+                setup.write_json(manifest, altered)
+            with mock.patch.object(setup, "command") as command:
+                with self.assertRaisesRegex(setup.SetupError, "pinned Kitu Admin manifest"):
+                    setup.build_admin(self.demo, self.kitu, argparse.Namespace(pnpm="pnpm"), {}, False)
+                command.assert_not_called()
+
+    def test_admin_build_stages_artifacts_without_rewriting_pinned_inputs(self):
+        package, destination = self.admin_fixture()
+        before = (destination / "package.json").read_bytes()
+        with mock.patch.object(setup, "command") as command:
+            self.assertIsNone(setup.build_admin(self.demo, self.kitu, argparse.Namespace(pnpm="pnpm"), {}, False))
+        self.assertEqual((destination / "package.json").read_bytes(), before)
+        self.assertEqual((self.demo / "admin/pnpm-lock.yaml").read_text(), "original pnpm lock\n")
+        for name in ("dist", "public"):
+            self.assertFalse((destination / name / "stale.txt").exists())
+            self.assertEqual((destination / name / "built.txt").read_text(), "selected Kitu artifact")
+        installs = [call.args[0] for call in command.call_args_list if "install" in call.args[0]]
+        self.assertTrue(all("--frozen-lockfile" in argv for argv in installs))
+        for call in command.call_args_list:
+            self.assertEqual(call.args[2]["KITU_SOURCE_PATH"], str(self.kitu))
+
+    def test_admin_override_refreshes_only_effective_manifest_and_lock(self):
+        package, destination = self.admin_fixture()
+        before = (destination / "package.json").read_bytes()
+        copied = setup.copy_working_demo(self.demo, os.environ.copy())
+        upstream = json.loads(before)
+        upstream["dependencies"]["example"] = "^2"
+        setup.write_json(package / "package.json", upstream)
+        def command(argv, cwd, env):
+            if "--no-frozen-lockfile" in argv:
+                (copied / "admin/pnpm-lock.yaml").write_text("override pnpm lock\n")
+        with mock.patch.object(setup, "command", side_effect=command):
+            diff = setup.build_admin(copied, self.kitu, argparse.Namespace(pnpm="pnpm"), {}, True)
+        self.assertEqual(json.loads((copied / "admin/kitu-package/package.json").read_text()), upstream)
+        self.assertEqual((destination / "package.json").read_bytes(), before)
+        self.assertEqual((self.demo / "admin/pnpm-lock.yaml").read_text(), "original pnpm lock\n")
+        self.assertIn("+override pnpm lock", Path(diff).read_text())
+
     def selection(self):
         copy = setup.copy_working_demo(self.demo, os.environ.copy())
         (copy / "app").mkdir()
@@ -205,7 +272,7 @@ class SetupTests(unittest.TestCase):
 
     def test_dependency_repin_and_native_manifest_or_config_changes_require_setup(self):
         copy, _record = self.selection()
-        for relative in ("Cargo.toml", "Cargo.lock", "app/native/Cargo.toml", ".cargo/config.toml", "admin/pnpm-lock.yaml"):
+        for relative in ("Cargo.toml", "Cargo.lock", "app/native/Cargo.toml", ".cargo/config.toml", "admin/pnpm-lock.yaml", "admin/kitu-package/package.json"):
             with self.subTest(relative=relative):
                 path = copy / relative
                 before = path.read_bytes() if path.exists() else None

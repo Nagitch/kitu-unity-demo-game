@@ -16,7 +16,7 @@
     "test:inspection": "node --test src/lib/arena-inspection.test.ts"
   },
   "dependencies": {
-    "@kitu/admin": "file:../.kitu/admin-package",
+    "@kitu/admin": "file:./kitu-package",
     "@lucide/svelte": "^1.21.0",
     "bits-ui": "^2.18.1",
     "clsx": "^2.1.1",

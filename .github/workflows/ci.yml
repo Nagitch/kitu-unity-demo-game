@@ -68,6 +68,12 @@ jobs:
         if: matrix.scope != 'frontend'
         run: python3 tools/setup.py --rust-only
 
+      - name: Resolve Admin dependencies before generating Kitu artifacts
+        if: matrix.scope == 'frontend'
+        run: |
+          pnpm --dir admin install --lockfile-only --ignore-scripts --no-frozen-lockfile
+          git diff --exit-code -- admin/package.json admin/pnpm-lock.yaml admin/kitu-package/package.json
+
       - name: Prepare Admin and WASM dependencies
         if: matrix.scope == 'frontend'
         run: python3 tools/setup.py
