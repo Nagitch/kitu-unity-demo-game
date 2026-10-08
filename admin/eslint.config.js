@@ -33,6 +33,8 @@ export default ts.config(
       "dist/",
       "node_modules/",
       "static/kitu-osc-ir-wasm/",
+      "kitu-package/dist/",
+      "kitu-package/public/",
     ],
   },
   {

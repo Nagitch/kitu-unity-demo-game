@@ -19,7 +19,7 @@ def file_identity(path, label):
 def dependency_inputs(root, manifests=(), cargo_home=None):
     """Bind setup to dependency declarations, while allowing source/content edits."""
     paths = {root / name for name in ("Cargo.toml", "Cargo.lock", "app/Cargo.toml",
-             "app/native/Cargo.toml", "admin/package.json", "admin/pnpm-lock.yaml")}
+             "app/native/Cargo.toml", "admin/package.json", "admin/kitu-package/package.json", "admin/pnpm-lock.yaml")}
     paths.update(Path(path) for path in manifests)
     directories = [root, *root.parents]
     for directory in directories:
@@ -36,7 +36,7 @@ def validate_dependency_selection(root, selection):
         raise ValueError("source selection lacks dependency bindings; rerun tools/setup.py")
     required = {str((root / name).resolve()) for name in
                 ("Cargo.toml", "Cargo.lock", "app/Cargo.toml", "app/native/Cargo.toml",
-                 "admin/package.json", "admin/pnpm-lock.yaml")}
+                 "admin/package.json", "admin/kitu-package/package.json", "admin/pnpm-lock.yaml")}
     if not required.issubset({row["path"] for row in inputs}):
         raise ValueError("source selection lacks dependency manifests; rerun tools/setup.py")
     for row in inputs:
