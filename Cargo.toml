@@ -4,15 +4,15 @@ resolver = "2"
 
 [workspace.dependencies]
 anyhow = "1"
-kitu-app-actions = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "53fd60c54736341816dfacf66948331d760c6de7" }
-kitu-core = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "53fd60c54736341816dfacf66948331d760c6de7" }
-kitu-data-sqlite = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "53fd60c54736341816dfacf66948331d760c6de7" }
-kitu-data-tmd = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "53fd60c54736341816dfacf66948331d760c6de7" }
-kitu-ecs = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "53fd60c54736341816dfacf66948331d760c6de7" }
-kitu-osc-ir = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "53fd60c54736341816dfacf66948331d760c6de7" }
-kitu-runtime = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "53fd60c54736341816dfacf66948331d760c6de7" }
-kitu-scripting-rhai = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "53fd60c54736341816dfacf66948331d760c6de7" }
-kitu-shell = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "53fd60c54736341816dfacf66948331d760c6de7" }
-kitu-transport = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "53fd60c54736341816dfacf66948331d760c6de7" }
-kitu-tsq1 = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "53fd60c54736341816dfacf66948331d760c6de7" }
-kitu-unity-ffi = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "53fd60c54736341816dfacf66948331d760c6de7" }
+kitu-app-actions = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "dc81698c09f55c7efcddc8dcfd149a92bff90e02" }
+kitu-core = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "dc81698c09f55c7efcddc8dcfd149a92bff90e02" }
+kitu-data-sqlite = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "dc81698c09f55c7efcddc8dcfd149a92bff90e02" }
+kitu-data-tmd = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "dc81698c09f55c7efcddc8dcfd149a92bff90e02" }
+kitu-ecs = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "dc81698c09f55c7efcddc8dcfd149a92bff90e02" }
+kitu-osc-ir = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "dc81698c09f55c7efcddc8dcfd149a92bff90e02" }
+kitu-runtime = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "dc81698c09f55c7efcddc8dcfd149a92bff90e02" }
+kitu-scripting-rhai = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "dc81698c09f55c7efcddc8dcfd149a92bff90e02" }
+kitu-shell = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "dc81698c09f55c7efcddc8dcfd149a92bff90e02" }
+kitu-transport = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "dc81698c09f55c7efcddc8dcfd149a92bff90e02" }
+kitu-tsq1 = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "dc81698c09f55c7efcddc8dcfd149a92bff90e02" }
+kitu-unity-ffi = { git = "https://github.com/Nagitch/kitu-logic-processor", rev = "dc81698c09f55c7efcddc8dcfd149a92bff90e02" }
