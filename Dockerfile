@@ -1,4 +1,4 @@
-FROM rust:1.99.0-bookworm
+FROM rust:1.99.1-bookworm
 
 ARG KITU_REPOSITORY
 ARG KITU_REV
