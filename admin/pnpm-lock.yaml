@@ -224,8 +224,8 @@ packages:
     peerDependencies:
       svelte: ^5
 
-  '@lucide/svelte@1.55.0':
-    resolution: {integrity: sha512-CTxJ3qbkDK2oCW1VJYKhqAUfOongRJqc9YWmJZn8E06QpCU7i5yAnUny4h/zMNy/iYpMtGiJDRSb6AVIornuXg==}
+  '@lucide/svelte@1.59.0':
+    resolution: {integrity: sha512-ga9IrEsFJBkt/34VnRFcQ2HLs8eOpOovXZ62XzwfC7f0zBfo4y116FBIDroZkD0gInYYY2hSSAcsQEm/Vm+AoA==}
     peerDependencies:
       svelte: ^5
 
@@ -1682,7 +1682,7 @@ snapshots:
 
   '@kitu/admin@file:kitu-package(svelte@5.56.4(@typescript-eslint/types@8.71.2))':
     dependencies:
-      '@lucide/svelte': 1.55.0(svelte@5.56.4(@typescript-eslint/types@8.71.2))
+      '@lucide/svelte': 1.59.0(svelte@5.56.4(@typescript-eslint/types@8.71.2))
       clsx: 2.1.1
       svelte: 5.56.4(@typescript-eslint/types@8.71.2)
       tailwind-merge: 3.7.0
@@ -1692,7 +1692,7 @@ snapshots:
     dependencies:
       svelte: 5.56.4(@typescript-eslint/types@8.71.2)
 
-  '@lucide/svelte@1.55.0(svelte@5.56.4(@typescript-eslint/types@8.71.2))':
+  '@lucide/svelte@1.59.0(svelte@5.56.4(@typescript-eslint/types@8.71.2))':
     dependencies:
       svelte: 5.56.4(@typescript-eslint/types@8.71.2)
 
