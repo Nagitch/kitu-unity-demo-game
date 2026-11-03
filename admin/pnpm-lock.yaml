@@ -224,8 +224,8 @@ packages:
     peerDependencies:
       svelte: ^5
 
-  '@lucide/svelte@1.64.0':
-    resolution: {integrity: sha512-PSFui8Gkk0JcU4nXljZzy+MnBhXeY4DIblvvcDNPIvL6r5NIngeDfAvBs4C/XDlz+dTth9+LcHy6/zdhEmxEwQ==}
+  '@lucide/svelte@1.65.0':
+    resolution: {integrity: sha512-VfM4Ej7JFYz33WXm/JdqtOsOqRtfca5H9eFcyfcbFthWvbOnvvCerY/YkEk0ZiAvOvqo5hpK3u+opC0zY7Caxw==}
     peerDependencies:
       svelte: ^5
 
@@ -1428,8 +1428,8 @@ packages:
   three@0.185.0:
     resolution: {integrity: sha512-+yRrcRO2iZa8uzvNNl0d7cL4huhgKgBvVJ0njcTe8xFqZ6DMAFZdCKDP91SEAuj25bNAj7k1QQdf+srZywVK6w==}
 
-  three@0.186.1:
-    resolution: {integrity: sha512-blFeqb49wRCSGUGj7gtpfnSGHy2lwDk94RhUmS1c/hTby70kvChbWpkJ4Pm1390LqzzvTmzgXKHPEafJwCb8jA==}
+  three@0.187.0:
+    resolution: {integrity: sha512-Qiu7R+Cmh8CstZsY1uJOSWnVlfo7ZtNLV7mF8Jltk3LB3AtDu9cRZlcnRKkAk8Y4z6KKw35z7Y7Urd7jWY8etA==}
 
   tinyglobby@0.2.17:
     resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==}
@@ -1688,17 +1688,17 @@ snapshots:
 
   '@kitu/admin@file:kitu-package(svelte@5.56.4(@typescript-eslint/types@8.72.1))':
     dependencies:
-      '@lucide/svelte': 1.64.0(svelte@5.56.4(@typescript-eslint/types@8.72.1))
+      '@lucide/svelte': 1.65.0(svelte@5.56.4(@typescript-eslint/types@8.72.1))
       clsx: 2.1.1
       svelte: 5.56.4(@typescript-eslint/types@8.72.1)
       tailwind-merge: 3.7.0
-      three: 0.186.1
+      three: 0.187.0
 
   '@lucide/svelte@1.21.0(svelte@5.56.4(@typescript-eslint/types@8.72.1))':
     dependencies:
       svelte: 5.56.4(@typescript-eslint/types@8.72.1)
 
-  '@lucide/svelte@1.64.0(svelte@5.56.4(@typescript-eslint/types@8.72.1))':
+  '@lucide/svelte@1.65.0(svelte@5.56.4(@typescript-eslint/types@8.72.1))':
     dependencies:
       svelte: 5.56.4(@typescript-eslint/types@8.72.1)
 
@@ -2772,7 +2772,7 @@ snapshots:
 
   three@0.185.0: {}
 
-  three@0.186.1: {}
+  three@0.187.0: {}
 
   tinyglobby@0.2.17:
     dependencies:
