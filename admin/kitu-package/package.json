@@ -57,7 +57,7 @@
     "svelte": "^5.0.0"
   },
   "dependencies": {
-    "@lucide/svelte": "^1.66.0",
+    "@lucide/svelte": "^1.69.0",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.7.0",
     "three": "^0.187.0"
@@ -70,7 +70,7 @@
     "svelte": "^5.57.3",
     "svelte-check": "^4.7.8",
     "typescript": "^6.0.3",
-    "vite": "^8.3.5",
+    "vite": "^8.3.6",
     "wasm-pack": "^0.15.1"
   },
   "packageManager": "pnpm@11.9.0"
