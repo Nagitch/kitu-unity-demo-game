@@ -15,8 +15,8 @@ importers:
         specifier: file:./kitu-package
         version: file:kitu-package(svelte@5.57.3(@typescript-eslint/types@8.72.2))
       '@lucide/svelte':
-        specifier: ^1.21.0
-        version: 1.21.0(svelte@5.57.3(@typescript-eslint/types@8.72.2))
+        specifier: ^1.73.0
+        version: 1.73.0(svelte@5.57.3(@typescript-eslint/types@8.72.2))
       bits-ui:
         specifier: ^2.21.0
         version: 2.21.0(@internationalized/date@3.12.2)(@sveltejs/kit@2.68.0(@sveltejs/vite-plugin-svelte@7.3.1(svelte@5.57.3(@typescript-eslint/types@8.72.2))(vite@8.3.8(@types/node@24.13.2)(jiti@2.7.0)))(svelte@5.57.3(@typescript-eslint/types@8.72.2))(typescript@6.0.3)(vite@8.3.8(@types/node@24.13.2)(jiti@2.7.0)))(svelte@5.57.3(@typescript-eslint/types@8.72.2))
@@ -218,11 +218,6 @@ packages:
     resolution: {directory: kitu-package, type: directory}
     peerDependencies:
       svelte: ^5.0.0
-
-  '@lucide/svelte@1.21.0':
-    resolution: {integrity: sha512-MEv//A7Jv3kHukZowv/DWp1MAtUzJKYwtJsmnQ7X98lCgtac3z3NbaToDl3Q6jO3gS9sougFpcD+t+YuxOkRMw==}
-    peerDependencies:
-      svelte: ^5
 
   '@lucide/svelte@1.73.0':
     resolution: {integrity: sha512-Rz1uA9aTJ7HA/j2Hf9Dm2OVM8NtkzHnNeIQvVWoUkpf1ZD/7dR9cB4ftjbOiWAeJrKkEAVvTDrcVtITFdx6KAA==}
@@ -1695,10 +1690,6 @@ snapshots:
       svelte: 5.57.3(@typescript-eslint/types@8.72.2)
       tailwind-merge: 3.7.0
       three: 0.187.0
-
-  '@lucide/svelte@1.21.0(svelte@5.57.3(@typescript-eslint/types@8.72.2))':
-    dependencies:
-      svelte: 5.57.3(@typescript-eslint/types@8.72.2)
 
   '@lucide/svelte@1.73.0(svelte@5.57.3(@typescript-eslint/types@8.72.2))':
     dependencies:
