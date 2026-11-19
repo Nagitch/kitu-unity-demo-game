@@ -270,6 +270,7 @@ class RepositoryVerificationTests(unittest.TestCase):
         call = next(call for call in self.calls if call[0] == "package-interop")
         self.assertEqual(call[2]["env"]["KITU_PACKAGE_INTEROP_DIR"], str(self.evidence / "package"))
         self.assertIn("--locked", call[1])
+        self.assertEqual(call[1][-2:], ["--", "--show-output"])
 
     def test_docs_command_records_warning_policy(self):
         self.invoke("docs")

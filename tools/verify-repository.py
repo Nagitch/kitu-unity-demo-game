@@ -136,8 +136,9 @@ def main():
                 report["pythonTests"] = int(count[1])
                 package = stage_package(ROOT / "app/content", evidence / "package")
                 write_json(evidence / "package.json", package)
+                # Keep the exact hash together with its marker in the test output.
                 _, output = command("package-interop", ["cargo", "test", "--locked", "-p",
-                    "kitu-demo-game-native", "--test", "package", "--", "--nocapture"],
+                    "kitu-demo-game-native", "--test", "package", "--", "--show-output"],
                     extra={"KITU_PACKAGE_INTEROP_DIR": str(evidence / "package")})
                 if "Python package interoperability: " + package["hash"] not in output:
                     raise RuntimeError("Rust/C ABI did not consume the staged Python package")
