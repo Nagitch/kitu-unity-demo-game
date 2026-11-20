@@ -88,8 +88,8 @@ importers:
         specifier: ^8.3.8
         version: 8.3.8(@types/node@24.13.2)(jiti@2.7.0)
       wasm-pack:
-        specifier: ^0.15.0
-        version: 0.15.0
+        specifier: ^0.15.1
+        version: 0.15.1
 
 packages:
 
@@ -1428,8 +1428,8 @@ packages:
     resolution: {integrity: sha512-uxc/zpqFg6x7C8vOE7lh6Lbda8eEL9zmVm/PLeTPBRhh1xCgdWaQ+J1CUieGpIfm2HdtsUpRv+HshiasBMcc6A==}
     engines: {node: '>=6'}
 
-  tar@7.5.17:
-    resolution: {integrity: sha512-wPEBwzapC+2PaTYPH6e2L+cNOEE227S47wUYFqlegcs8zlLLmeb9Fcff1HVZY4Fwku/1Eyv38n7GYwB2aaS71g==}
+  tar@7.5.23:
+    resolution: {integrity: sha512-lkukzdoGngZHJZXxW4S/E4Fp9ghTDlyZXrQGRNoJ/LXvDKcXUTq2sg5yQe74po7Voea6n/IN09+wE/QvJMiifA==}
     engines: {node: '>=18'}
 
   three@0.187.0:
@@ -1528,8 +1528,8 @@ packages:
       vite:
         optional: true
 
-  wasm-pack@0.15.0:
-    resolution: {integrity: sha512-DdqtGWc3+iFx+7lL7QU5LBWs7qMnwQSWxF0htSfE15sNa3roVwHjAkTm2JXgueU2GGfSwNqbq2EzyC2b/biKDA==}
+  wasm-pack@0.15.1:
+    resolution: {integrity: sha512-PF9zzc5tBVwN0E4Vff9o4hXWbg2VMt8YBhA0CiJ+T98cn2i1ElXSs9Hww6ZCWOVn+Kke3WMSPNXDdlMn7DXvnA==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -2774,7 +2774,7 @@ snapshots:
 
   tapable@2.3.3: {}
 
-  tar@7.5.17:
+  tar@7.5.23:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
       chownr: 3.0.0
@@ -2840,9 +2840,9 @@ snapshots:
     optionalDependencies:
       vite: 8.3.8(@types/node@24.13.2)(jiti@2.7.0)
 
-  wasm-pack@0.15.0:
+  wasm-pack@0.15.1:
     dependencies:
-      tar: 7.5.17
+      tar: 7.5.23
 
   which@2.0.2:
     dependencies:
