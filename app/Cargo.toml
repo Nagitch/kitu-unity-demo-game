@@ -25,7 +25,8 @@ kitu-core = { workspace = true }
 kitu-ecs = { workspace = true }
 kitu-data-tmd = { workspace = true }
 kitu-data-sqlite = { workspace = true }
-rusqlite = { version = "=0.40.2", features = ["bundled"] }
+# Align with the SQLite version selected by the pinned or overridden Kitu workspace.
+rusqlite = { version = ">=0.40.2, <0.42", features = ["bundled"] }
 kitu-scripting-rhai = { workspace = true }
 kitu-tsq1 = { workspace = true }
 sha2 = "0.11"
